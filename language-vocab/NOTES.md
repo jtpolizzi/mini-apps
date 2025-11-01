@@ -4,40 +4,40 @@
 
 # Micro-iteration plan (in this order)
 
-## 1) Data loader: add TSV support (app/state only)
+## ~~1) Data loader: add TSV support (app/state only)~~
 
-**Scope:** `assets/app.js` (+ a tiny helper in `state.js` if needed)
- **What changes:**
+~~**Scope:** `assets/app.js` (+ a tiny helper in `state.js` if needed)~~
+ ~~**What changes:**~~
 
-- Load `data/words.tsv` instead of `words.json`.
-- Parse TSV with headers: `Spanish<TAB>English<TAB>POS<TAB>CEFR<TAB>Tags`.
-- Map to our internal shape with the same stable `id = hash(es|en)`.
-- Keep JSON loader as a fallback (so you can swap easily), but prefer TSV if it exists.
+- ~~Load `data/words.tsv` instead of `words.json`.~~
+- ~~Parse TSV with headers: `Spanish<TAB>English<TAB>POS<TAB>CEFR<TAB>Tags`.~~
+- ~~Map to our internal shape with the same stable `id = hash(es|en)`.~~
+- ~~Keep JSON loader as a fallback (so you can swap easily), but prefer TSV if it exists.~~
 
-**Acceptance:**
+~~**Acceptance:**~~
 
-- App boots using `data/words.tsv`; all features still work.
-- Diacritics and tabs parse correctly; no blank rows.
-- Existing stars/weights in `localStorage` continue to match (same `id`).
+- ~~App boots using `data/words.tsv`; all features still work.~~
+- ~~Diacritics and tabs parse correctly; no blank rows.~~
+- ~~Existing stars/weights in `localStorage` continue to match (same `id`).~~
 
 ------
 
-## 2) Flashcards: restore keyboard navigation
+## ~~2) Flashcards: restore keyboard navigation~~
 
-**Scope:** `assets/components/Flashcards.js`
- **What changes:**
+~~**Scope:** `assets/components/Flashcards.js`~~
+ ~~**What changes:**~~
 
-- Add key handlers:
-  - **ArrowLeft** → previous
-  - **ArrowRight** → next
-  - **Space** or **Enter** → flip
-- Guard: ignore keys if a text field is focused (future-proofing).
-- Ensure handlers are added/removed on mount/unmount to avoid duplicates.
+- ~~Add key handlers:~~
+  - ~~**ArrowLeft** → previous~~
+  - ~~**ArrowRight** → next~~
+  - ~~**Space** or **Enter** → flip~~
+- ~~Guard: ignore keys if a text field is focused (future-proofing).~~
+- ~~Ensure handlers are added/removed on mount/unmount to avoid duplicates.~~
 
-**Acceptance:**
+~~**Acceptance:**~~
 
-- Keys work on desktop immediately after page load.
-- No accidental double navigation; no interference with typing (if/when we add inputs).
+- ~~Keys work on desktop immediately after page load.~~
+- ~~No accidental double navigation; no interference with typing (if/when we add inputs).~~
 
 ------
 

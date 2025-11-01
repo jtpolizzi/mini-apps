@@ -1,20 +1,21 @@
-import { State, subscribe, applyFilters, sortWords, shuffledIds } from '../state.js';
+import { applyFilters, shuffledIds, sortWords, State, subscribe } from '../state.js';
 
-export function mountTopBar(container){
+export function mountTopBar(container) {
   container.innerHTML = '';
-  const panel = document.createElement('div'); panel.className='panel';
-  const row = document.createElement('div'); row.className='row';
+  const p = document.createElement('div');
+  p.className = 'panel';
+  const r = document.createElement('div');
+  r.className = 'row';
 
-  const onlyStar = chip('Only ★', State.filters.starred, () => {
-    State.set('filters', { ...State.filters, starred: !State.filters.starred });
-  });
-  row.appendChild(onlyStar);
+  // existing filters...
+  const only = chip('Only ★', State.filters.starred, () => State.set('filters', { ...State.filters, starred: !State.filters.starred }));
+  r.appendChild(only);
 
-  for (let n=0;n<=4;n++){
-    row.appendChild(chip('W'+n, State.filters.weight.includes(n), () => {
-      const set = new Set(State.filters.weight);
-      set.has(n) ? set.delete(n) : set.add(n);
-      State.set('filters', { ...State.filters, weight: [...set].sort((a,b)=>a-b) });
+  for (let n = 0; n <= 4; n++) {
+    r.appendChild(chip('W' + n, State.filters.weight.includes(n), () => {
+      const s = new Set(State.filters.weight);
+      s.has(n) ? s.delete(n) : s.add(n);
+      State.set('filters', { ...State.filters, weight: [...s].sort((a, b) => a - b) });
     }));
   }
 
@@ -24,31 +25,38 @@ export function mountTopBar(container){
     State.set('order', ids);
     window.location.hash = '#/cards';
   });
-  row.appendChild(sh);
+  r.appendChild(sh);
 
-  const sp = document.createElement('span'); sp.className='spacer'; row.appendChild(sp);
-
-  const gear = document.createElement('button'); gear.className='iconbtn'; gear.textContent='⚙'; gear.title='Settings';
-  gear.onclick = () => window.dispatchEvent(new CustomEvent('open-settings'));
-  row.appendChild(gear);
-
-  panel.appendChild(row);
-  container.appendChild(panel);
-
-  return subscribe(()=>{
-    onlyStar.setAttribute('aria-pressed', String(State.filters.starred));
-    const chips = row.querySelectorAll('[data-weight]');
-    chips.forEach(btn=>{
-      const n = parseInt(btn.getAttribute('data-weight'),10);
-      btn.setAttribute('aria-pressed', String(State.filters.weight.includes(n)));
-    });
+  // 🆕 Translation toggle — only visible in Flashcards view
+  const trans = chip('Show translation', State.ui.showTranslation, () => {
+    State.set('ui', { ...State.ui, showTranslation: !State.ui.showTranslation });
   });
-}
+  trans.id = 'toggle-translation';
+  r.appendChild(trans);
 
-function chip(label, pressed, onClick){
-  const b = document.createElement('button'); b.className='chip'; b.textContent=label;
-  b.setAttribute('aria-pressed', String(!!pressed));
-  b.onclick = onClick;
-  if(/^W\d$/.test(label)) b.dataset.weight = label.slice(1);
-  return b;
+  const sp = document.createElement('span'); sp.className = 'spacer'; r.appendChild(sp);
+  p.appendChild(r); container.appendChild(p);
+
+  // update dynamically when switching view
+  function updateVisibility() {
+    const inCards = location.hash.startsWith('#/cards');
+    trans.style.display = inCards ? '' : 'none';
+  }
+  window.addEventListener('hashchange', updateVisibility);
+  updateVisibility();
+
+  return subscribe(() => {
+    only.setAttribute('aria-pressed', String(State.filters.starred));
+    trans.setAttribute('aria-pressed', String(State.ui.showTranslation));
+  });
+
+  function chip(label, pressed, onClick) {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.textContent = label;
+    b.setAttribute('aria-pressed', String(!!pressed));
+    b.onclick = onClick;
+    if (/^W\\d$/.test(label)) b.dataset.weight = label.slice(1);
+    return b;
+  }
 }
