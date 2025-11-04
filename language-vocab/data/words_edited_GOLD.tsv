@@ -503,7 +503,6 @@ viernes	Friday	noun	A1.1	time
 vino	wine	noun	A1.1	food	
 vivir	to live, experience	verb	A1.1	health|home	add:glue
 volar	to fly	verb	A1.1	travel	
-vosotras	you all - Spain	pron	A1.1	health	REMOVE WORD
 vuestra	your - plural Spain	noun	A1.1	health	
 y	and	conj	A1.1	glue	
 yo	I	pron	A1.1		add:glue
@@ -724,7 +723,6 @@ oferta	offer, sale, supply	noun	A1.2	finance
 ojo	eye	noun	A1.2	health	
 oreja	ear	noun	A1.2	health	
 orgulloso	proud	adj	A1.2		
-os	you all - Spain object	pron	A1.2	health	REMOVE WORD
 otoño	autumn, fall	noun	A1.2		
 oír	to hear	verb	A1.2	health|media	
 panadería	bakery	noun	A1.2		
