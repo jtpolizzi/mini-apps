@@ -3,7 +3,7 @@ a	to, at	prep	A1.1	glue
 a veces	sometimes	phrase	A1.1	MWU|time	
 abajo	down	adv	A1.1	glue	add:glue
 abogado	lawyer	noun	A1.1	education	
-abril	April	noun	A1.1		
+abril	April	noun	A1.1	time	
 abrir	to open	verb	A1.1	tech	
 abuela	grandmother	noun	A1.1	society	
 abuelo	grandfather, grandmother	noun	A1.1	society	
@@ -11,7 +11,7 @@ aburrido	bored, boring	adj	A1.1	education|health|media
 adentro	inside	adv	A1.1	glue|home	add:glue
 adiós	goodbye	interj	A1.1	society	
 afuera	outside	adv	A1.1	glue|home	add:glue
-agosto	August	noun	A1.1		
+agosto	August	noun	A1.1	time	
 agradecer	to thank	verb	A1.1	comparison|society	
 agua	water	noun	A1.1	food|nature	
 ahora	now	adv	A1.1	time	
@@ -119,7 +119,7 @@ cuatro	four	num	A1.1
 cuello	neck	noun	A1.1	health	
 cuerpo	body	noun	A1.1	health	
 cuidar	to take care of	verb	A1.1	society	
-cumpleaños	birthday	noun	A1.1		
+cumpleaños	birthday	noun	A1.1	time	
 cumplir	to turn (age)	verb	A1.1		
 cuándo	when	noun	A1.1	nature	
 cuánta	how much	noun	A1.1		
@@ -140,7 +140,7 @@ descansar	to rest	verb	A1.1	health|media
 despedirse	to say goodbye	verb	A1.1	reflexive|society	
 despertarse	to wake up	verb	A1.1	home|reflexive	
 después	after	adv	A1.1	glue|time	add:glue
-diciembre	December	noun	A1.1		
+diciembre	December	noun	A1.1	time	
 diez	ten	num	A1.1		
 difícil	difficult, hard	adj	A1.1	education|tech	
 dinero	money	noun	A1.1	finance	
@@ -172,7 +172,7 @@ emocionante	exciting	adj	A1.1	media|travel
 empezar	to start	verb	A1.1	time|work	
 empleo	job	noun	A1.1	education|work	
 en	in, on, at	prep	A1.1	glue	
-enero	January	noun	A1.1		
+enero	January	noun	A1.1	time	
 enfermera	nurse	noun	A1.1		
 enfermero	nurse	noun	A1.1	education|health	
 entrar	to enter	verb	A1.1		
@@ -196,7 +196,7 @@ estufa	stove	noun	A1.1	home
 euro	euro	noun	A1.1	finance	
 familia	family	noun	A1.1	society	
 fea	ugly	adj	A1.1		
-febrero	February	noun	A1.1		
+febrero	February	noun	A1.1	time	
 feo	ugly	adj	A1.1	health|media	
 francesa	French - nationality	noun	A1.1		
 Francia	France	noun	A1.1	countries	
@@ -253,8 +253,8 @@ juego	game	noun	A1.1	media
 jueves	Thursday	noun	A1.1	time	
 jugar	to play	verb	A1.1	media	
 jugo	juice	noun	A1.1	food	
-julio	July	noun	A1.1		
-junio	June	noun	A1.1		
+julio	July	noun	A1.1	time	
+junio	June	noun	A1.1	time	
 la	the - feminine, the (feminine), her, it (feminine)	det	A1.1	glue	add:glue
 largo	long	adj	A1.1	travel	
 las	the - feminine plural, the (feminine plural), them (feminine)	det	A1.1	glue	add:glue
@@ -288,8 +288,8 @@ mamá	mom	noun	A1.1	society
 manejar	to drive	verb	A1.1	travel	
 manzana	apple	noun	A1.1	food	
 martes	Tuesday	noun	A1.1	time	
-marzo	March	noun	A1.1		
-mayo	May	noun	A1.1		
+marzo	March	noun	A1.1	time	
+mayo	May	noun	A1.1	time	
 medianoche	midnight	noun	A1.1	time	
 mediodía	noon	noun	A1.1	time	
 menos	less	adv	A1.1	comparison|glue	incorrect POS, add:glue
@@ -327,7 +327,7 @@ nos vemos	see you	phrase	A1.1	MWU|society
 nosotras	we	pron	A1.1	glue	add:glue
 nosotros	we, us (after preposition)	pron	A1.1	glue|time	add:glue
 noventa	ninety	num	A1.1		
-noviembre	November	noun	A1.1		
+noviembre	November	noun	A1.1	time	
 novio	boyfriend, girlfriend	noun	A1.1	society	
 nublado	cloudy	adj	A1.1	nature	
 nuestra	our	noun	A1.1		
@@ -340,7 +340,7 @@ número	number	noun	A1.1
 o	or	conj	A1.1	glue	
 ochenta	eighty	num	A1.1		
 ocho	eight	num	A1.1		
-octubre	October	noun	A1.1		
+octubre	October	noun	A1.1	time	
 odiar	to hate	verb	A1.1	health	
 oficina	office	noun	A1.1	education|work	
 ojos	eyes	noun	A1.1	health	
@@ -375,7 +375,7 @@ poder	to be able to, can, power	verb	A1.1	glue|society|work	add:glue
 por	by, for, through	prep	A1.1	glue	
 por favor	please	interj	A1.1	MWU|society	
 por qué	why	phrase	A1.1	MWU|glue	add:glue
-porque	because	conj	A1.1	discourse|glue	
+porque	because	adv	A1.1	discourse|glue	
 preguntar	to ask	verb	A1.1	society	
 primo	cousin	noun	A1.1	society	
 privado	private	adj	A1.1	society	
@@ -409,7 +409,7 @@ sano	healthy	adj	A1.1	health
 segundo	second	noun	A1.1	time	
 seis	six	num	A1.1		
 semana	week	noun	A1.1	time	
-septiembre	September	noun	A1.1		
+septiembre	September	noun	A1.1	time	
 ser	to be - essential nature, to be (permanent), being	verb	A1.1	glue|nature	add:glue
 ser de	to be from	phrase	A1.1	MWU|countries	
 sesenta	sixty	num	A1.1		
@@ -442,7 +442,7 @@ terminar	to end, to finish	verb	A1.1	time|work
 tiempo	weather, time	noun	A1.1	nature|time	
 tiempo libre	free time	phrase	A1.1	MWU|media	
 tienda	store, shop	noun	A1.1	work	
-todos los días	every day	phrase	A1.1	MWU|media	
+todos los días	every day	phrase	A1.1	MWU|media|time	
 tomar	to drink, to take	verb	A1.1	food	
 trabajar	to work	verb	A1.1	education|work	
 trabajo	work, job, assignment	noun	A1.1	education|work	
@@ -464,7 +464,7 @@ unos	some - masculine	det	A1.1	glue	add:glue
 usar	to wear, to use	verb	A1.1	tech	
 usted	you - formal, you (formal)	pron	A1.1	glue	add:glue
 ustedes	you all - Latin America	pron	A1.1	glue	add:glue
-vacaciones	vacation	noun	A1.1	travel|work	
+vacaciones	vacation	noun	A1.1	time|travel|work	
 veinte	twenty	num	A1.1		
 vendedor	salesperson	noun	A1.1	education|work	
 vender	to sell	verb	A1.1	work	
@@ -501,7 +501,7 @@ a través	through	phrase	A1.2	MWU
 abrigo	coat	noun	A1.2		
 aceite	oil	noun	A1.2	food	
 acostarse	to go to bed	verb	A1.2	home|reflexive	
-además	furthermore, besides, moreover	connector	A1.2	discourse|glue	
+además	furthermore, besides, moreover	adv	A1.2	discourse|glue	
 aeropuerto	airport	noun	A1.2	travel	
 afeitarse	to shave	verb	A1.2	reflexive	
 afición	hobby, passion	noun	A1.2		
@@ -520,7 +520,7 @@ armario	closet, wardrobe	noun	A1.2	home
 arroz	rice	noun	A1.2	food	
 ascensor	elevator	noun	A1.2	home	
 así	like this, in this way	noun	A1.2		
-aunque	although, even though	conj	A1.2	discourse|glue	
+aunque	although, even though	adv	A1.2	discourse|glue	
 avenida	avenue	noun	A1.2		
 avergonzado	embarrassed	adj	A1.2		
 azúcar	sugar	noun	A1.2	food	incorrect POS
@@ -614,7 +614,7 @@ especial	special	noun	A1.2
 espejo	mirror	noun	A1.2		
 esquina	corner	noun	A1.2		
 esta	this	det	A1.2	glue	add:glue
-estación	season, station	noun	A1.2	media|nature|travel	
+estación	season, station	noun	A1.2	media|nature|time|travel	
 estación de autobuses	bus station	phrase	A1.2	MWU|travel	
 estación de tren	train station	phrase	A1.2	MWU|travel	
 estantería	bookshelf	noun	A1.2		
@@ -639,14 +639,14 @@ hasta	until, to	prep	A1.2	glue|time
 hay	there is, there are	adv	A1.2	glue	add:glue
 helado	ice cream	noun	A1.2	food	
 hizo	did, made	noun	A1.2		
-horario	schedule	noun	A1.2	travel|work	
+horario	schedule	noun	A1.2	time|travel|work	
 horno	oven	noun	A1.2	food|home	
 huevo	egg	noun	A1.2	food	
 iglesia	church	noun	A1.2		
 igual...que	equal...to	phrase	A1.2		
 imposible	impossible	adj	A1.2		
 interesado	interested	noun	A1.2	finance	
-invierno	winter	noun	A1.2		
+invierno	winter	noun	A1.2	time	
 inútil	useless	adj	A1.2		
 lavadora	washing machine	noun	A1.2	home	
 lavarse	to wash oneself	verb	A1.2	reflexive	
@@ -672,7 +672,7 @@ menos...que	less...than	phrase	A1.2	comparison
 menú	menu	noun	A1.2	food	
 mercado	market	noun	A1.2		
 microondas	microwave	noun	A1.2	food|home	
-mientras	while	conj	A1.2	glue|time	
+mientras	while	adv	A1.2	glue|time	
 montaña	mountain	noun	A1.2	nature	
 motocicleta	motorcycle	noun	A1.2	travel	
 museo	museum	noun	A1.2	media	
@@ -691,7 +691,7 @@ oferta	offer, sale, supply	noun	A1.2	finance
 ojo	eye	noun	A1.2	health	
 oreja	ear	noun	A1.2	health	
 orgulloso	proud	adj	A1.2		
-otoño	autumn, fall	noun	A1.2		
+otoño	autumn, fall	noun	A1.2	time	
 oír	to hear	verb	A1.2	health|media	
 panadería	bakery	noun	A1.2		
 pantalones	pants, trousers	noun	A1.2	tech	
@@ -722,7 +722,7 @@ por supuesto	of course	phrase	A1.2	MWU|education
 posible	possible	adj	A1.2		
 postre	dessert	noun	A1.2	food	
 preocupado	worried	adj	A1.2	health	
-primavera	spring	noun	A1.2		
+primavera	spring	noun	A1.2	time	
 probar	to try, test, to taste, se) (to try on, to prove, to test	verb	A1.2	education|food|tech	
 prohibido	forbidden	noun	A1.2		
 pronto	soon	adv	A1.2	time	
@@ -774,7 +774,7 @@ triste	sad	adj	A1.2	health|media
 tuvo	had	noun	A1.2		
 varias	several	noun	A1.2		
 vecino	neighbor	noun	A1.2	home	
-verano	summer	noun	A1.2		
+verano	summer	noun	A1.2	time	
 verdura	vegetable	noun	A1.2	food	
 vestido	dress	noun	A1.2		
 vestirse	to get dressed	verb	A1.2	home|reflexive	
@@ -936,7 +936,7 @@ cielo	sky	noun	A2.1	nature
 ciencias	sciences, science	noun	A2.1	education	
 circo	circus	noun	A2.1	media	
 cirujano	surgeon	noun	A2.1	health	
-cita	date, appointment, citation, quote	noun	A2.1		
+cita	date, appointment, citation, quote	noun	A2.1	time	
 clase	class	noun	A2.1	education|reflexive	
 clásico	classic	adj	A2.1	media	
 clínica	clinic	noun	A2.1	health	
@@ -1618,7 +1618,7 @@ alquilar un coche	to rent a car	phrase	A2.2	MWU|home
 altruista	altruistic	noun	A2.2		
 amable	kind	adj	A2.2		
 anillo	ring	noun	A2.2		
-aniversario	anniversary	noun	A2.2		
+aniversario	anniversary	noun	A2.2	time	
 antipática	unfriendly	adj	A2.2	society	
 aretes	earrings	noun	A2.2	health	
 arquitecta	architect	noun	A2.2		
@@ -1628,7 +1628,7 @@ audiencia	audience	noun	A2.2	media
 autopista	highway	noun	A2.2		
 auxiliar de vuelo	flight attendant	phrase	A2.2	MWU	
 avería	breakdown, malfunction	adj	A2.2		
-Año Nuevo	New Year	phrase	A2.2	MWU|health	
+Año Nuevo	New Year	phrase	A2.2	MWU|health|time	
 bailarina	dancer	noun	A2.2		
 bautizo	baptism	noun	A2.2		
 boletín	bulletin	noun	A2.2	media	
@@ -1822,7 +1822,7 @@ modelo	model	noun	A2.2
 mudanza	move, moving	noun	A2.2		
 multa	fine, ticket	noun	A2.2	travel	
 navegador	GPS, navigator, browser	noun	A2.2		
-Navidad	Christmas	noun	A2.2		
+Navidad	Christmas	noun	A2.2	time	
 nerviosa	nervous	noun	A2.2		
 no creo que	I don't think that...	phrase	A2.2	MWU|comparison	
 número equivocado	wrong number	phrase	A2.2	MWU	
@@ -3286,7 +3286,7 @@ conceptualizar	to conceptualize	verb	B2.1	education|work
 concluyente	conclusive	adj	B2.1		
 concretar	to make concrete	verb	B2.1	work	
 confiabilidad	reliability	noun	B2.1	education	
-conforme	as, according to	conj	B2.1		remove:glue
+conforme	as, according to	adv	B2.1		remove:glue
 congruencia	congruence	noun	B2.1	education|health	
 conocimiento organizacional	organizational knowledge	phrase	B2.1	MWU|time|work	remove:glue
 consecuencialismo	consequentialism	adj	B2.1		
@@ -4856,6 +4856,8 @@ zeugma	zeugma	noun	B2.2
 égloga	eclogue	noun	B2.2		
 épica	epic	adj	B2.2		
 órgano social	corporate body	phrase	B2.2	MWU	remove:glue
+al	to the	det	A1.2	glue	
+del	of the	det	A1.2	glue	
 accidente	accident	noun	A2.2		
 agudo	acute	adj	A2.1	health	
 alergia	allergy	noun	A2.2	health	
@@ -4877,7 +4879,7 @@ conflicto	conflict	noun	A2.2	society
 correcto	correct; right, correct	adj	A1.2		
 crítica	critique, criticism; review, criticism	noun	A2.2	education|travel	
 cualquiera	any; whatever, whichever	noun	A1.2		
-cuando	when	adv	A1.1	glue	incorrect POS, add:glue
+cuando	when	adv	A1.1	glue|time	incorrect POS, add:glue
 departamento	apartment; department	noun	A1.1	home	incorrect POS
 derechos	rights	noun	A2.2		incorrect POS
 desigualdad	inequality	noun	A2.2	society	
