@@ -168,7 +168,7 @@ día	day	noun	A1.1	time
 dólar	dollar	verb	A1.1	finance	incorrect POS
 dónde	where	adv	A1.1	glue	add:glue
 edad	age	noun	A1.1		
-el	the - masculine, the (masculine), the one who, that, which	det	A1.1	glue|philosophy	add:glue
+el	the - masculine, the (masculine), the one who, that, which	det	A1.1	glue	add:glue
 elegante	elegant	adj	A1.1	media	
 ella	she, her (after preposition)	pron	A1.1	glue|time	add:glue
 ellas	they	pron	A1.1	glue	add:glue
@@ -199,7 +199,7 @@ estar	to be - location, condition, to be (temporary, location), to be (location)
 este	this	det	A1.1	glue	add:glue
 estos	these	det	A1.1	glue	add:glue
 estudiante	student	noun	A1.1	education	
-estudiar	to study	verb	A1.1	education|philosophy|tech	
+estudiar	to study	verb	A1.1	education|tech	
 estufa	stove	noun	A1.1	home	
 euro	euro	noun	A1.1	finance	
 familia	family	noun	A1.1	society	
@@ -284,7 +284,7 @@ llegar	to arrive	verb	A1.1	food|glue|time|travel	add:glue
 llover	to rain	verb	A1.1	nature	
 lluvioso	rainy	adj	A1.1	nature	
 lo siento	I'm sorry	phrase	A1.1	MWU	remove:glue
-los	the - masculine plural, the (masculine plural), them (masculine), which (plural)	det	A1.1	glue|philosophy	add:glue
+los	the - masculine plural, the (masculine plural), them (masculine), which (plural)	det	A1.1	glue	add:glue
 lugar	place	verb	A1.1	glue	incorrect POS, add:glue
 lunes	Monday	noun	A1.1	time	
 lápiz	pencil	noun	A1.1	education	
@@ -429,7 +429,7 @@ segundo	second	noun	A1.1	time
 seis	six	num	A1.1		
 semana	week	noun	A1.1	time	
 septiembre	September	noun	A1.1		
-ser	to be - essential nature, to be (permanent), being	verb	A1.1	glue|nature|philosophy	add:glue
+ser	to be - essential nature, to be (permanent), being	verb	A1.1	glue|nature	add:glue
 ser de	to be from	phrase	A1.1	MWU|countries	
 sesenta	sixty	num	A1.1		
 setenta	seventy	num	A1.1		
@@ -461,7 +461,7 @@ temprano	early	adv	A1.1	health|time
 tener	to have	verb	A1.1	glue	add:glue
 tenis	tennis	noun	A1.1	media|sports	
 terminar	to end, to finish	verb	A1.1	time|work	
-tiempo	weather, time	noun	A1.1	nature|philosophy|time	
+tiempo	weather, time	noun	A1.1	nature|time	
 tiempo libre	free time	phrase	A1.1	MWU|media	
 tienda	store, shop	noun	A1.1	work	
 todos los días	every day	phrase	A1.1	MWU|media	
@@ -543,7 +543,7 @@ arroz	rice	noun	A1.2	food
 ascensor	elevator	noun	A1.2	home	
 así	like this, in this way	noun	A1.2		
 así que	so, therefore	connector	A1.2	MWU|comparison|discourse|glue	
-aunque	although, even though	conj	A1.2	discourse|glue|philosophy	
+aunque	although, even though	conj	A1.2	discourse|glue	
 avenida	avenue	noun	A1.2		
 avergonzado	embarrassed	adj	A1.2		
 azúcar	sugar	verb	A1.2	food	incorrect POS
@@ -584,7 +584,7 @@ cierto	true, certain	adj	A1.2
 cine	cinema, movie theater	noun	A1.2	media	
 cocinar	to cook	verb	A1.2	food|home|media	
 comedor	dining room	noun	A1.2	home|travel	
-complicado	complicated	adj	A1.2	education|philosophy|tech	
+complicado	complicated	adj	A1.2	education|tech	
 común	common	noun	A1.2		
 concierto	concert	noun	A1.2	media	
 conductor	driver	noun	A1.2	travel	
@@ -623,7 +623,7 @@ dormitorio	bedroom	noun	A1.2	home
 ducha	shower	noun	A1.2	media	
 ducharse	to shower	verb	A1.2	home|media|reflexive	
 durante	during	prep	A1.2	glue|time	
-encima	on top, on top of that	noun	A1.2	philosophy	
+encima	on top, on top of that	noun	A1.2		
 encontrar	to find	verb	A1.2	tech	
 enfermo	sick	adj	A1.2	health	
 enfrente	opposite	noun	A1.2		
@@ -750,19 +750,19 @@ plaza	square	noun	A1.2
 pollo	chicken	noun	A1.2	food	
 poner	to put, place	verb	A1.2	glue	add:glue
 ponerse	to put on [clothing], to put on	verb	A1.2	reflexive	
-por supuesto	of course	phrase	A1.2	MWU|education|philosophy	
+por supuesto	of course	phrase	A1.2	MWU|education	
 posible	possible	adj	A1.2		
 postre	dessert	noun	A1.2	food	
 precio	price	noun	A1.2	food	
 preocupado	worried	adj	A1.2	health	
 primavera	spring	noun	A1.2		
-probar	to try, test, to taste, se) (to try on, to prove, to test	verb	A1.2	education|food|philosophy|tech	
+probar	to try, test, to taste, se) (to try on, to prove, to test	verb	A1.2	education|food|tech	
 prohibido	forbidden	noun	A1.2		
 pronto	soon	adv	A1.2	time	
 propietario	owner	noun	A1.2	home	
 propina	tip	noun	A1.2	food	
 puente	bridge	noun	A1.2		
-puesto que	since, given that	phrase	A1.2	MWU|comparison|philosophy|time	remove:glue
+puesto que	since, given that	phrase	A1.2	MWU|comparison|time	remove:glue
 queso	cheese	noun	A1.2	food	
 quitarse	to take off [clothing], to take off	verb	A1.2	reflexive	
 raro	rare, strange	noun	A1.2		
@@ -772,25 +772,25 @@ reloj	watch, clock	noun	A1.2	home
 reserva	reservation, reserve	noun	A1.2	food	
 resfriado	cold	adj	A1.2	health	
 ropa	clothing	noun	A1.2		
-saber	to know, knowledge, to know (facts)	verb	A1.2	glue|philosophy|time	add:glue
+saber	to know, knowledge, to know (facts)	verb	A1.2	glue|time	add:glue
 sal	salt	noun	A1.2	food	
 sala	living room	noun	A1.2	home	
 salida	exit, departure	noun	A1.2	travel	
 seguro	sure, confident	adj	A1.2		
-según	according to	prep	A1.2	glue|philosophy	
+según	according to	prep	A1.2	glue	
 semáforo	traffic light	noun	A1.2		
 sentir	to feel, regret	verb	A1.2	glue|health	add:glue
 servir	to serve	verb	A1.2	food|society|work	
 sillón	armchair	noun	A1.2	home	
-simple	simple	adj	A1.2	education|philosophy|tech	
+simple	simple	adj	A1.2	education|tech	
 sofá	sofa	noun	A1.2	home	
 sol	sun	noun	A1.2	nature	
 solamente	only	adv	A1.2		
 sombrero	hat	noun	A1.2		
 sopa	soup	adv	A1.2	food	incorrect POS
 sorprendido	surprised	adj	A1.2		
-tal como	just as	phrase	A1.2	MWU|comparison|philosophy	
-tal vez	perhaps, maybe	phrase	A1.2	MWU|philosophy	
+tal como	just as	phrase	A1.2	MWU|comparison	
+tal vez	perhaps, maybe	phrase	A1.2	MWU	
 tampoco	neither, not either	verb	A1.2	glue	incorrect POS, add:glue
 tan...como	as...as	phrase	A1.2	comparison	
 tanto como	as much as	phrase	A1.2	MWU|comparison	
@@ -823,11 +823,11 @@ zanahoria	carrot	noun	A1.2	food
 zapatos	shoes	noun	A1.2		
 útil	useful	adj	A1.2	education|tech	
 a pesar de	despite, in spite of	connector	A2.1	MWU|discourse	remove:glue
-a través de	through	phrase	A2.1	MWU|philosophy	
+a través de	through	phrase	A2.1	MWU	
 abordar	to board, to approach	verb	A2.1	education|travel	
 aburrimiento	boredom	noun	A2.1		
 aburrirse	to be bored	verb	A2.1	reflexive	
-acabar de	to have just	phrase	A2.1	MWU|philosophy	
+acabar de	to have just	phrase	A2.1	MWU	
 academia	academy	noun	A2.1	education|media	
 acampar	to camp	verb	A2.1		
 acceso	access	noun	A2.1	tech	
@@ -868,7 +868,7 @@ ambulancia	ambulance	noun	A2.1	health
 amiga	friend	noun	A2.1	society	
 amistad	friendship	noun	A2.1	society	
 amor	love	noun	A2.1		
-analizar	to analyze	verb	A2.1	education|philosophy|tech	
+analizar	to analyze	verb	A2.1	education|tech	
 anchura	width	noun	A2.1		
 andén	platform	noun	A2.1	travel	
 anfitriona	host	noun	A2.1	society	
@@ -908,7 +908,7 @@ audífonos	headphones	noun	A2.1	tech
 aula	classroom	noun	A2.1	education	
 aumento	raise	noun	A2.1	work	
 autora	author	noun	A2.1	media	
-avanzado	advanced	adj	A2.1	education|philosophy|tech	
+avanzado	advanced	adj	A2.1	education|tech	
 aventurero	adventurous	adj	A2.1	travel	
 aún	still, even	adv	A2.1	glue|time	add:glue
 ballet	ballet	noun	A2.1	media	
@@ -931,21 +931,21 @@ bricolaje	DIY, home improvement	noun	A2.1	home
 brócoli	broccoli	noun	A2.1	food	
 bucear	to dive, snorkel	verb	A2.1		
 buceo	diving	noun	A2.1	sports	
-básico	basic	adj	A2.1	education|philosophy	
+básico	basic	adj	A2.1	education	
 béisbol	baseball	noun	A2.1	media|sports	
 caballo	horse	noun	A2.1	nature	
 caer	to fall	verb	A2.1		
 cafetera	coffee maker	noun	A2.1	food	
 cafetería	cafeteria	noun	A2.1	education	
 calculadora	calculator	noun	A2.1	education	
-calcular	to calculate	verb	A2.1	education|philosophy|tech|time	
+calcular	to calculate	verb	A2.1	education|tech|time	
 calentar	to heat	verb	A2.1	food	
 calificación	grade	noun	A2.1	education	
 calificado	qualified	adj	A2.1	work	
 calificar	to grade	verb	A2.1	education	
 cama doble	double bed	phrase	A2.1	MWU|travel	
 cama individual	single bed	phrase	A2.1	MWU|travel	
-cambio	exchange, change	noun	A2.1	philosophy	
+cambio	exchange, change	noun	A2.1		
 campeona	champion	noun	A2.1		
 campeonato	championship	noun	A2.1	sports	
 camping	campsite	noun	A2.1		
@@ -992,7 +992,7 @@ colgar	to hang up	verb	A2.1	tech
 colina	hill	noun	A2.1	nature	
 comentar	to comment	verb	A2.1	media	
 comercial	commercial	noun	A2.1	media	
-como	how, as	verb	A2.1	glue|philosophy	incorrect POS, add:glue
+como	how, as	verb	A2.1	glue	incorrect POS, add:glue
 comparar	to compare	verb	A2.1	education	
 compañera	colleague	noun	A2.1	work	
 compañera de clase	classmate	phrase	A2.1	MWU|education|reflexive	
@@ -1000,28 +1000,28 @@ compañía	company	noun	A2.1	work
 competente	competent	adj	A2.1	work	
 competición	competition	noun	A2.1		
 competir	to compete	verb	A2.1	sports|work	
-completamente	completely	adv	A2.1	health|philosophy	
+completamente	completely	adv	A2.1	health	
 completar	to complete	verb	A2.1	work	
 completo	complete	adj	A2.1		
 comportarse	to behave	verb	A2.1	reflexive	
 comprar souvenirs	to buy souvenirs	phrase	A2.1	MWU|travel	
-comprender	to understand	verb	A2.1	education|philosophy	
+comprender	to understand	verb	A2.1	education	
 comprometido	committed	adj	A2.1	work	
 condimentar	to season	verb	A2.1	food	
 condimento	seasoning	noun	A2.1	food	
 conectar	to connect	verb	A2.1	tech	
 conectarse	to connect	verb	A2.1	reflexive|tech	
 conejo	rabbit	noun	A2.1	nature	
-confianza	trust, confidence	noun	A2.1	philosophy	
-confiar	to trust	verb	A2.1	health|philosophy	
-confirmar	to confirm	verb	A2.1	education|philosophy|tech|travel	
+confianza	trust, confidence	noun	A2.1		
+confiar	to trust	verb	A2.1	health	
+confirmar	to confirm	verb	A2.1	education|tech|travel	
 confundido	confused	adj	A2.1		
 confundir	to confuse	verb	A2.1		
 confundirse	to get confused	verb	A2.1	reflexive	
 confusión	confusion	noun	A2.1		
 conmovedor	moving	adj	A2.1	media	
 conocida	acquaintance	noun	A2.1		
-conocimiento	knowledge	adv	A2.1	education|philosophy|time|work	
+conocimiento	knowledge	adv	A2.1	education|time|work	
 consultorio	doctor's office	noun	A2.1	health	
 contador	accountant	noun	A2.1	work	
 contagioso	contagious	adj	A2.1	health	
@@ -1038,7 +1038,7 @@ criticar	to criticize, to critique	verb	A2.1	education|media|society
 cruel	cruel	adj	A2.1		
 crujiente	crispy	adj	A2.1	food	
 crónico	chronic	adj	A2.1	health	
-cuando	when	verb	A2.1	glue|philosophy	incorrect POS, add:glue
+cuando	when	verb	A2.1	glue	incorrect POS, add:glue
 cuarto	quarter	noun	A2.1	media	
 cuchara	spoon	noun	A2.1	food	
 cucharita	teaspoon	noun	A2.1	food	
@@ -1056,12 +1056,12 @@ cámara	camera, chamber	noun	A2.1	tech
 damas	checkers	noun	A2.1	sports	
 deadline	deadline	noun	A2.1	work	
 debajo de	under, below	phrase	A2.1	MWU	
-deberes	homework, duties	noun	A2.1	home|philosophy	
+deberes	homework, duties	noun	A2.1	home	
 decepcionado	disappointed	adj	A2.1		
 decidir	to decide	verb	A2.1	work	
 dedicado	dedicated	adj	A2.1	work	
 definir	to define	verb	A2.1	education	
-dejar de	to stop doing	phrase	A2.1	MWU|philosophy	
+dejar de	to stop doing	phrase	A2.1	MWU	
 dejar propina	to leave a tip	phrase	A2.1	MWU|food	
 delante de	in front of	phrase	A2.1	MWU	
 dentista	dentist	noun	A2.1	health	
@@ -1073,7 +1073,7 @@ descargar	to download	verb	A2.1	tech
 descomponerse	to break down	verb	A2.1	reflexive|tech	
 desconectar	to disconnect	verb	A2.1	tech	
 desconectarse	to disconnect	verb	A2.1	reflexive|tech	
-desconfiar	to distrust	verb	A2.1	health|philosophy	
+desconfiar	to distrust	verb	A2.1	health	
 describir	to describe	verb	A2.1	education	
 descubrir	to discover	verb	A2.1	tech|travel	
 desde que	since (time)	phrase	A2.1	MWU|comparison|time	remove:glue
@@ -1104,7 +1104,7 @@ documento	document	noun	A2.1	tech|work
 doméstico	domestic	adj	A2.1	travel	
 donde	where	pron	A2.1	glue	add:glue
 dramático	dramatic	adj	A2.1	media	
-duda	doubt	noun	A2.1	philosophy	
+duda	doubt	noun	A2.1		
 duro	hard	adj	A2.1	food	
 educación	education	noun	A2.1	education	
 educación física	physical education	phrase	A2.1	MWU|education	
@@ -1113,7 +1113,7 @@ eficiente	efficient	adj	A2.1	work
 ejercicio	exercise	noun	A2.1		
 electrónico	electronic	adj	A2.1	tech	
 elefante	elephant	noun	A2.1	nature	
-elemental	elementary	adj	A2.1	education|philosophy	
+elemental	elementary	adj	A2.1	education	
 elogiar	to praise	verb	A2.1		
 embarcar	to board	verb	A2.1	travel	
 emergencia	emergency	noun	A2.1	health|society	
@@ -1127,8 +1127,8 @@ empezar a	to begin to	phrase	A2.1	MWU
 empleada	employee	noun	A2.1	work	
 empleado	employee	noun	A2.1	work	
 empresa	company, business	noun	A2.1	work	
-en cambio	on the other hand	connector	A2.1	MWU|discourse|glue|philosophy	
-en lugar de	instead of	phrase	A2.1	MWU|discourse|philosophy	remove:glue
+en cambio	on the other hand	connector	A2.1	MWU|discourse|glue	
+en lugar de	instead of	phrase	A2.1	MWU|discourse	remove:glue
 enamorado	in love	adj	A2.1		
 enamorarse	to fall in love	verb	A2.1	reflexive	
 encender	to turn on	verb	A2.1	tech	
@@ -1145,7 +1145,7 @@ enojo	anger	noun	A2.1
 ensayo	essay	noun	A2.1	education	
 enseñanza	teaching	noun	A2.1	education	
 enseñar	to teach	verb	A2.1	education	
-entender	to understand	verb	A2.1	education|philosophy	
+entender	to understand	verb	A2.1	education	
 entrada	appetizer	noun	A2.1	food	
 entradas	tickets	noun	A2.1	travel	
 entrenar	to train	verb	A2.1		
@@ -1171,11 +1171,11 @@ escuela secundaria	middle school	phrase	A2.1	MWU|education
 español	Spanish	noun	A2.1	education	
 especialidad	specialty	noun	A2.1	food	
 especialista	specialist	noun	A2.1	health	
-especialmente	especially	adv	A2.1	philosophy|time	
+especialmente	especially	adv	A2.1	time	
 especias	spices	noun	A2.1	food	
 espectadora	spectator	noun	A2.1	sports	
 espectáculo	show, performance, spectacle	noun	A2.1	media	
-esperanza	hope	noun	A2.1	philosophy	
+esperanza	hope	noun	A2.1		
 esperanzado	hopeful	adj	A2.1		
 espinaca	spinach	noun	A2.1	food	
 esposa	husband, wife	noun	A2.1	media	
@@ -1188,13 +1188,13 @@ estresar	to stress (someone)	verb	A2.1
 estresarse	to get stressed	verb	A2.1	reflexive	
 evaluar	to evaluate	verb	A2.1	education|media	
 examen	exam	noun	A2.1	education	
-examinar	to examine	verb	A2.1	education|health|philosophy|tech	
+examinar	to examine	verb	A2.1	education|health|tech	
 excelente	excellent	adj	A2.1	education	
 excursión	excursion, trip	noun	A2.1	travel	
 exitoso	successful	adj	A2.1	work	
 experiencia	experience	noun	A2.1	work	
 experimentado	experienced	adj	A2.1	work	
-explicar	to explain	verb	A2.1	education|philosophy|work	
+explicar	to explain	verb	A2.1	education|work	
 explorar	to explore	verb	A2.1	education|tech|travel	
 exquisito	exquisite	adj	A2.1	food|media	
 extranjero	foreigner, foreign, abroad	noun	A2.1	travel	
@@ -1208,7 +1208,7 @@ feria	fair	noun	A2.1	media
 festival	festival	noun	A2.1	media	
 fiesta	party	noun	A2.1	media	
 film	film	noun	A2.1	media	
-filosofía	philosophy	noun	A2.1	education|philosophy	
+filosofía	philosophy	noun	A2.1	education	
 finalmente	finally	adv	A2.1	time	
 flor	flower	noun	A2.1	nature	
 fotografiar	to photograph	verb	A2.1	media|travel	
@@ -1245,7 +1245,7 @@ graduarse	to graduate	verb	A2.1	education|reflexive
 gramo	gram	noun	A2.1		
 graso	greasy	adj	A2.1	food	
 grave	serious	adj	A2.1	health	
-gravemente	seriously	adv	A2.1	health|philosophy	
+gravemente	seriously	adv	A2.1	health	
 grupo	group, band	adv	A2.1	media	incorrect POS
 guardar	to save	verb	A2.1	tech	
 guisar	to stew	verb	A2.1	food	
@@ -1299,7 +1299,7 @@ intensamente	intensely	adv	A2.1	health
 internacional	international	adj	A2.1	travel	
 interés	interest	noun	A2.1	finance	
 introvertido	introverted	adj	A2.1		
-investigar	to research, to investigate	verb	A2.1	education|philosophy|tech	
+investigar	to research, to investigate	verb	A2.1	education|tech	
 invitación	invitation	noun	A2.1		
 invitada	guest	noun	A2.1	society	
 itinerario	itinerary	noun	A2.1	travel	
@@ -1347,14 +1347,14 @@ maratón	marathon	noun	A2.1	sports
 marcador	marker	noun	A2.1	education	
 margarina	margarine	noun	A2.1	food	
 matemáticas	mathematics	noun	A2.1	education	
-materia	subject, matter	noun	A2.1	education|philosophy	
+materia	subject, matter	noun	A2.1	education	
 matricularse	to register	verb	A2.1	education|reflexive	
 matrimonio	marriage	noun	A2.1	society	
 medalla	medal	noun	A2.1	sports	
 medicamento	medication	noun	A2.1	health	
 medida	measurement	adj	A2.1		incorrect POS
 medios	media	noun	A2.1	media	
-meditar	to meditate	verb	A2.1	philosophy	
+meditar	to meditate	verb	A2.1		
 mejorar	to improve	verb	A2.1	health|tech|work	
 mejorarse	to get better	verb	A2.1	health|reflexive	
 memorizar	to memorize	verb	A2.1	education	
@@ -1364,11 +1364,11 @@ mentiroso	lying, dishonest	adj	A2.1
 meta	goal, finish line	noun	A2.1	sports|work	
 mezclar	to mix	verb	A2.1	food	
 miedo	fear	noun	A2.1	health	
-mientras que	whereas, while	phrase	A2.1	MWU|comparison|philosophy|time	remove:glue
+mientras que	whereas, while	phrase	A2.1	MWU|comparison|time	remove:glue
 mililitro	milliliter	noun	A2.1		
 mitad	half	noun	A2.1		
 mochila	backpack	noun	A2.1	education|travel	
-moderno	modern	adj	A2.1	media|philosophy|tech	
+moderno	modern	adj	A2.1	media|tech	
 molesto	annoyed	adj	A2.1		
 moneda	currency	noun	A2.1		
 mono	monkey	noun	A2.1	home	
@@ -1419,7 +1419,7 @@ parapente	paragliding	noun	A2.1	sports
 pareja	couple, partner	adv	A2.1	media	incorrect POS
 pariente	relative	noun	A2.1	society	
 parte	part, party	noun	A2.1	media	
-particularmente	particularly	adv	A2.1	philosophy|time	
+particularmente	particularly	adv	A2.1	time	
 partido	match, game, party	noun	A2.1	sports	
 pasaje	ticket	noun	A2.1	travel	
 pasto	grass	noun	A2.1	nature	
@@ -1473,14 +1473,14 @@ principalmente	mainly	adv	A2.1	time
 producir	to produce	verb	A2.1	media|tech|work	
 productivo	productive	adj	A2.1	work	
 profesional	professional	adj	A2.1	work	
-profundamente	deeply	adv	A2.1	health|philosophy	
+profundamente	deeply	adv	A2.1	health	
 programa	program	noun	A2.1	media|tech	
 prometida	fiancé, fiancée	noun	A2.1		
 promoción	promotion	noun	A2.1	work	
 protagonista	protagonist, main character	noun	A2.1	media	
 proyecto	project	noun	A2.1	education|work	
 prueba	test, proof, evidence	noun	A2.1	education	
-práctico	practical	adj	A2.1	education|philosophy|tech	
+práctico	practical	adj	A2.1	education|tech	
 psicología	psychology	noun	A2.1	education|health|tech	
 psicólogo	psychologist	noun	A2.1	health	
 puerto	port	noun	A2.1	travel	
@@ -1494,7 +1494,7 @@ quiz	quiz	noun	A2.1	education
 química	chemistry	noun	A2.1	education|tech	
 ratón	mouse	noun	A2.1	nature|tech	
 realizar	to carry out	verb	A2.1	work	
-realmente	really	adv	A2.1	philosophy	
+realmente	really	adv	A2.1		
 recepción	reception	noun	A2.1	travel	
 recetar	to prescribe	verb	A2.1	health	
 recientemente	recently	adv	A2.1	time	
@@ -1529,7 +1529,7 @@ reservación	reservation	noun	A2.1	food
 reservar	to reserve, book	verb	A2.1	food|travel	
 resolver	to solve	verb	A2.1	education|work	
 respetar	to respect	verb	A2.1	health|society	
-responsabilidad	responsibility	noun	A2.1	philosophy|work	
+responsabilidad	responsibility	noun	A2.1	work	
 responsable	responsible	adj	A2.1	work	
 resultado	result	noun	A2.1	education	
 retraso	delay	noun	A2.1	travel	
@@ -1571,7 +1571,7 @@ sitio web	website	phrase	A2.1	MWU|tech
 snowboard	snowboarding	adv	A2.1	sports|time	incorrect POS
 sobrina	nephew, niece	noun	A2.1	society	
 software	software	noun	A2.1	tech	
-soler	to usually do	verb	A2.1	philosophy	
+soler	to usually do	verb	A2.1		
 solicitud	application	noun	A2.1	work	
 soltera	single	noun	A2.1	society	
 sorprender	to surprise	verb	A2.1		
@@ -1608,7 +1608,7 @@ temporada	season	noun	A2.1	media
 tenedor	fork	noun	A2.1	food	
 terminal	terminal	noun	A2.1	travel	
 terminar de	to finish doing	phrase	A2.1	MWU	
-teórico	theoretical	adj	A2.1	education|philosophy|tech	
+teórico	theoretical	adj	A2.1	education|tech	
 ti	you (after preposition)	pron	A2.1	glue|time	add:glue
 tibio	warm	adj	A2.1	food	
 tierno	tender	adj	A2.1	food	
@@ -1623,7 +1623,7 @@ tomar medicinas	to take medicine	phrase	A2.1	MWU|health
 tonto	silly, stupid	adj	A2.1		
 torneo	tournament	noun	A2.1	sports	
 tostadora	toaster	noun	A2.1	food	
-totalmente	totally	adv	A2.1	philosophy	
+totalmente	totally	adv	A2.1		
 tour	tour	noun	A2.1	travel	
 trabajador	hardworking	adj	A2.1		
 trabajador	worker	noun	A2.1	work	
@@ -1654,7 +1654,7 @@ vecina	neighbor	noun	A2.1	home
 vegetales	vegetables	noun	A2.1	food	
 vehículo	vehicle	noun	A2.1	travel	
 vela	sailing	noun	A2.1	sports	
-verdaderamente	truly	adv	A2.1	philosophy	
+verdaderamente	truly	adv	A2.1		
 verdadero	true, real	adj	A2.1		
 verduras	vegetables	noun	A2.1	food	
 vergüenza	shame, embarrassment	noun	A2.1	health	
@@ -1670,7 +1670,7 @@ vista	view	noun	A2.1	travel
 viuda	widowed	noun	A2.1	society	
 voleibol	volleyball	noun	A2.1	sports	
 volver	to return	verb	A2.1	travel	
-volver a	to do again	phrase	A2.1	MWU|philosophy	
+volver a	to do again	phrase	A2.1	MWU	
 vuelo	flight	noun	A2.1	travel	
 wifi	wifi	noun	A2.1	travel	
 yerno	son-in-law	noun	A2.1	society	
@@ -1679,7 +1679,7 @@ zorro	fox	noun	A2.1	nature
 árbol	tree	noun	A2.1	nature	
 ópera	opera	noun	A2.1	media	
 últimamente	lately	adv	A2.1	time	
-a causa de	because of	connector	A2.2	MWU|discourse|philosophy	remove:glue
+a causa de	because of	connector	A2.2	MWU|discourse	remove:glue
 a favor	in favor	phrase	A2.2	MWU	remove:glue
 a lo mejor	maybe	phrase	A2.2	MWU	
 abogada	lawyer	noun	A2.2		
@@ -1783,12 +1783,12 @@ darse cuenta	to realize	phrase	A2.2	MWU
 debido a	due to	phrase	A2.2	MWU	
 defectuosa	defective	noun	A2.2		
 dejar prestado	to lend	phrase	A2.2	MWU	
-democracia	democracy	noun	A2.2	philosophy|society	
+democracia	democracy	noun	A2.2	society	
 depósito	deposit	noun	A2.2	finance	
 derechos	rights	adv	A2.2		incorrect POS
 descolgar	to pick up	verb	A2.2		
 descuidada	careless	noun	A2.2		
-desde luego	certainly, of course	phrase	A2.2	MWU|philosophy	
+desde luego	certainly, of course	phrase	A2.2	MWU	
 desempleada	unemployed	noun	A2.2		
 desfile	parade	noun	A2.2	media	
 deshacer las maletas	to unpack	phrase	A2.2	MWU|travel	
@@ -1831,8 +1831,8 @@ entrevista de trabajo	job interview	phrase	A2.2	MWU|travel
 episodio	episode	noun	A2.2	media	
 es importante que	it's important that...	phrase	A2.2	MWU|comparison	remove:glue
 es necesario que	it's necessary that...	phrase	A2.2	MWU|comparison	
-es posible que	it's possible that..., it's possible that	phrase	A2.2	MWU|comparison|philosophy	
-es probable que	it's likely that..., it's probable that	phrase	A2.2	MWU|comparison|philosophy	
+es posible que	it's possible that..., it's possible that	phrase	A2.2	MWU|comparison	
+es probable que	it's likely that..., it's probable that	phrase	A2.2	MWU|comparison	
 escalas	layover, stopover	noun	A2.2	travel	
 espero que	I hope that...	phrase	A2.2	MWU|comparison	
 estacionamiento	parking	noun	A2.2		
@@ -1891,9 +1891,9 @@ jardinera	gardener	noun	A2.2	home
 joyería	jewelry	noun	A2.2		
 jubilada	retired	adj	A2.2		
 jueza	judge	noun	A2.2		
-justicia	justice	adv	A2.2	philosophy|society	incorrect POS
+justicia	justice	adv	A2.2	society	incorrect POS
 ley	law	noun	A2.2	society	
-libertad	freedom	noun	A2.2	philosophy	
+libertad	freedom	noun	A2.2		
 llamada perdida	missed call	phrase	A2.2	MWU|work	
 llamar la atención	to attract attention	phrase	A2.2	MWU	
 loca	crazy	noun	A2.2		
@@ -1931,7 +1931,7 @@ número equivocado	wrong number	phrase	A2.2	MWU
 obligar	to force, obligate	verb	A2.2		
 operación	operation	noun	A2.2		
 optimista	optimistic	adj	A2.2		
-original	original	adj	A2.2	media|philosophy	
+original	original	adj	A2.2	media	
 oyente	listener	noun	A2.2	media	
 paciente	patient	adj	A2.2		
 pacífica	peaceful	noun	A2.2		
@@ -1967,7 +1967,7 @@ política	politics, policy	noun	A2.2
 ponerse de acuerdo	to agree, reach an agreement	phrase	A2.2	MWU	
 por eso	therefore, that's why	connector	A2.2	MWU|discourse|glue	
 por lo menos	at least	phrase	A2.2	MWU|comparison	
-por lo tanto	therefore	connector	A2.2	MWU|comparison|discourse|glue|philosophy	
+por lo tanto	therefore	connector	A2.2	MWU|comparison|discourse|glue	
 posponer	to postpone	verb	A2.2		
 presidenta	president	noun	A2.2		
 primera clase	first class	phrase	A2.2	MWU|education|reflexive	
@@ -2025,9 +2025,9 @@ seria	serious	noun	A2.2
 serie	series	noun	A2.2	media	
 señal de tráfico	traffic sign	phrase	A2.2	MWU	
 sin duda	without doubt	phrase	A2.2	MWU	
-sin embargo	however	connector	A2.2	MWU|discourse|glue|philosophy	
+sin embargo	however	connector	A2.2	MWU|discourse|glue	
 sincera	sincere	noun	A2.2	time	
-sobre todo	above all, especially	phrase	A2.2	MWU|philosophy	
+sobre todo	above all, especially	phrase	A2.2	MWU	
 sugerir	to suggest	verb	A2.2		
 suscripción	subscription	noun	A2.2		
 tacaña	stingy	noun	A2.2		
@@ -2084,21 +2084,21 @@ vómito	vomit	noun	A2.2
 ¡ten!	have, take!	noun	A2.2		
 ¡ve!	go!	noun	A2.2		
 ¡ven!	come!	noun	A2.2		
-a favor de	in favor of	phrase	B1.1	MWU|philosophy	remove:glue
-a fin de que	so that	connector	B1.1	MWU|comparison|discourse|philosophy	remove:glue
+a favor de	in favor of	phrase	B1.1	MWU	remove:glue
+a fin de que	so that	connector	B1.1	MWU|comparison|discourse	remove:glue
 a la vez	at the same time	phrase	B1.1	MWU|time	
-a lo largo de	along, throughout	phrase	B1.1	MWU|philosophy	
-a menos que	unless	phrase	B1.1	MWU|comparison|philosophy	
-a partir de	from, starting from	phrase	B1.1	MWU|philosophy	
-a pesar de que	despite the fact that	connector	B1.1	MWU|comparison|discourse|philosophy	remove:glue
+a lo largo de	along, throughout	phrase	B1.1	MWU	
+a menos que	unless	phrase	B1.1	MWU|comparison	
+a partir de	from, starting from	phrase	B1.1	MWU	
+a pesar de que	despite the fact that	connector	B1.1	MWU|comparison|discourse	remove:glue
 aborrecer	to loathe	verb	B1.1	health	
-absolutamente	absolutely	adv	B1.1	philosophy	
-abstracto	abstract	adj	B1.1	philosophy	
+absolutamente	absolutely	adv	B1.1		
+abstracto	abstract	adj	B1.1		
 abuso	abuse	noun	B1.1	society	
 académico	academic	adj	B1.1	education	
 aceptar	to accept	verb	B1.1	society	
-acerca de	about	phrase	B1.1	MWU|philosophy	
-aclarar	to clarify	verb	B1.1	philosophy	
+acerca de	about	phrase	B1.1	MWU	
+aclarar	to clarify	verb	B1.1		
 actividad física	physical activity	phrase	B1.1	MWU	
 acuerdo	agreement	adj	B1.1		
 acusar	to accuse	verb	B1.1	society	
@@ -2109,20 +2109,20 @@ agilidad	agility	noun	B1.1
 al mismo tiempo	at the same time	phrase	B1.1	MWU|time	
 alcalde	mayor	noun	B1.1	society	
 alcanzar	to reach	verb	B1.1	work	
-alcanzar a	to manage to	phrase	B1.1	MWU|philosophy	
+alcanzar a	to manage to	phrase	B1.1	MWU	
 alergia	allergy	adj	B1.1		
 algoritmo	algorithm	adj	B1.1	tech	incorrect POS
 altruismo	altruism	adj	B1.1	health	incorrect POS
 amateur	amateur	noun	B1.1		
 ambición	ambition	noun	B1.1	work	
-ambiguo	ambiguous	adj	B1.1	philosophy	
+ambiguo	ambiguous	adj	B1.1		
 ambivalencia	ambivalence	adj	B1.1		
 amorosamente	lovingly	adv	B1.1	health	
 analogía	analogy	adj	B1.1	education	incorrect POS
 analítico	analytical	adj	B1.1	tech	
 analógico	analog	adj	B1.1	tech	
 anhelo	yearning	noun	B1.1	health	
-anormal	abnormal	adj	B1.1	philosophy	
+anormal	abnormal	adj	B1.1		
 ansiedad	anxiety	noun	B1.1		
 antibiótico	antibiotic	adj	B1.1		incorrect POS
 anuncio	advertisement	adj	B1.1		incorrect POS
@@ -2138,8 +2138,8 @@ aptitud	aptitude	noun	B1.1	work
 aptitudes	aptitudes	noun	B1.1		
 apuntes	notes	noun	B1.1		
 ardorosamente	ardently	adv	B1.1	health	
-argumentación	argumentation	adj	B1.1	education|philosophy	incorrect POS
-argumentar	to argue	verb	B1.1	education|philosophy	
+argumentación	argumentation	adj	B1.1	education	incorrect POS
+argumentar	to argue	verb	B1.1	education	
 argumento	plot, argument	adj	B1.1	education|media	incorrect POS
 arqueología	archaeology	noun	B1.1	tech	
 arquitectura	architecture	noun	B1.1	media	
@@ -2155,11 +2155,11 @@ asilo	asylum	noun	B1.1
 aspecto	aspect	noun	B1.1	education	
 aspiración	aspiration	noun	B1.1	work	
 astronomía	astronomy	noun	B1.1	tech	
-asumir	to assume	verb	B1.1	philosophy	
-así pues	thus	phrase	B1.1	MWU|discourse|philosophy	remove:glue
-así que	so	phrase	B1.1	MWU|comparison|discourse|philosophy	remove:glue
-atípico	atypical	adj	B1.1	philosophy	
-aun cuando	even when	phrase	B1.1	MWU|philosophy|time	remove:glue
+asumir	to assume	verb	B1.1		
+así pues	thus	phrase	B1.1	MWU|discourse	remove:glue
+así que	so	phrase	B1.1	MWU|comparison|discourse	remove:glue
+atípico	atypical	adj	B1.1		
+aun cuando	even when	phrase	B1.1	MWU|time	remove:glue
 automatización	automation	noun	B1.1	tech	
 automatizar	to automate	verb	B1.1	tech|work	
 automático	automatic	adj	B1.1	tech	
@@ -2197,67 +2197,67 @@ carrera profesional	career	phrase	B1.1	MWU|work
 carta de presentación	cover letter	phrase	B1.1	MWU	
 catedrático	professor	noun	B1.1		
 categorizar	to categorize	verb	B1.1	education	
-categoría	category	noun	B1.1	education|philosophy	
+categoría	category	noun	B1.1	education	
 celos	jealousy	adj	B1.1		incorrect POS
 censurar	to censure	verb	B1.1	society	
 centrista	centrist	adj	B1.1		incorrect POS
 cerebro	brain	noun	B1.1	health	
-certeza	certainty	noun	B1.1	philosophy	
+certeza	certainty	noun	B1.1		
 certificación	certification	adj	B1.1	tech	incorrect POS
-cesar de	to cease doing	phrase	B1.1	MWU|philosophy	
+cesar de	to cease doing	phrase	B1.1	MWU	
 ciencia	science	noun	B1.1	tech	
 científico	scientist, scientific	adj	B1.1	education|tech	incorrect POS
 cinematografía	cinematography	noun	B1.1	media	
 ciudadano	citizen	noun	B1.1	society	
 ciudadanía	citizenship	noun	B1.1		
 civil	civil	adj	B1.1	society	
-claro	clear	adj	B1.1	philosophy	
+claro	clear	adj	B1.1		
 clasificación	classification	adj	B1.1	education	incorrect POS
 clasificar	to classify	verb	B1.1	education	
 clonación	cloning	noun	B1.1		
 cobardía	cowardice	adj	B1.1		incorrect POS
 codificar	to code	verb	B1.1	tech	
-coherente	coherent	adv	B1.1	philosophy	incorrect POS
+coherente	coherent	adv	B1.1		incorrect POS
 columna	column	noun	B1.1		
 combatir	to combat	verb	B1.1	society	
 comentarista	commentator	adj	B1.1		incorrect POS
-como si	as if	phrase	B1.1	MWU|comparison|philosophy	
+como si	as if	phrase	B1.1	MWU|comparison	
 comparación	comparison	noun	B1.1	education	
-comparativamente	comparatively	adv	B1.1	philosophy	
+comparativamente	comparatively	adv	B1.1		
 compasión	compassion	noun	B1.1	health	
 compañero de clase	classmate	phrase	B1.1	MWU|reflexive	
 competencias	competencies	noun	B1.1		
-complejo	complex	adj	B1.1	philosophy|tech	
+complejo	complex	adj	B1.1	tech	
 componer	to compose	verb	B1.1	media	
 composición	composition	noun	B1.1	media	
-comprensión	understanding	noun	B1.1	philosophy	
+comprensión	understanding	noun	B1.1		
 comprometerse	to commit	verb	B1.1	reflexive|work	
-compromiso	commitment	adj	B1.1	philosophy|work	
+compromiso	commitment	adj	B1.1	work	
 comunicación	communication	adj	B1.1	work	
 comunicado	statement	adj	B1.1		
-común	common	adj	B1.1	philosophy	
-con base en	based on	phrase	B1.1	MWU|philosophy	
-con motivo de	on the occasion of	phrase	B1.1	MWU|philosophy	
-con respecto a	with respect to	phrase	B1.1	MWU|philosophy	
-con tal de que	provided that	phrase	B1.1	MWU|comparison|philosophy	
-concluir	to conclude	verb	B1.1	education|philosophy	
+común	common	adj	B1.1		
+con base en	based on	phrase	B1.1	MWU	
+con motivo de	on the occasion of	phrase	B1.1	MWU	
+con respecto a	with respect to	phrase	B1.1	MWU	
+con tal de que	provided that	phrase	B1.1	MWU|comparison	
+concluir	to conclude	verb	B1.1	education	
 conclusión	conclusion	noun	B1.1	education	
-concreto	concrete	adj	B1.1	philosophy	
+concreto	concrete	adj	B1.1		
 condenar	to condemn	verb	B1.1	society	
 conducta	conduct	noun	B1.1	health	
 conferencia	conference	noun	B1.1		
 confiable	reliable	adj	B1.1	work	
 configurar	to configure	verb	B1.1	tech	
 conformidad	conformity	noun	B1.1	health	
-confuso	confusing	adj	B1.1	philosophy	
+confuso	confusing	adj	B1.1		
 congreso	congress	noun	B1.1		
-conseguir	to manage to, to achieve	verb	B1.1	philosophy|work	
+conseguir	to manage to, to achieve	verb	B1.1	work	
 conservación	conservation	noun	B1.1		
 conservador	conservative	adj	B1.1	society	
 conservatorio	conservatory	noun	B1.1	media	
-considerablemente	considerably	adv	B1.1	philosophy	
-considerar	to consider	verb	B1.1	education|philosophy	
-consistente	consistent	adj	B1.1	philosophy	
+considerablemente	considerably	adv	B1.1		
+considerar	to consider	verb	B1.1	education	
+consistente	consistent	adj	B1.1		
 constancia	perseverance	noun	B1.1	work	
 constantemente	constantly	adv	B1.1	time	
 constitución	constitution	noun	B1.1	society	
@@ -2268,16 +2268,16 @@ contaminar	to pollute	verb	B1.1
 contenido	content	adj	B1.1		
 contexto	context	noun	B1.1		
 continuamente	continuously	adv	B1.1	time	
-continuar + gerund	to continue doing	phrase	B1.1	MWU|philosophy	
+continuar + gerund	to continue doing	phrase	B1.1	MWU	
 contraargumento	counterargument	adj	B1.1	education	
-contradecir	to contradict	verb	B1.1	education|philosophy	
+contradecir	to contradict	verb	B1.1	education	
 contrastar	to contrast	verb	B1.1	education	
 contraste	contrast	noun	B1.1	education	
 contrato indefinido	permanent contract	phrase	B1.1	MWU	
 contrato temporal	temporary contract	phrase	B1.1	MWU	remove:glue
 contribuir	to contribute	verb	B1.1	society	
 control	control	noun	B1.1	work	
-convencional	conventional	adj	B1.1	philosophy	
+convencional	conventional	adj	B1.1		
 cooperar	to cooperate	verb	B1.1	society	
 coordinación	coordination	noun	B1.1	work	
 corresponsal	correspondent	adj	B1.1		
@@ -2285,8 +2285,8 @@ creación	creation	noun	B1.1	media
 creatividad	creativity	noun	B1.1	media	
 crecer	to grow	verb	B1.1	work	
 crecimiento profesional	professional growth	phrase	B1.1	MWU|work	
-creencia	belief	noun	B1.1	philosophy	
-creer	to believe	verb	B1.1	health|philosophy	
+creencia	belief	noun	B1.1		
+creer	to believe	verb	B1.1	health	
 criminalidad	crime	noun	B1.1	society	
 crisis	crisis	noun	B1.1	society	
 crueldad	cruelty	noun	B1.1	health	
@@ -2297,7 +2297,7 @@ crítico	critic	adj	B1.1
 crónica	chronicle	adj	B1.1	media	
 cualificación	qualification	adj	B1.1		
 cualitativo	qualitative	adj	B1.1	tech	
-cualquiera	whatever, whichever	adj	B1.1	philosophy	
+cualquiera	whatever, whichever	adj	B1.1		
 cuantitativo	quantitative	adj	B1.1	tech	
 cuanto	as much, many as	pron	B1.1	glue	add:glue
 cuestión social	social issue	phrase	B1.1	MWU|society	
@@ -2306,21 +2306,21 @@ currículum vitae	resume, CV	phrase	B1.1	MWU
 cuyo	whose	pron	B1.1	glue	add:glue
 célula madre	stem cell	phrase	B1.1	MWU	
 código	code	noun	B1.1		
-dado que	given that	phrase	B1.1	MWU|comparison|philosophy	
+dado que	given that	phrase	B1.1	MWU|comparison	
 danza	dance	noun	B1.1	media	
 dato	data point	noun	B1.1	education	
 datos	data	noun	B1.1	education	
 dañar	to damage	verb	B1.1		
-de acuerdo con	according to	phrase	B1.1	MWU|philosophy	remove:glue
-de hecho	in fact	phrase	B1.1	MWU|discourse|philosophy	remove:glue
+de acuerdo con	according to	phrase	B1.1	MWU	remove:glue
+de hecho	in fact	phrase	B1.1	MWU|discourse	remove:glue
 debate	debate	noun	B1.1		
-debido a que	due to the fact that	phrase	B1.1	MWU|comparison|philosophy	
+debido a que	due to the fact that	phrase	B1.1	MWU|comparison	
 decano	dean	noun	B1.1		
 decepción	disappointment	adj	B1.1		
 dedicación	dedication	adj	B1.1	work	
 dedicarse	to dedicate oneself	verb	B1.1	reflexive|work	
-deducción	deduction	noun	B1.1	education|philosophy	
-deducir	to deduce	verb	B1.1	education|philosophy	
+deducción	deduction	noun	B1.1	education	
+deducir	to deduce	verb	B1.1	education	
 defender	to defend	verb	B1.1	education|society	
 definición	definition	noun	B1.1	education	
 definitivamente	definitively	adv	B1.1	time	
@@ -2328,13 +2328,13 @@ deforestación	deforestation	noun	B1.1
 delegación	delegation	noun	B1.1	work	
 delincuencia	delinquency	noun	B1.1	society	
 democrático	democratic	adj	B1.1	society	
-demostración	demonstration	noun	B1.1	education|philosophy	
-demostrar	to demonstrate	verb	B1.1	education|philosophy|tech	
+demostración	demonstration	noun	B1.1	education	
+demostrar	to demonstrate	verb	B1.1	education|tech	
 denunciar	to denounce	verb	B1.1	society	
 departamento	department	adj	B1.1		
 deportista profesional	professional athlete	phrase	B1.1	MWU	
 derecho	right, law	noun	B1.1	society	
-derechos	rights	noun	B1.1	philosophy	
+derechos	rights	noun	B1.1		
 dermatólogo	dermatologist	noun	B1.1		
 derrota	defeat	noun	B1.1		
 desarrollarse	to develop	verb	B1.1	reflexive|work	
@@ -2347,10 +2347,10 @@ desdén	disdain	noun	B1.1	health
 desecho	waste	noun	B1.1		
 desempleo	unemployment	adj	B1.1		
 desequilibrio	imbalance	adj	B1.1	health	
-desesperanza	hopelessness	adj	B1.1	philosophy	
+desesperanza	hopelessness	adj	B1.1		
 deshonestidad	dishonesty	adj	B1.1		
 desigual	unequal	adj	B1.1	society	
-desigualdad	inequality	adj	B1.1	philosophy|society	
+desigualdad	inequality	adj	B1.1	society	
 desinformación	misinformation	noun	B1.1		
 despiadadamente	mercilessly	adv	B1.1	health	
 despido	dismissal	adj	B1.1		
@@ -2383,13 +2383,13 @@ dominar	to master	verb	B1.1	work
 dominio	mastery	noun	B1.1	work	
 don	gift	noun	B1.1	media|work	
 donación de órganos	organ donation	phrase	B1.1	MWU	remove:glue
-dondequiera	wherever	adv	B1.1	philosophy	
+dondequiera	wherever	adv	B1.1		
 dopaje	doping	noun	B1.1		
-dudar	to doubt	verb	B1.1	health|philosophy	
+dudar	to doubt	verb	B1.1	health	
 dulcemente	sweetly	adv	B1.1	health	
 déficit	deficit	adj	B1.1		
 día libre	day off	phrase	B1.1	MWU	
-echarse a	to start doing	phrase	B1.1	MWU|philosophy	
+echarse a	to start doing	phrase	B1.1	MWU	
 ecografía	ultrasound	noun	B1.1		
 ecosistema	ecosystem	noun	B1.1		
 editar	to edit	verb	B1.1	media	
@@ -2407,21 +2407,21 @@ empate	tie, draw	noun	B1.1
 empatía	empathy	noun	B1.1	health	
 empeño	effort	noun	B1.1	work	
 empírico	empirical	adj	B1.1	education|tech	
-en conclusión	in conclusion	connector	B1.1	MWU|discourse|philosophy	remove:glue
-en consecuencia	consequently	connector	B1.1	MWU|discourse|philosophy	remove:glue
-en contra de	against	phrase	B1.1	MWU|philosophy	
-en cuanto a	as for	phrase	B1.1	MWU|comparison|philosophy	remove:glue
-en efecto	indeed	phrase	B1.1	MWU|philosophy	
+en conclusión	in conclusion	connector	B1.1	MWU|discourse	remove:glue
+en consecuencia	consequently	connector	B1.1	MWU|discourse	remove:glue
+en contra de	against	phrase	B1.1	MWU	
+en cuanto a	as for	phrase	B1.1	MWU|comparison	remove:glue
+en efecto	indeed	phrase	B1.1	MWU	
 en el ínterin	in the meantime	phrase	B1.1	MWU|time	
-en función de	depending on	phrase	B1.1	MWU|philosophy	
-en primer lugar	first of all	connector	B1.1	MWU|discourse|philosophy	remove:glue
-en realidad	actually	phrase	B1.1	MWU|discourse|philosophy	remove:glue
-en relación con	in relation to	phrase	B1.1	MWU|philosophy	
-en resumen	in summary	connector	B1.1	MWU|discourse|philosophy	remove:glue
-en segundo lugar	secondly	connector	B1.1	MWU|discourse|philosophy	remove:glue
-en tanto que	while	phrase	B1.1	MWU|comparison|philosophy|time	remove:glue
-en torno a	around (topic)	phrase	B1.1	MWU|philosophy	
-en vez de	instead of	phrase	B1.1	MWU|discourse|philosophy	remove:glue
+en función de	depending on	phrase	B1.1	MWU	
+en primer lugar	first of all	connector	B1.1	MWU|discourse	remove:glue
+en realidad	actually	phrase	B1.1	MWU|discourse	remove:glue
+en relación con	in relation to	phrase	B1.1	MWU	
+en resumen	in summary	connector	B1.1	MWU|discourse	remove:glue
+en segundo lugar	secondly	connector	B1.1	MWU|discourse	remove:glue
+en tanto que	while	phrase	B1.1	MWU|comparison|time	remove:glue
+en torno a	around (topic)	phrase	B1.1	MWU	
+en vez de	instead of	phrase	B1.1	MWU|discourse	remove:glue
 encuesta	poll, survey	noun	B1.1		
 energía eólica	wind energy	phrase	B1.1	MWU	
 energía renovable	renewable energy	phrase	B1.1	MWU	
@@ -2430,10 +2430,10 @@ enfermedad aguda	acute disease	phrase	B1.1	MWU
 enfermedad crónica	chronic disease	phrase	B1.1	MWU	
 enfermedad terminal	terminal illness	phrase	B1.1	MWU	
 enfoque	approach	noun	B1.1	education|work	
-enormemente	enormously	adv	B1.1	philosophy	
+enormemente	enormously	adv	B1.1		
 enseñanza primaria	primary education	phrase	B1.1	MWU	
 enseñanza secundaria	secondary education	phrase	B1.1	MWU	
-enteramente	entirely	adv	B1.1	philosophy	
+enteramente	entirely	adv	B1.1		
 entrenador	coach	noun	B1.1		
 entrenamiento	training	noun	B1.1		
 entretenimiento	entertainment	adj	B1.1		
@@ -2444,11 +2444,11 @@ envidia	envy	noun	B1.1
 epidemia	epidemic	adj	B1.1		
 equilibrio	balance	adj	B1.1	health	
 erupción volcánica	volcanic eruption	phrase	B1.1	MWU	
-esclavitud	slavery	noun	B1.1	philosophy	
+esclavitud	slavery	noun	B1.1		
 esculpir	to sculpt	verb	B1.1	media	
 escultura	sculpture	noun	B1.1	media	
 escáner	scanner	verb	B1.1		incorrect POS
-esencial	essential	adj	B1.1	philosophy	
+esencial	essential	adj	B1.1		
 esforzarse	to make an effort	verb	B1.1	reflexive|work	
 esfuerzo	effort	noun	B1.1	work	
 especialista	specialist	adj	B1.1		
@@ -2462,9 +2462,9 @@ estabilidad	stability	noun	B1.1	health
 estado	state	noun	B1.1	society	
 estado mental	mental state	phrase	B1.1	MWU|health	
 estadística	statistics	adj	B1.1	education	
-estar a punto de	to be about to	phrase	B1.1	MWU|philosophy	
+estar a punto de	to be about to	phrase	B1.1	MWU	
 estereotipo	stereotype	noun	B1.1		
-estimar	to estimate, to esteem	verb	B1.1	education|health|philosophy	
+estimar	to estimate, to esteem	verb	B1.1	education|health	
 estrategia	strategy	noun	B1.1	work	
 estructura	structure	noun	B1.1		
 estrés	stress	noun	B1.1		
@@ -2475,15 +2475,15 @@ evaluación	evaluation	adj	B1.1	education
 evaluación continua	continuous assessment	phrase	B1.1	MWU	
 eventualmente	eventually	adv	B1.1	time	
 evidencia	evidence	noun	B1.1	education	
-evidenciar	to evidence	verb	B1.1	education|philosophy|tech	
-evidente	evident	adj	B1.1	philosophy	
-exactamente	exactly	adv	B1.1	philosophy	
+evidenciar	to evidence	verb	B1.1	education|tech	
+evidente	evident	adj	B1.1		
+exactamente	exactly	adv	B1.1		
 exacto	exact	adj	B1.1	education|tech	
 examen escrito	written exam	phrase	B1.1	MWU	
 examen final	final exam	phrase	B1.1	MWU	
 examen oral	oral exam	phrase	B1.1	MWU	remove:glue
 examen parcial	midterm exam	phrase	B1.1	MWU	
-excepcional	exceptional	adj	B1.1	philosophy	
+excepcional	exceptional	adj	B1.1		
 excluido	excluded	adj	B1.1	society	
 exclusión	exclusion	noun	B1.1	society	
 exhaustivo	exhaustive	adj	B1.1	education	
@@ -2502,18 +2502,18 @@ expresivo	expressive	adj	B1.1	media
 expresión	expression	noun	B1.1	media	
 expresión artística	artistic expression	phrase	B1.1	MWU	
 extranjería	immigration office, status	adj	B1.1		
-extraordinariamente	extraordinarily	adv	B1.1	philosophy	
-extraordinario	extraordinary	adj	B1.1	media|philosophy	
+extraordinariamente	extraordinarily	adv	B1.1		
+extraordinario	extraordinary	adj	B1.1	media	
 extremista	extremist	noun	B1.1		
 fabricar	to manufacture	verb	B1.1	tech	
 factor	factor	noun	B1.1	education	
 facultad	faculty	noun	B1.1		
 fascinación	fascination	noun	B1.1	health	
-fe	faith	noun	B1.1	philosophy	
+fe	faith	noun	B1.1		
 fervientemente	fervently	adv	B1.1	health	
 filmar	to film	verb	B1.1	media	
-filosófico	philosophical	adj	B1.1	philosophy	
-fin	end, purpose	noun	B1.1	philosophy	
+filosófico	philosophical	adj	B1.1		
+fin	end, purpose	noun	B1.1		
 fisioterapeuta	physiotherapist	noun	B1.1		
 flexibilidad	flexibility	noun	B1.1	health	
 fomentar	to foster	verb	B1.1	society	
@@ -2526,11 +2526,11 @@ fracaso	failure	noun	B1.1
 frustración	frustration	noun	B1.1		
 fuente	source	noun	B1.1		
 fuerza	strength	noun	B1.1		
-fundación	foundation	noun	B1.1	philosophy	
+fundación	foundation	noun	B1.1		
 fundamentación	foundation	noun	B1.1	education	
-fundamental	fundamental	adj	B1.1	philosophy	
-fundamentar	to base	verb	B1.1	education|philosophy	
-fundamento	foundation	noun	B1.1	philosophy	
+fundamental	fundamental	adj	B1.1		
+fundamentar	to base	verb	B1.1	education	
+fundamento	foundation	noun	B1.1		
 gabinete	cabinet	noun	B1.1		
 generosidad	generosity	noun	B1.1	health	
 genio	genius	noun	B1.1		
@@ -2544,9 +2544,9 @@ gratitud	gratitude	noun	B1.1
 habilidades	skills	noun	B1.1		
 hardware	hardware	noun	B1.1	tech	
 herramienta	tool	adv	B1.1		incorrect POS
-hipótesis	hypothesis	noun	B1.1	education|philosophy|tech	
+hipótesis	hypothesis	noun	B1.1	education|tech	
 homofobia	homophobia	noun	B1.1		
-honestidad	honesty	noun	B1.1	philosophy	
+honestidad	honesty	noun	B1.1		
 horario flexible	flexible schedule	phrase	B1.1	MWU	
 horas extraordinarias	overtime	phrase	B1.1	MWU	
 huelga	strike	noun	B1.1		
@@ -2558,11 +2558,11 @@ identidad	identity	adj	B1.1	health
 identidad cultural	cultural identity	phrase	B1.1	MWU	
 ideología	ideology	noun	B1.1		
 idolatrar	to idolize	verb	B1.1	health	
-ignorancia	ignorance	noun	B1.1	philosophy	
-igualdad	equality	adj	B1.1	philosophy	
-ilógico	illogical	adj	B1.1	philosophy	
+ignorancia	ignorance	noun	B1.1		
+igualdad	equality	adj	B1.1		
+ilógico	illogical	adj	B1.1		
 imaginación	imagination	noun	B1.1	media	
-imaginar	to imagine	verb	B1.1	philosophy	
+imaginar	to imagine	verb	B1.1		
 imaginativo	imaginative	adj	B1.1	media	
 impaciencia	impatience	noun	B1.1		
 imparcial	impartial	adj	B1.1	education	
@@ -2570,17 +2570,17 @@ impuesto sobre la renta	income tax	phrase	B1.1	MWU
 impulsar	to drive	verb	B1.1	society|work	
 incluido	included	adj	B1.1	society	
 inclusión	inclusion	noun	B1.1	society	
-incoherente	incoherent	adv	B1.1	philosophy	incorrect POS
+incoherente	incoherent	adv	B1.1		incorrect POS
 inconsciencia	unconsciousness	adj	B1.1	health	
-inconsistente	inconsistent	adj	B1.1	philosophy	
-increíblemente	incredibly	adv	B1.1	philosophy	
+inconsistente	inconsistent	adj	B1.1		
+increíblemente	incredibly	adv	B1.1		
 indemnización	compensation	noun	B1.1		
 indiferencia	indifference	noun	B1.1	health	
 indignación	indignation	noun	B1.1	health	
-inducir	to induce	verb	B1.1	philosophy	
+inducir	to induce	verb	B1.1		
 inesperadamente	unexpectedly	adv	B1.1	time	
 inestabilidad	instability	noun	B1.1	health	
-inferir	to infer	verb	B1.1	education|philosophy	
+inferir	to infer	verb	B1.1	education	
 inflación	inflation	noun	B1.1		
 influir	to influence	verb	B1.1	media	
 información	information	noun	B1.1		
@@ -2589,7 +2589,7 @@ injusto	unfair	adj	B1.1	society
 inmadurez	immaturity	noun	B1.1	health	
 inmigración	immigration	noun	B1.1		
 innovación	innovation	noun	B1.1	tech	
-innovador	innovative	adj	B1.1	media|philosophy|tech|work	
+innovador	innovative	adj	B1.1	media|tech|work	
 innovar	to innovate	verb	B1.1	tech|work	
 insistir	to insist	verb	B1.1	work	
 inspiración	inspiration	noun	B1.1	health|media|work	
@@ -2598,23 +2598,23 @@ instrumento	instrument	adj	B1.1	media
 integrado	integrated	adj	B1.1	society	
 intelectual	intellectual	adj	B1.1	education	
 inteligencia artificial	artificial intelligence	phrase	B1.1	MWU|tech	
-intentar	to try	verb	B1.1	philosophy	
-interpretación	interpretation, performance	noun	B1.1	education|media|philosophy	
-interpretar	to interpret	verb	B1.1	education|media|philosophy	
+intentar	to try	verb	B1.1		
+interpretación	interpretation, performance	noun	B1.1	education|media	
+interpretar	to interpret	verb	B1.1	education|media	
 intolerante	intolerant	adj	B1.1	society	
 inundación	flood	noun	B1.1		
 inventar	to invent	verb	B1.1	tech|work	
 invento	invention	adj	B1.1		
 investigación	research	noun	B1.1	education	
 investigación científica	scientific research	phrase	B1.1	MWU|tech	
-inválido	invalid	adj	B1.1	philosophy	
+inválido	invalid	adj	B1.1		
 ira	anger	noun	B1.1		
-irrazonable	unreasonable	adj	B1.1	philosophy	
+irrazonable	unreasonable	adj	B1.1		
 jubilación	retirement	adj	B1.1		
 jugador	player	noun	B1.1		
-juicio	trial, judgment	adj	B1.1	philosophy	
+juicio	trial, judgment	adj	B1.1		
 justificación	justification	adv	B1.1	education	
-justificar	to justify	verb	B1.1	education|philosophy	
+justificar	to justify	verb	B1.1	education	
 justo	fair	adj	B1.1	society	
 lealtad	loyalty	adj	B1.1		
 lector	reader	noun	B1.1		
@@ -2623,14 +2623,14 @@ lesión	injury	noun	B1.1
 liberal	liberal	adj	B1.1	society	
 libre	free	adj	B1.1	society	
 licenciatura	bachelor's degree	noun	B1.1		
-llegar a	to manage to	phrase	B1.1	MWU|philosophy	
-llevar + gerund	to have been doing	phrase	B1.1	MWU|philosophy	
-lo cual	which (referring to idea)	phrase	B1.1	MWU|philosophy	
-lo que	what, that which	phrase	B1.1	MWU|comparison|philosophy	
-lograr	to manage to, to achieve	verb	B1.1	philosophy|work	
+llegar a	to manage to	phrase	B1.1	MWU	
+llevar + gerund	to have been doing	phrase	B1.1	MWU	
+lo cual	which (referring to idea)	phrase	B1.1	MWU	
+lo que	what, that which	phrase	B1.1	MWU|comparison	
+lograr	to manage to, to achieve	verb	B1.1	work	
 logro	achievement	adj	B1.1	work	
 luchar	to fight	verb	B1.1	society|work	
-lógico	logical	adj	B1.1	philosophy	
+lógico	logical	adj	B1.1		
 madurez	maturity	noun	B1.1	health	
 magnífico	magnificent	adj	B1.1	media	
 maldad	evil, malice	adj	B1.1	health	
@@ -2648,9 +2648,9 @@ mediocre	mediocre	adj	B1.1	media
 medir	to measure	verb	B1.1	education|tech	
 melancolía	melancholy	noun	B1.1	health	
 mente	mind	adv	B1.1	health	incorrect POS
-mentira	lie	noun	B1.1	philosophy	
+mentira	lie	noun	B1.1		
 merecer	to deserve	verb	B1.1	work	
-meta	goal	adj	B1.1	philosophy|work	
+meta	goal	adj	B1.1	work	
 metodología	methodology	noun	B1.1	education	
 metodológico	methodological	adj	B1.1	education	
 metáfora	metaphor	noun	B1.1	education	
@@ -2663,7 +2663,7 @@ modelización	modeling	noun	B1.1	tech
 monarquía	monarchy	noun	B1.1	society	
 mostrar	to show	verb	B1.1	media	
 motivación	motivation	noun	B1.1	work	
-movimiento	movement	adj	B1.1	philosophy	
+movimiento	movement	adj	B1.1		
 muestra	sample, display	noun	B1.1	education|media	
 musical	musical	adj	B1.1	media	
 máquina	machine	noun	B1.1		
@@ -2675,23 +2675,23 @@ nación	nation	noun	B1.1	society
 nanotecnología	nanotechnology	noun	B1.1	tech	
 negociación	negotiation	noun	B1.1	work	
 neutral	neutral	adj	B1.1	education	
-no obstante	nevertheless	phrase	B1.1	MWU|discourse|philosophy|time	remove:glue
-noción	notion	noun	B1.1	philosophy	
-normal	normal	adj	B1.1	philosophy	
+no obstante	nevertheless	phrase	B1.1	MWU|discourse|time	remove:glue
+noción	notion	noun	B1.1		
+normal	normal	adj	B1.1		
 nostalgia	nostalgia	adj	B1.1	health	
-notablemente	notably	adv	B1.1	philosophy	
+notablemente	notably	adv	B1.1		
 noticia	news	noun	B1.1		
 novato	novice	adj	B1.1	work	
 objeción	objection	noun	B1.1	education	
 objetar	to object	verb	B1.1	education	
-objetivo	objective, goal	adj	B1.1	education|philosophy|tech|work	
-obligaciones	obligations	noun	B1.1	philosophy	
+objetivo	objective, goal	adj	B1.1	education|tech|work	
+obligaciones	obligations	noun	B1.1		
 obra de arte	artwork	phrase	B1.1	MWU	remove:glue
 obra literaria	literary work	phrase	B1.1	MWU|media	remove:glue
 observar	to observe	verb	B1.1	education|tech	
 obsesión	obsession	noun	B1.1	health	
 obtener	to obtain	verb	B1.1	work	
-obvio	obvious	adj	B1.1	philosophy	
+obvio	obvious	adj	B1.1		
 ocasionalmente	occasionally	adv	B1.1	time	
 oftalmólogo	ophthalmologist	adj	B1.1		
 olímpico	Olympic	adj	B1.1		
@@ -2700,14 +2700,14 @@ opinión pública	public opinion	phrase	B1.1	MWU
 oponerse	to oppose	verb	B1.1	reflexive|society	
 oprimido	oppressed	adj	B1.1	society	
 optimizar	to optimize	verb	B1.1	tech|work	
-ordinario	ordinary	adj	B1.1	philosophy	
+ordinario	ordinary	adj	B1.1		
 orgánico	organic	adj	B1.1		
 orientador	counselor	noun	B1.1		
 paciencia	patience	noun	B1.1		
 pacífico	peaceful	adj	B1.1	society	
 padecer	to suffer	verb	B1.1	health	
 pandemia	pandemic	adj	B1.1		
-para que	so that	connector	B1.1	MWU|comparison|discourse|philosophy	remove:glue
+para que	so that	connector	B1.1	MWU|comparison|discourse	remove:glue
 paralelamente	in parallel	adv	B1.1	time	
 paraolímpico	Paralympic	adj	B1.1		
 parcial	partial	adj	B1.1	education	
@@ -2717,9 +2717,9 @@ pasión	passion	noun	B1.1	health
 patrimonio	heritage	noun	B1.1		
 paulatinamente	gradually	adv	B1.1	time	
 pediatra	pediatrician	adj	B1.1		
-pensar	to think	verb	B1.1	philosophy	
+pensar	to think	verb	B1.1		
 perdonar	to forgive	verb	B1.1	health	
-perfectamente	perfectly	adv	B1.1	philosophy	
+perfectamente	perfectly	adv	B1.1		
 pericia	expertise	noun	B1.1	work	
 periodista	journalist	adj	B1.1		
 permanentemente	permanently	adv	B1.1	time	
@@ -2733,19 +2733,19 @@ pieza	piece	noun	B1.1	media
 plagio	plagiarism	noun	B1.1		
 plataforma	platform	noun	B1.1	tech	
 plazo	deadline, term	noun	B1.1		
-plenamente	fully	adv	B1.1	philosophy	
+plenamente	fully	adv	B1.1		
 población	population	noun	B1.1	education|society	
 podcast	podcast	noun	B1.1		
 político	politician, political	adj	B1.1	society	
-ponerse a	to start doing	phrase	B1.1	MWU|philosophy	
-por consiguiente	consequently	connector	B1.1	MWU|discourse|philosophy	remove:glue
-por el contrario	on the contrary	phrase	B1.1	MWU|philosophy	
-por medio de	by means of	phrase	B1.1	MWU|philosophy	
-por último	finally	connector	B1.1	MWU|discourse|philosophy	remove:glue
+ponerse a	to start doing	phrase	B1.1	MWU	
+por consiguiente	consequently	connector	B1.1	MWU|discourse	remove:glue
+por el contrario	on the contrary	phrase	B1.1	MWU	
+por medio de	by means of	phrase	B1.1	MWU	
+por último	finally	connector	B1.1	MWU|discourse	remove:glue
 posteriormente	subsequently	adv	B1.1	time	
 postgrado	postgraduate	noun	B1.1		
 poético	poetic	adj	B1.1	media	
-precisamente	precisely	adv	B1.1	philosophy	
+precisamente	precisely	adv	B1.1		
 preciso	precise	adj	B1.1	education|tech	
 prejuicio	prejudice	adj	B1.1	society	
 prensa	press	noun	B1.1		
@@ -2755,17 +2755,17 @@ presentación	presentation	adj	B1.1	media
 presentador	presenter, host	adj	B1.1		
 preservar	to preserve	verb	B1.1		
 presidente	president	adj	B1.1	society	
-presumir	to presume	verb	B1.1	philosophy	
+presumir	to presume	verb	B1.1		
 presupuesto	budget	noun	B1.1		
-pretender	to intend	verb	B1.1	philosophy	
+pretender	to intend	verb	B1.1		
 previamente	previously	adv	B1.1	time	
-primitivo	primitive	adj	B1.1	philosophy	
+primitivo	primitive	adj	B1.1		
 principiante	beginner	adj	B1.1	work	
-principios	principles	noun	B1.1	philosophy	
+principios	principles	noun	B1.1		
 proactivo	proactive	adj	B1.1	work	
 problema social	social problem	phrase	B1.1	MWU|society	
 proceso	process	noun	B1.1		
-procurar	to try	verb	B1.1	philosophy	
+procurar	to try	verb	B1.1		
 programa informático	software	phrase	B1.1	MWU	
 programar	to program	verb	B1.1	tech	
 progresar	to progress	verb	B1.1	work	
@@ -2775,7 +2775,7 @@ promesa	promise	noun	B1.1
 promover	to promote	verb	B1.1	society	
 pronóstico	prognosis	noun	B1.1		
 propaganda	propaganda	noun	B1.1		
-propósito	purpose	noun	B1.1	philosophy	
+propósito	purpose	noun	B1.1		
 prosa	prose	noun	B1.1	media	
 proteger	to protect	verb	B1.1	society	
 protestar	to protest	verb	B1.1	society	
@@ -2783,16 +2783,16 @@ préstamo estudiantil	student loan	phrase	B1.1	MWU
 psiquiatra	psychiatrist	noun	B1.1		
 publicar	to publish	verb	B1.1	media	
 quienquiera	whoever	pron	B1.1	glue	add:glue
-racionalidad	rationality	adj	B1.1	philosophy	
+racionalidad	rationality	adj	B1.1		
 racismo	racism	noun	B1.1	society	
 radical	radical	adj	B1.1		
 radiografía	X-ray	noun	B1.1		
-razonable	reasonable	adj	B1.1	philosophy	
-razonar	to reason	verb	B1.1	philosophy	
+razonable	reasonable	adj	B1.1		
+razonar	to reason	verb	B1.1		
 real	real	adj	B1.1	tech	
 realidad aumentada	augmented reality	phrase	B1.1	MWU	
 realidad virtual	virtual reality	phrase	B1.1	MWU	
-rebatir	to refute, to rebut	verb	B1.1	education|philosophy	
+rebatir	to refute, to rebut	verb	B1.1	education	
 rebeldía	rebellion	noun	B1.1	health	
 receptor	receiver	adj	B1.1		
 recesión	recession	noun	B1.1		
@@ -2806,14 +2806,14 @@ redacción	writing	noun	B1.1	media
 reducir	to reduce	verb	B1.1		
 referencias	references	noun	B1.1		
 refinado	refined	adj	B1.1	media	
-reflexionar	to reflect	verb	B1.1	philosophy	
+reflexionar	to reflect	verb	B1.1		
 reforestación	reforestation	noun	B1.1		
 refugiado	refugee	noun	B1.1		
-refutar	to refute	verb	B1.1	education|philosophy	
+refutar	to refute	verb	B1.1	education	
 reglamento	regulation	noun	B1.1		
 rehabilitación	rehabilitation	noun	B1.1		
 reivindicar	to demand	verb	B1.1	society	
-relativamente	relatively	adv	B1.1	philosophy	
+relativamente	relatively	adv	B1.1		
 relato	story	noun	B1.1	media	
 rencor	grudge	noun	B1.1	health	
 rencor	to hold a grudge	verb	B1.1	health	
@@ -2839,53 +2839,53 @@ robotización	robotization	noun	B1.1	tech
 robótica	robotics	adj	B1.1		
 rueda de prensa	press conference	phrase	B1.1	MWU	
 récord	record	noun	B1.1		
-sabiduría	wisdom	noun	B1.1	philosophy	
+sabiduría	wisdom	noun	B1.1		
 saborear	to savor	verb	B1.1	health	
 salud mental	mental health	phrase	B1.1	MWU|health	
 salvajemente	savagely	adv	B1.1	health	
-salvo que	except that, unless	phrase	B1.1	MWU|comparison|philosophy	
+salvo que	except that, unless	phrase	B1.1	MWU|comparison	
 satisfacción	satisfaction	noun	B1.1		
 seguidor	follower	noun	B1.1		
-seguir + gerund	to keep doing	phrase	B1.1	MWU|philosophy	
+seguir + gerund	to keep doing	phrase	B1.1	MWU	
 seguridad social	social security	phrase	B1.1	MWU	
 semestre	semester	noun	B1.1		
 seminario	seminar	noun	B1.1		
 senado	senate	noun	B1.1		
 senador	senator	noun	B1.1	society	
-sencillo	simple	adj	B1.1	philosophy	
+sencillo	simple	adj	B1.1		
 sensibilidad	sensitivity	noun	B1.1		
 sentencia	sentence, verdict	adj	B1.1		
 sequía	drought	noun	B1.1		
 sesgado	biased	adj	B1.1	education	
 sexismo	sexism	noun	B1.1	society	
-significado	meaning	noun	B1.1	philosophy	
-significativamente	significantly	adv	B1.1	philosophy	
+significado	meaning	noun	B1.1		
+significativamente	significantly	adv	B1.1		
 simpatía	sympathy	noun	B1.1	health	
 simulación	simulation	noun	B1.1	tech	
 simular	to simulate	verb	B1.1	tech|time	
 simultáneamente	simultaneously	adv	B1.1	time	
-sinceridad	sincerity	noun	B1.1	philosophy|time	
+sinceridad	sincerity	noun	B1.1	time	
 sindicato	union	noun	B1.1		
-sintetizar	to synthesize	verb	B1.1	education|philosophy	
+sintetizar	to synthesize	verb	B1.1	education	
 sistema	system	noun	B1.1	tech	
 sistema inmune	immune system	phrase	B1.1	MWU	
 sistemático	systematic	adj	B1.1	education|tech	
 sobresalir	to excel	verb	B1.1	work	
 social	social	adj	B1.1	society	
-sofisticado	sophisticated	adj	B1.1	media|philosophy|tech	
+sofisticado	sophisticated	adj	B1.1	media|tech	
 solicitud de empleo	job application	phrase	B1.1	MWU	
 solidaridad	solidarity	noun	B1.1	society	
 solidario	supportive	adj	B1.1	society	
-sostener	to maintain	verb	B1.1	education|philosophy	
+sostener	to maintain	verb	B1.1	education	
 sostenible	sustainable	adj	B1.1		
 subconsciencia	subconscious, subconsciousness	adj	B1.1	health	
 subjetivo	subjective	adj	B1.1	education	
 sublime	sublime	adj	B1.1	media	
 sufrir	to suffer	verb	B1.1	health	
-sumamente	extremely	adv	B1.1	philosophy	
+sumamente	extremely	adv	B1.1		
 superar	to overcome	verb	B1.1	work	
 supervisión	supervision	noun	B1.1	work	
-suponer	to suppose	verb	B1.1	philosophy	
+suponer	to suppose	verb	B1.1		
 suscriptor	subscriber	noun	B1.1		
 sustentación	support	noun	B1.1	education	
 sustentar	to support	verb	B1.1	education	
@@ -2897,14 +2897,14 @@ tecnológico	technological	adj	B1.1	tech
 teletrabajo	remote work	noun	B1.1		
 tema	theme	noun	B1.1	media	
 temporalmente	temporarily	adv	B1.1	time	
-tender a	to tend to	phrase	B1.1	MWU|philosophy	
-teoría	theory	noun	B1.1	education|philosophy|tech	
+tender a	to tend to	phrase	B1.1	MWU	
+teoría	theory	noun	B1.1	education|tech	
 terapia	therapy	noun	B1.1		
 ternura	tenderness	noun	B1.1		
 terremoto	earthquake	noun	B1.1		
 territorio	territory	noun	B1.1		
 tertulia	talk show, discussion	adj	B1.1		
-tesis	thesis	noun	B1.1	education|philosophy	
+tesis	thesis	noun	B1.1	education	
 tiernamente	tenderly	adv	B1.1	health	
 tolerancia	tolerance	noun	B1.1		
 tolerante	tolerant	adj	B1.1	society	
@@ -2915,12 +2915,12 @@ torneo	tournament	adj	B1.1
 trabajo duro	hard work	phrase	B1.1	MWU|work	remove:glue
 trabajo en grupo	group work	phrase	B1.1	MWU	remove:glue
 trabajo individual	individual work	phrase	B1.1	MWU	remove:glue
-tradicional	traditional	adj	B1.1	media|philosophy|society	
+tradicional	traditional	adj	B1.1	media|society	
 traición	betrayal	adj	B1.1		
 transplante	transplant	adj	B1.1		
 tratamiento	treatment	adj	B1.1		
 trayectoria	trajectory, path	noun	B1.1	work	
-tremendamente	tremendously	adv	B1.1	philosophy	
+tremendamente	tremendously	adv	B1.1		
 tribunal	court	noun	B1.1		
 trimestre	trimester, quarter	noun	B1.1		
 tristeza	sadness	noun	B1.1		
@@ -2930,13 +2930,13 @@ tutor	tutor	noun	B1.1
 táctica	tactic	adj	B1.1	work	
 técnica	technique	noun	B1.1	media|work	
 técnico	technical	adj	B1.1	tech	
-típico	typical	adj	B1.1	philosophy	
+típico	typical	adj	B1.1		
 tóxico	toxic	adj	B1.1		
 ulteriormente	later	adv	B1.1	time	
 urna	ballot box	adj	B1.1		
 vacuna	vaccine	noun	B1.1		
-validar	to validate	verb	B1.1	education|philosophy|tech	
-valor	courage, value	adj	B1.1	philosophy	
+validar	to validate	verb	B1.1	education|tech	
+valor	courage, value	adj	B1.1		
 valoración	assessment	adj	B1.1	education	
 valorar	to value, to assess	verb	B1.1	education|health|society	
 vanguardista	avant-garde	adj	B1.1	media	
@@ -2946,7 +2946,7 @@ velocidad	speed	noun	B1.1
 vencer	to overcome	verb	B1.1	work	
 venerar	to venerate	verb	B1.1	health	
 vengarse	to take revenge	verb	B1.1	health|reflexive	
-verificar	to verify	verb	B1.1	education|philosophy|tech	
+verificar	to verify	verb	B1.1	education|tech	
 vertedero	landfill	noun	B1.1		
 veterano	veteran	adj	B1.1	work	
 victoria	victory	adj	B1.1		
@@ -2959,12 +2959,12 @@ visionario	visionary	adj	B1.1	work
 visual	visual	adj	B1.1	media	
 voto	vote	noun	B1.1	society	
 vulgar	vulgar	verb	B1.1	media	incorrect POS
-válido	valid	adj	B1.1	philosophy	
+válido	valid	adj	B1.1		
 xenofobia	xenophobia	noun	B1.1		
-ya que	since	phrase	B1.1	MWU|comparison|philosophy|time	remove:glue
+ya que	since	phrase	B1.1	MWU|comparison|time	remove:glue
 árbitro	referee	noun	B1.1		
 éxito	success	noun	B1.1	work	
-único	unique	adj	B1.1	philosophy	
+único	unique	adj	B1.1		
 acciones	shares, stocks	noun	B1.2		
 accionista	shareholder	noun	B1.2		
 actitud	attitude	noun	B1.2	health	
@@ -3053,7 +3053,7 @@ descanso	rest	noun	B1.2
 deseo	desire	noun	B1.2	health	
 desertificación	desertification	adj	B1.2		
 deshidratación	dehydration	noun	B1.2		
-dictadura	dictatorship	adj	B1.2	philosophy|society	
+dictadura	dictatorship	adj	B1.2	society	
 dieta	diet	noun	B1.2		
 digestión	digestion	noun	B1.2		
 dirección	direction, management	adj	B1.2	work	
@@ -3115,7 +3115,7 @@ homeopatía	homeopathy	noun	B1.2
 horario de llegada	arrival schedule	phrase	B1.2	MWU	
 horario de salida	departure schedule	phrase	B1.2	MWU	
 hábito	habit	noun	B1.2		
-idea	idea	noun	B1.2	philosophy	
+idea	idea	noun	B1.2		
 idealista	idealistic	adj	B1.2		
 importación	import	noun	B1.2		
 improvisación	improvisation	noun	B1.2		
@@ -3125,25 +3125,25 @@ incentivo	incentive	adj	B1.2
 inconsciente	unconscious	adj	B1.2	health	
 incumplimiento	non-compliance	noun	B1.2		
 ingresos	income	noun	B1.2		
-injusticia	injustice	adv	B1.2	philosophy|society	incorrect POS
+injusticia	injustice	adv	B1.2	society	incorrect POS
 inmaduro	immature	noun	B1.2		
 inmigrar	to immigrate	verb	B1.2		
 inmunidad	immunity	noun	B1.2		
 insomnio	insomnia	noun	B1.2		
-inteligencia	intelligence	noun	B1.2	philosophy	
+inteligencia	intelligence	noun	B1.2		
 interés compuesto	compound interest	phrase	B1.2	MWU	
 introvertido	introverted	noun	B1.2		
-intuición	intuition	noun	B1.2	philosophy	
+intuición	intuition	noun	B1.2		
 inversión	investment	adj	B1.2		
 invitado	guest	noun	B1.2		
-irracional	irrational	adj	B1.2	philosophy	
+irracional	irrational	adj	B1.2		
 itinerario	itinerary	adj	B1.2		
 jet lag	jet lag	phrase	B1.2	MWU	
 lectura	reading	noun	B1.2		
 letra	lyrics	adj	B1.2		
 liderazgo	leadership	noun	B1.2	society|work	
 lluvia ácida	acid rain	phrase	B1.2	MWU	
-lógica	logic	adj	B1.2	philosophy	
+lógica	logic	adj	B1.2		
 maduro	mature	noun	B1.2		
 malnutrición	malnutrition	adj	B1.2		
 marginación	marginalization	adj	B1.2	society	
@@ -3166,7 +3166,7 @@ multinacional	multinational	adj	B1.2
 músico	musician	adj	B1.2		
 narrador	narrator	noun	B1.2	media	
 nativo	native	adj	B1.2		
-necesidad	need, necessity	noun	B1.2	philosophy|society	
+necesidad	need, necessity	noun	B1.2	society	
 negociación colectiva	collective bargaining	phrase	B1.2	MWU	
 nivel	level	noun	B1.2		
 nutrición	nutrition	noun	B1.2		
@@ -3185,9 +3185,9 @@ pasajero frecuente	frequent flyer	phrase	B1.2	MWU
 pasatiempo	hobby, pastime	noun	B1.2		
 pasivo	passive	adj	B1.2		
 patrocinio	sponsorship	noun	B1.2		
-pensamiento	thought	noun	B1.2	philosophy	
+pensamiento	thought	noun	B1.2		
 pensión completa	full board	phrase	B1.2	MWU	
-percepción	perception	noun	B1.2	philosophy	
+percepción	perception	noun	B1.2		
 personalidad	personality	adj	B1.2	health	
 planificación	planning	noun	B1.2	work	
 poema	poem	noun	B1.2	media	
@@ -3210,9 +3210,9 @@ publicación	publication	adj	B1.2
 puerta de embarque	boarding gate	phrase	B1.2	MWU	
 póliza	policy	adj	B1.2		
 quiropráctica	chiropractic	adj	B1.2		
-racional	rational	adj	B1.2	philosophy	
+racional	rational	adj	B1.2		
 rating	rating	noun	B1.2		
-razonamiento	reasoning	noun	B1.2	education|philosophy	
+razonamiento	reasoning	noun	B1.2	education	
 reactivación	recovery, reactivation	noun	B1.2		
 realista	realistic	adj	B1.2		
 reality show	reality show	phrase	B1.2	MWU	
@@ -3235,7 +3235,7 @@ rutina	routine	noun	B1.2
 rígido	rigid	noun	B1.2		
 salud	health	adj	B1.2		
 seguro	insurance	noun	B1.2		
-sensación	sensation	noun	B1.2	philosophy	
+sensación	sensation	noun	B1.2		
 sensible	sensitive	adj	B1.2		
 sistema de salud	health system	phrase	B1.2	MWU	
 sistema inmunitario	immune system	phrase	B1.2	MWU	
@@ -3276,21 +3276,21 @@ violencia	violence	noun	B1.2	society
 visión	vision	noun	B1.2		
 vitamina	vitamin	noun	B1.2		
 índice	index	noun	B1.2		
-a condición de que	on condition that	phrase	B2.1	MWU|comparison|philosophy	
-a fin de cuentas	in the end	phrase	B2.1	MWU|philosophy	
-a lo que parece	apparently	phrase	B2.1	MWU|comparison|philosophy	
-a no ser por	if it weren't for	phrase	B2.1	MWU|philosophy	remove:glue
-a no ser que	unless	phrase	B2.1	MWU|comparison|philosophy	
+a condición de que	on condition that	phrase	B2.1	MWU|comparison	
+a fin de cuentas	in the end	phrase	B2.1	MWU	
+a lo que parece	apparently	phrase	B2.1	MWU|comparison	
+a no ser por	if it weren't for	phrase	B2.1	MWU	remove:glue
+a no ser que	unless	phrase	B2.1	MWU|comparison	
 a posteriori	a posteriori	phrase	B2.1	MWU	remove:glue
 a priori	a priori	phrase	B2.1	MWU	remove:glue
-a saber	namely	phrase	B2.1	MWU|philosophy	
+a saber	namely	phrase	B2.1	MWU	
 abandono	abandonment	adj	B2.1	health	
 abducción	abduction	noun	B2.1	education	
-absolutismo	absolutism	noun	B2.1	philosophy	
-abstracción	abstraction	noun	B2.1	philosophy	
-abstraer	to abstract	verb	B2.1	philosophy	
-acaso	perhaps	adv	B2.1	philosophy	incorrect POS
-accidente	accident	adj	B2.1	philosophy	
+absolutismo	absolutism	noun	B2.1		
+abstracción	abstraction	noun	B2.1		
+abstraer	to abstract	verb	B2.1		
+acaso	perhaps	adv	B2.1		incorrect POS
+accidente	accident	adj	B2.1		
 acelerar	to accelerate	verb	B2.1	work	
 acreditación	accreditation	noun	B2.1	tech	
 acreditar	to accredit	verb	B2.1	tech	
@@ -3304,17 +3304,17 @@ administrar	to administer	verb	B2.1	work
 ADN	DNA	noun	B2.1		
 adopción tecnológica	technology adoption	phrase	B2.1	MWU|tech	
 afinidad	affinity	noun	B2.1	health	
-afirmar	to affirm	verb	B2.1	philosophy	
+afirmar	to affirm	verb	B2.1		
 agilidad estratégica	strategic agility	phrase	B2.1	MWU|work	
 agilidad organizacional	organizational agility	phrase	B2.1	MWU|work	remove:glue
 agilizar	to streamline	verb	B2.1	work	
 agujero negro	black hole	phrase	B2.1	MWU	
 ahondar	to delve into	verb	B2.1	education	
-ahora bien	now then	phrase	B2.1	MWU|philosophy|time	
+ahora bien	now then	phrase	B2.1	MWU|time	
 aislamiento	isolation	noun	B2.1	health	
 ajustar	to adjust	verb	B2.1	tech|work	
-al fin y al cabo	after all	phrase	B2.1	MWU|philosophy|time	remove:glue
-al parecer	apparently	phrase	B2.1	MWU|philosophy	
+al fin y al cabo	after all	phrase	B2.1	MWU|time	remove:glue
+al parecer	apparently	phrase	B2.1	MWU	
 alejamiento	withdrawal	adj	B2.1	health	
 alfabetización digital	digital literacy	phrase	B2.1	MWU|tech	
 alianza	alliance	adj	B2.1		
@@ -3324,11 +3324,11 @@ almacenamiento	storage	noun	B2.1
 alteridad	alterity	adj	B2.1		
 alto el fuego	ceasefire	phrase	B2.1	MWU	
 amortización	amortization	noun	B2.1		
-ampliamente	widely	adv	B2.1	philosophy	
+ampliamente	widely	adv	B2.1		
 anacronismo	anachronism	noun	B2.1		
 anarquismo	anarchism	noun	B2.1		
 anatomía	anatomy	noun	B2.1		
-ante todo	first of all	connector	B2.1	MWU|discourse|philosophy	remove:glue
+ante todo	first of all	connector	B2.1	MWU|discourse	remove:glue
 antiguo	ancient	adj	B2.1		
 antipatía	antipathy	adj	B2.1	health	
 antropología	anthropology	adj	B2.1	tech	
@@ -3343,8 +3343,8 @@ análisis factorial	factor analysis	phrase	B2.1	MWU|education	remove:glue
 análisis multivariado	multivariate analysis	phrase	B2.1	MWU|education	
 análisis univariado	univariate analysis	phrase	B2.1	MWU|education	
 apaciguarse	to calm down	verb	B2.1	health|reflexive	
-aparentemente	apparently	adv	B2.1	philosophy	
-apariencia	appearance	noun	B2.1	philosophy	
+aparentemente	apparently	adv	B2.1		
+apariencia	appearance	noun	B2.1		
 aprendizaje automático	machine learning	phrase	B2.1	MWU|tech	
 aprendizaje organizacional	organizational learning	phrase	B2.1	MWU|work	remove:glue
 aprendizaje profundo	deep learning	phrase	B2.1	MWU|tech	
@@ -3360,11 +3360,11 @@ arrebato	rapture	noun	B2.1	health
 articular	to articulate	verb	B2.1	education|time	
 astrobiología	astrobiology	noun	B2.1	tech	
 astrofísica	astrophysics	adj	B2.1	tech	
-así como	just as	phrase	B2.1	MWU|comparison|philosophy	
+así como	just as	phrase	B2.1	MWU|comparison	
 ataque	attack	noun	B2.1		
 atisbar	to catch a glimpse	verb	B2.1	health	
 auge	boom	noun	B2.1		
-aun así	even so	phrase	B2.1	MWU|philosophy	remove:glue
+aun así	even so	phrase	B2.1	MWU	remove:glue
 autenticación	authentication	adv	B2.1	time	incorrect POS
 autenticidad	authenticity	adv	B2.1	health|time	
 autoconcepto	self-concept	noun	B2.1	health	
@@ -3384,10 +3384,10 @@ balanza comercial	trade balance	phrase	B2.1	MWU
 balanza de pagos	balance of payments	phrase	B2.1	MWU	
 banco central	central bank	phrase	B2.1	MWU	
 barruntar	to suspect	verb	B2.1	health	
-base	base, alkali, basis	adj	B2.1	philosophy|reflexive	
+base	base, alkali, basis	adj	B2.1	reflexive	
 base de datos	database	phrase	B2.1	MWU|tech	
 base epistemológica	epistemological basis	phrase	B2.1	MWU|education	
-bien...bien	whether...or	conj	B2.1	philosophy	remove:glue
+bien...bien	whether...or	conj	B2.1		remove:glue
 big bang	big bang	phrase	B2.1	MWU	
 biogeografía	biogeography	noun	B2.1	tech	
 bioinformática	bioinformatics	adj	B2.1	tech	
@@ -3401,26 +3401,26 @@ bono	bond	noun	B2.1
 brainstorming	brainstorming	noun	B2.1	work	
 brecha tecnológica	technology gap	phrase	B2.1	MWU|tech	
 bueno	good	noun	B2.1		
-cabe la posibilidad de que	there's a possibility that	phrase	B2.1	MWU|comparison|philosophy	
+cabe la posibilidad de que	there's a possibility that	phrase	B2.1	MWU|comparison	
 calibración	calibration	adj	B2.1	tech	
 calibrar	to calibrate	verb	B2.1	tech	
 calmarse	to calm down	verb	B2.1	health|reflexive	
 cambio organizacional	organizational change	phrase	B2.1	MWU|work	remove:glue
-cantidad	quantity	adj	B2.1	philosophy	
+cantidad	quantity	adj	B2.1		
 capacidad organizacional	organizational capability	phrase	B2.1	MWU|work	remove:glue
 capital intelectual	intellectual capital	phrase	B2.1	MWU|work	
 capitalismo	capitalism	adj	B2.1		
 capitalización	capitalization	adj	B2.1		
 capitalizar	to capitalize	verb	B2.1	work	
 caracterizar	to characterize	verb	B2.1	education	
-característico	characteristic	adj	B2.1	philosophy	
-cardinal	cardinal	adj	B2.1	philosophy	
+característico	characteristic	adj	B2.1		
+cardinal	cardinal	adj	B2.1		
 cartel	cartel	noun	B2.1		
 catalizador	catalyst	adj	B2.1		
 catarsis	catharsis	noun	B2.1	health	
-categórico	categorical	adj	B2.1	philosophy	
-causa	cause	noun	B2.1	philosophy	
-causalidad	causality	adj	B2.1	education|philosophy	
+categórico	categorical	adj	B2.1		
+causa	cause	noun	B2.1		
+causalidad	causality	adj	B2.1	education	
 centrismo	centrism	adj	B2.1		
 cercanía	closeness	noun	B2.1	health	
 certificar	to certify	verb	B2.1	tech	
@@ -3429,7 +3429,7 @@ ciberespacio	cyberspace	noun	B2.1	tech
 ciberguerra	cyberwar	noun	B2.1	tech	
 ciberseguridad	cybersecurity	noun	B2.1	tech	
 ciclo económico	economic cycle	phrase	B2.1	MWU	
-ciertamente	certainly	adv	B2.1	philosophy	
+ciertamente	certainly	adv	B2.1		
 cinemática	kinematics	adj	B2.1		
 ciudadanía digital	digital citizenship	phrase	B2.1	MWU|tech	
 civilización	civilization	noun	B2.1		
@@ -3443,7 +3443,7 @@ colonialismo	colonialism	adj	B2.1
 combinar	to combine	verb	B2.1	tech	
 comercialización	commercialization	adj	B2.1	tech	
 comercio internacional	international trade	phrase	B2.1	MWU	
-como no sea que	unless	phrase	B2.1	MWU|comparison|philosophy	
+como no sea que	unless	phrase	B2.1	MWU|comparison	
 compatibilidad	compatibility	noun	B2.1	health	
 competencia digital	digital competence	phrase	B2.1	MWU|tech	
 competitividad organizacional	organizational competitiveness	phrase	B2.1	MWU|work	remove:glue
@@ -3454,17 +3454,17 @@ computación cuántica	quantum computing	phrase	B2.1	MWU|tech
 computar	to compute	verb	B2.1	tech	
 comunidad	community	noun	B2.1		
 comunismo	communism	noun	B2.1		
-con todo	nevertheless	phrase	B2.1	MWU|discourse|philosophy|time	remove:glue
+con todo	nevertheless	phrase	B2.1	MWU|discourse|time	remove:glue
 concebir	to conceive	verb	B2.1	tech	
 concentración	concentration	adj	B2.1		
-concepto	concept	noun	B2.1	philosophy	
+concepto	concept	noun	B2.1		
 conceptualización	conceptualization	adj	B2.1	work	
-conceptualizar	to conceptualize	verb	B2.1	education|philosophy|work	
-concluyente	conclusive	adj	B2.1	philosophy	
+conceptualizar	to conceptualize	verb	B2.1	education|work	
+concluyente	conclusive	adj	B2.1		
 concretar	to make concrete	verb	B2.1	work	
 confiabilidad	reliability	noun	B2.1	education	
 conflicto	conflict	adj	B2.1	society	
-conforme	as, according to	conj	B2.1	philosophy	remove:glue
+conforme	as, according to	conj	B2.1		remove:glue
 congruencia	congruence	noun	B2.1	education|health	
 conocimiento organizacional	organizational knowledge	phrase	B2.1	MWU|time|work	remove:glue
 consecuencialismo	consequentialism	adj	B2.1		
@@ -3473,20 +3473,20 @@ conservadurismo	conservatism	noun	B2.1
 consistencia	consistency	noun	B2.1	education	
 consistencia estratégica	strategic consistency	phrase	B2.1	MWU|work	
 consonancia	consonance	noun	B2.1	health	
-conspicuo	conspicuous	adj	B2.1	philosophy	
+conspicuo	conspicuous	adj	B2.1		
 constatar	to verify	verb	B2.1	tech	
 consulta popular	popular consultation	phrase	B2.1	MWU	
 consumo	consumption	noun	B2.1		
-contemplar	to contemplate	verb	B2.1	philosophy|time	
-contemporáneo	contemporary	adj	B2.1	media|philosophy	
+contemplar	to contemplate	verb	B2.1	time	
+contemporáneo	contemporary	adj	B2.1	media	
 contextualismo	contextualism	adj	B2.1		
-contingencia	contingency	noun	B2.1	philosophy	
-contradicción	contradiction	adj	B2.1	philosophy	
+contingencia	contingency	noun	B2.1		
+contradicción	contradiction	adj	B2.1		
 contrainsurgencia	counterinsurgency	noun	B2.1		
 contrastación	contrasting	noun	B2.1	education	
 contraterrorismo	counterterrorism	noun	B2.1		
 contrato social	social contract	phrase	B2.1	MWU	
-contundente	compelling	adj	B2.1	philosophy	
+contundente	compelling	adj	B2.1		
 convergencia tecnológica	technological convergence	phrase	B2.1	MWU|tech	
 coordinar	to coordinate	verb	B2.1	work	
 corporación	corporation	noun	B2.1		
@@ -3494,10 +3494,10 @@ correcto	right, correct	noun	B2.1
 correlación	correlation	noun	B2.1	education	
 correspondencia	correspondence	noun	B2.1	health	
 corroboración	corroboration	noun	B2.1	education	
-corroborar	to corroborate	verb	B2.1	philosophy|tech	
-cosmogonía	cosmogony	noun	B2.1	philosophy	
-cosmología	cosmology	noun	B2.1	philosophy|tech	
-cosmos	cosmos	noun	B2.1	philosophy	
+corroborar	to corroborate	verb	B2.1	tech	
+cosmogonía	cosmogony	noun	B2.1		
+cosmología	cosmology	noun	B2.1	tech	
+cosmos	cosmos	noun	B2.1		
 cotejar	to compare	verb	B2.1	education	
 covarianza	covariance	noun	B2.1	education	
 creatividad empresarial	business creativity	phrase	B2.1	MWU|work	
@@ -3505,26 +3505,26 @@ crecimiento económico	economic growth	phrase	B2.1	MWU
 credibilidad	credibility	noun	B2.1	education	
 cristalizar	to crystallize	verb	B2.1	work	
 cromosoma	chromosome	noun	B2.1		
-crucial	crucial	adj	B2.1	philosophy	
-cualidad	quality	adj	B2.1	philosophy	
+crucial	crucial	adj	B2.1		
+cualidad	quality	adj	B2.1		
 cuantificar	to quantify	verb	B2.1	education|tech	
-cuanto más...tanto más	the more...the more	phrase	B2.1	MWU|comparison|philosophy	remove:glue
-cuestionar	to question	verb	B2.1	philosophy	
+cuanto más...tanto más	the more...the more	phrase	B2.1	MWU|comparison	remove:glue
+cuestionar	to question	verb	B2.1		
 cultura emprendedora	entrepreneurial culture	phrase	B2.1	MWU|work	
 cultura organizacional	organizational culture	phrase	B2.1	MWU|work	remove:glue
 célula	cell	noun	B2.1		
-de alto nivel	high-level	phrase	B2.1	MWU|philosophy	
-de gran calibre	high-caliber	phrase	B2.1	MWU|philosophy	
-de gran envergadura	large-scale	phrase	B2.1	MWU|philosophy	
-de no ser por	if it weren't for	phrase	B2.1	MWU|philosophy	remove:glue
-de primer orden	first-class	phrase	B2.1	MWU|philosophy	
-de primera	first-rate	phrase	B2.1	MWU|philosophy	
-de primera magnitud	of first magnitude	phrase	B2.1	MWU|philosophy	
-de todas formas	anyway	phrase	B2.1	MWU|philosophy	
-de todas maneras	anyway	phrase	B2.1	MWU|philosophy	
-de todos modos	anyway	phrase	B2.1	MWU|philosophy	
-de una parte...de otra	on one side...on the other	phrase	B2.1	MWU|philosophy	
-decisivo	decisive	adj	B2.1	philosophy	
+de alto nivel	high-level	phrase	B2.1	MWU	
+de gran calibre	high-caliber	phrase	B2.1	MWU	
+de gran envergadura	large-scale	phrase	B2.1	MWU	
+de no ser por	if it weren't for	phrase	B2.1	MWU	remove:glue
+de primer orden	first-class	phrase	B2.1	MWU	
+de primera	first-rate	phrase	B2.1	MWU	
+de primera magnitud	of first magnitude	phrase	B2.1	MWU	
+de todas formas	anyway	phrase	B2.1	MWU	
+de todas maneras	anyway	phrase	B2.1	MWU	
+de todos modos	anyway	phrase	B2.1	MWU	
+de una parte...de otra	on one side...on the other	phrase	B2.1	MWU	
+decisivo	decisive	adj	B2.1		
 deconstrucción	deconstruction	noun	B2.1		
 decreto	decree	noun	B2.1		
 defensa	defense	noun	B2.1		
@@ -3541,7 +3541,7 @@ desarrollo organizacional	organizational development	phrase	B2.1	MWU|work	remove
 desarrollo tecnológico	technological development	phrase	B2.1	MWU|tech	
 descifrado	decryption	noun	B2.1		
 descolonización	decolonization	noun	B2.1		
-descomponer	to decompose	verb	B2.1	education|philosophy	
+descomponer	to decompose	verb	B2.1	education	
 desconcierto	bewilderment	adj	B2.1	health	
 desempeño organizacional	organizational performance	phrase	B2.1	MWU|work	remove:glue
 desestresarse	to de-stress	verb	B2.1	health|reflexive	
@@ -3549,16 +3549,16 @@ deslumbramiento	dazzlement	adj	B2.1	health
 desmenuzar	to break down	verb	B2.1	education	
 desmilitarización	demilitarization	noun	B2.1		
 desplegar	to deploy	verb	B2.1	tech	
-después de todo	after all	phrase	B2.1	MWU|philosophy|time	remove:glue
-destacado	outstanding	adj	B2.1	philosophy	
+después de todo	after all	phrase	B2.1	MWU|time	remove:glue
+destacado	outstanding	adj	B2.1		
 desviación estándar	standard deviation	phrase	B2.1	MWU|education	remove:glue
-determinismo	determinism	noun	B2.1	philosophy	
+determinismo	determinism	noun	B2.1		
 deuda externa	external debt	phrase	B2.1	MWU	
 deuda pública	public debt	phrase	B2.1	MWU	
-devenir	becoming	verb	B2.1	philosophy	incorrect POS
-dialéctica	dialectics	adj	B2.1	philosophy	
-dicho de otro modo	in other words	phrase	B2.1	MWU|philosophy	remove:glue
-dicho esto	having said this	phrase	B2.1	MWU|philosophy	
+devenir	becoming	verb	B2.1		incorrect POS
+dialéctica	dialectics	adj	B2.1		
+dicho de otro modo	in other words	phrase	B2.1	MWU	remove:glue
+dicho esto	having said this	phrase	B2.1	MWU	
 diferenciación estratégica	strategic differentiation	phrase	B2.1	MWU|work	
 diferenciar	to differentiate	verb	B2.1	education	
 difusión tecnológica	technology diffusion	phrase	B2.1	MWU|tech	
@@ -3577,22 +3577,22 @@ disrupción tecnológica	technological disruption	phrase	B2.1	MWU|tech
 distanciamiento	distancing	noun	B2.1	health	
 distenderse	to relax	verb	B2.1	health|reflexive	
 distinguir	to distinguish	verb	B2.1	education	
-distintivo	distinctive	adj	B2.1	philosophy	
+distintivo	distinctive	adj	B2.1		
 distribución	distribution	noun	B2.1	education	
 disuasión	deterrence	noun	B2.1		
 diversidad	diversity	adj	B2.1		
 divide digital	digital divide	phrase	B2.1	MWU|tech	
 divino	divine	noun	B2.1		
 divisa	currency	noun	B2.1		
-dogmatismo	dogmatism	noun	B2.1	philosophy	
+dogmatismo	dogmatism	noun	B2.1		
 dominación	domination	noun	B2.1		
 ecología	ecology	noun	B2.1	tech	
 economía digital	digital economy	phrase	B2.1	MWU|tech	
 ecosistema digital	digital ecosystem	phrase	B2.1	MWU|tech	
 ecosistema emprendedor	entrepreneurial ecosystem	phrase	B2.1	MWU|work	
-efectivamente	effectively	adv	B2.1	philosophy	
+efectivamente	effectively	adv	B2.1		
 efectividad organizacional	organizational effectiveness	phrase	B2.1	MWU|work	remove:glue
-efecto	effect	noun	B2.1	philosophy	
+efecto	effect	noun	B2.1		
 eficiencia operacional	operational efficiency	phrase	B2.1	MWU|work	
 eficientar	to make efficient	verb	B2.1	work	
 ego	ego	noun	B2.1	health	
@@ -3602,51 +3602,51 @@ electrodinámica	electrodynamics	adj	B2.1	tech
 electromagnetismo	electromagnetism	noun	B2.1		
 elemento	element	adj	B2.1	education	
 ello	id	noun	B2.1	health	
-emblemático	emblematic	adj	B2.1	philosophy	
-eminente	eminent	adj	B2.1	philosophy	
+emblemático	emblematic	adj	B2.1		
+eminente	eminent	adj	B2.1		
 empirismo	empiricism	adj	B2.1		
 emprendimiento	entrepreneurship	adj	B2.1	work	
 emular	to emulate	verb	B2.1	tech|time	
-en caso de que	in case	phrase	B2.1	MWU|comparison|philosophy	
-en cualquier caso	in any case	phrase	B2.1	MWU|philosophy	
-en definitiva	definitively	phrase	B2.1	MWU|philosophy	
-en el supuesto de que	supposing that	phrase	B2.1	MWU|comparison|philosophy	
-en extremo	extremely	phrase	B2.1	MWU|philosophy	
-en la medida en que	to the extent that	phrase	B2.1	MWU|comparison|philosophy	
-en otras palabras	in other words	phrase	B2.1	MWU|philosophy	remove:glue
-en primer lugar...en segundo lugar	firstly...secondly	connector	B2.1	MWU|discourse|philosophy	remove:glue
-en resumidas cuentas	in short	phrase	B2.1	MWU|philosophy	remove:glue
-en suma	in sum	phrase	B2.1	MWU|philosophy	
-en sumo grado	to the highest degree	phrase	B2.1	MWU|philosophy	
-en síntesis	in synthesis	phrase	B2.1	MWU|philosophy	
-en tanto en cuanto	insofar as	phrase	B2.1	MWU|comparison|philosophy	
-en todo caso	in any case	phrase	B2.1	MWU|philosophy	
-en vista de que	in view of the fact that	phrase	B2.1	MWU|comparison|philosophy	
-en última instancia	ultimately	phrase	B2.1	MWU|philosophy	
+en caso de que	in case	phrase	B2.1	MWU|comparison	
+en cualquier caso	in any case	phrase	B2.1	MWU	
+en definitiva	definitively	phrase	B2.1	MWU	
+en el supuesto de que	supposing that	phrase	B2.1	MWU|comparison	
+en extremo	extremely	phrase	B2.1	MWU	
+en la medida en que	to the extent that	phrase	B2.1	MWU|comparison	
+en otras palabras	in other words	phrase	B2.1	MWU	remove:glue
+en primer lugar...en segundo lugar	firstly...secondly	connector	B2.1	MWU|discourse	remove:glue
+en resumidas cuentas	in short	phrase	B2.1	MWU	remove:glue
+en suma	in sum	phrase	B2.1	MWU	
+en sumo grado	to the highest degree	phrase	B2.1	MWU	
+en síntesis	in synthesis	phrase	B2.1	MWU	
+en tanto en cuanto	insofar as	phrase	B2.1	MWU|comparison	
+en todo caso	in any case	phrase	B2.1	MWU	
+en vista de que	in view of the fact that	phrase	B2.1	MWU|comparison	
+en última instancia	ultimately	phrase	B2.1	MWU	
 encriptación	encryption	noun	B2.1		
 energía	energy	noun	B2.1		
 energía oscura	dark energy	phrase	B2.1	MWU	
 enfocar	to focus	verb	B2.1	education	
 ensayar	to test	verb	B2.1	tech	
-ente	entity	adj	B2.1	philosophy	
-entendimiento	understanding	noun	B2.1	philosophy	
+ente	entity	adj	B2.1		
+entendimiento	understanding	noun	B2.1		
 entrever	to glimpse	verb	B2.1	health	
 epidemiología	epidemiology	noun	B2.1		
 epifanía	epiphany	noun	B2.1	health	
-epistemología	epistemology	noun	B2.1	education|philosophy	
+epistemología	epistemology	noun	B2.1	education	
 equidad	equity	noun	B2.1		
 equilibrarse	to balance	verb	B2.1	health|reflexive	
-es más	what's more	phrase	B2.1	MWU|comparison|philosophy	remove:glue
+es más	what's more	phrase	B2.1	MWU|comparison	remove:glue
 escalabilidad	scalability	adj	B2.1	work	
 escalamiento	scaling	adj	B2.1	tech	
-escepticismo	skepticism	adj	B2.1	philosophy	
+escepticismo	skepticism	adj	B2.1		
 escudriñar	to scrutinize	verb	B2.1	education	
-esencia	essence	noun	B2.1	philosophy	
-espacialidad	spatiality	adj	B2.1	philosophy	
-espacio	space	noun	B2.1	philosophy	
+esencia	essence	noun	B2.1		
+espacialidad	spatiality	adj	B2.1		
+espacio	space	noun	B2.1		
 especificar	to specify	verb	B2.1	education	
 especulación	speculation	noun	B2.1		
-especular	to speculate	verb	B2.1	philosophy|time	
+especular	to speculate	verb	B2.1	time	
 espíritu	spirit	noun	B2.1	health	
 espíritu emprendedor	entrepreneurial spirit	phrase	B2.1	MWU|work	
 estabilizarse	to stabilize	verb	B2.1	health|reflexive	
@@ -3656,64 +3656,64 @@ estancamiento	stagnation	noun	B2.1
 estandarización	standardization	noun	B2.1	tech	
 estandarizar	to standardize	verb	B2.1	tech	
 estanflación	stagflation	noun	B2.1		
-esto es	that is	phrase	B2.1	MWU|philosophy	
+esto es	that is	phrase	B2.1	MWU	
 estrategizar	to strategize	verb	B2.1	work	
-estrechamente	closely	adv	B2.1	philosophy	
+estrechamente	closely	adv	B2.1		
 estructuralismo	structuralism	adj	B2.1		
 estructurar	to structure	verb	B2.1	education	
 estudio de factibilidad	feasibility study	phrase	B2.1	MWU|tech	
 estupefacción	stupefaction	noun	B2.1	health	
-eternidad	eternity	noun	B2.1	philosophy	
+eternidad	eternity	noun	B2.1		
 etnografía	ethnography	noun	B2.1		
 etnología	ethnology	noun	B2.1		
 eudemonismo	eudaemonism	noun	B2.1		
 evaluación técnica	technical evaluation	phrase	B2.1	MWU|tech	
 evasión fiscal	tax evasion	phrase	B2.1	MWU	
-evidentemente	evidently	adv	B2.1	philosophy	
-evolución	evolution	noun	B2.1	philosophy	
+evidentemente	evidently	adv	B2.1		
+evolución	evolution	noun	B2.1		
 exactitud	accuracy	noun	B2.1	education	
 excelencia organizacional	organizational excellence	phrase	B2.1	MWU|work	remove:glue
-excepto que	except that	phrase	B2.1	MWU|comparison|philosophy	
+excepto que	except that	phrase	B2.1	MWU|comparison	
 exhaustividad	exhaustiveness	adj	B2.1	education	
-existencia	existence	noun	B2.1	philosophy	
+existencia	existence	noun	B2.1		
 existencialismo	existentialism	adj	B2.1		
 exobiología	exobiology	noun	B2.1	tech	
 explotar	to exploit	verb	B2.1	work	
-extensamente	extensively	adv	B2.1	philosophy	
+extensamente	extensively	adv	B2.1		
 extrapolación	extrapolation	noun	B2.1	education	
 extremismo	extremism	noun	B2.1		
 factibilidad	feasibility	noun	B2.1	work	
-falacia	fallacy	adj	B2.1	philosophy	
+falacia	fallacy	adj	B2.1		
 falsabilidad	falsifiability	adj	B2.1		
 falsación	falsification	adj	B2.1	education	
 falsedad	falsehood	adj	B2.1		
 fascismo	fascism	noun	B2.1		
-fehaciente	reliable	adj	B2.1	philosophy	
+fehaciente	reliable	adj	B2.1		
 felicidad	happiness	noun	B2.1	health	
 fenomenología	phenomenology	noun	B2.1		
-fenómeno	phenomenon	noun	B2.1	philosophy	
+fenómeno	phenomenon	noun	B2.1		
 fiabilidad	reliability	noun	B2.1	education	
-filosofar	to philosophize	verb	B2.1	philosophy	
+filosofar	to philosophize	verb	B2.1		
 filosofía de la ciencia	philosophy of science	phrase	B2.1	MWU	
 filosofía de la mente	philosophy of mind	phrase	B2.1	MWU	
 filosofía del lenguaje	philosophy of language	phrase	B2.1	MWU	
 filosofía moral	moral philosophy	phrase	B2.1	MWU	remove:glue
 filosofía política	political philosophy	phrase	B2.1	MWU	
-finalidad	purpose, finality	adj	B2.1	philosophy	
+finalidad	purpose, finality	adj	B2.1		
 finanzas	finance	noun	B2.1		
 finito	finite	noun	B2.1		
 firewall	firewall	adj	B2.1		
-firmemente	firmly	adv	B2.1	philosophy	
+firmemente	firmly	adv	B2.1		
 fisiología	physiology	noun	B2.1		
-flagrante	flagrant	adj	B2.1	philosophy	
+flagrante	flagrant	adj	B2.1		
 flexibilidad estratégica	strategic flexibility	phrase	B2.1	MWU|work	
 fluctuar	to fluctuate	verb	B2.1	health	
 fondo de inversión	investment fund	phrase	B2.1	MWU	
-forma	form	noun	B2.1	philosophy	
+forma	form	noun	B2.1		
 formular	to formulate	verb	B2.1	education|tech|time	
 fortaleza	strength	noun	B2.1	health	
 fragilidad	fragility	noun	B2.1	health	
-francamente	frankly	adv	B2.1	philosophy	
+francamente	frankly	adv	B2.1		
 frecuencia	frequency	noun	B2.1	education	
 fundamento teórico	theoretical foundation	phrase	B2.1	MWU|education	remove:glue
 fusionar	to merge	verb	B2.1	tech	
@@ -3729,18 +3729,18 @@ gasto	spending	noun	B2.1
 gen	gene	noun	B2.1		
 generación de ideas	idea generation	phrase	B2.1	MWU|work	
 generalidad	generality	adj	B2.1		
-generalización	generalization	adj	B2.1	education|philosophy	
-generalizar	to generalize	verb	B2.1	philosophy	
+generalización	generalization	adj	B2.1	education	
+generalizar	to generalize	verb	B2.1		
 genética	genetics	adj	B2.1		
 geofísica	geophysics	adj	B2.1	tech	
 geopolítica	geopolitics	adj	B2.1		
 gestionar	to manage	verb	B2.1	work	
 gestión estratégica	strategic management	phrase	B2.1	MWU|work	
-gnoseología	gnoseology	noun	B2.1	philosophy	
+gnoseología	gnoseology	noun	B2.1		
 golpe de estado	coup d'état	phrase	B2.1	MWU	
 gravitación	gravitation	noun	B2.1		
 guerrilla	guerrilla	noun	B2.1		
-habida cuenta de que	given that	phrase	B2.1	MWU|comparison|philosophy	
+habida cuenta de que	given that	phrase	B2.1	MWU|comparison	
 hackeo	hacking	noun	B2.1		
 hedonismo	hedonism	noun	B2.1		
 hegemonía	hegemony	noun	B2.1		
@@ -3752,8 +3752,8 @@ hipotetizar	to hypothesize	verb	B2.1	education|tech
 historicismo	historicism	adj	B2.1		
 homogeneidad	homogeneity	noun	B2.1		
 homologar	to homologate	verb	B2.1	tech	
-hondamente	deeply	adv	B2.1	philosophy	
-honestamente	honestly	adv	B2.1	philosophy	
+hondamente	deeply	adv	B2.1		
+honestamente	honestly	adv	B2.1		
 huella digital	digital footprint	phrase	B2.1	MWU|tech	
 humanismo	humanism	noun	B2.1		
 humano	human	noun	B2.1		
@@ -3773,23 +3773,23 @@ implementación estratégica	strategic implementation	phrase	B2.1	MWU|work
 implementar	to implement	verb	B2.1	tech|work	
 imposibilidad	impossibility	noun	B2.1		
 impresión	impression	noun	B2.1		
-incertidumbre	uncertainty	noun	B2.1	philosophy	
+incertidumbre	uncertainty	noun	B2.1		
 inclusión digital	digital inclusion	phrase	B2.1	MWU|tech	
 incompatibilidad	incompatibility	noun	B2.1	health	
-incontrovertible	incontrovertible	adj	B2.1	philosophy	
+incontrovertible	incontrovertible	adj	B2.1		
 incorporar	to incorporate	verb	B2.1	tech	
 incorrecto	wrong, incorrect	noun	B2.1		
-incuestionable	unquestionable	adj	B2.1	philosophy	
+incuestionable	unquestionable	adj	B2.1		
 indagar	to investigate	verb	B2.1	education|tech	
 independencia	independence	noun	B2.1		
-indiscutible	indisputable	adj	B2.1	philosophy	
+indiscutible	indisputable	adj	B2.1		
 individualidad	individuality	adj	B2.1	health	
 individuo	individual	adj	B2.1		
-inducción	induction	noun	B2.1	education|philosophy	
-indudablemente	undoubtedly	adv	B2.1	philosophy	
+inducción	induction	noun	B2.1	education	
+indudablemente	undoubtedly	adv	B2.1		
 industrialización	industrialization	adj	B2.1	tech	
 inferencia	inference	noun	B2.1	education	
-infinito	infinite, infinity	noun	B2.1	philosophy	
+infinito	infinite, infinity	noun	B2.1		
 influencia	influence	noun	B2.1	work	
 informatizar	to computerize	verb	B2.1	tech	
 infraestructura digital	digital infrastructure	phrase	B2.1	MWU|tech	
@@ -3797,7 +3797,7 @@ ingeniería	engineering	noun	B2.1	tech
 ingreso	income	noun	B2.1		
 inmanencia	immanence	noun	B2.1		
 inmanente	immanent	adj	B2.1		
-innegable	undeniable	adj	B2.1	philosophy	
+innegable	undeniable	adj	B2.1		
 innovación abierta	open innovation	phrase	B2.1	MWU|work	
 innovación colaborativa	collaborative innovation	phrase	B2.1	MWU|work	remove:glue
 innovación disruptiva	disruptive innovation	phrase	B2.1	MWU|work	
@@ -3811,7 +3811,7 @@ integración	integration	noun	B2.1	society
 integrar	to integrate	verb	B2.1	education|tech	
 integridad	integrity	noun	B2.1	health	
 integridad territorial	territorial integrity	phrase	B2.1	MWU	remove:glue
-intelecto	intellect	noun	B2.1	philosophy	
+intelecto	intellect	noun	B2.1		
 inteligencia organizacional	organizational intelligence	phrase	B2.1	MWU|work	remove:glue
 intencionalidad	intentionality	adj	B2.1		
 interfaz	interface	noun	B2.1	tech	
@@ -3835,15 +3835,15 @@ investigación mixta	mixed research	phrase	B2.1	MWU|education
 investigación pura	pure research	phrase	B2.1	MWU|education	
 investigación transversal	cross-sectional research	phrase	B2.1	MWU|education	
 investigación y desarrollo	research and development	phrase	B2.1	MWU|tech	remove:glue
-irrefutable	irrefutable	adj	B2.1	philosophy	
+irrefutable	irrefutable	adj	B2.1		
 legalidad	legality	adj	B2.1		
-legitimar	to legitimize	verb	B2.1	philosophy	
+legitimar	to legitimize	verb	B2.1		
 legitimidad	legitimacy	noun	B2.1		
 lenguaje	language	noun	B2.1		
 ley científica	scientific law	phrase	B2.1	MWU|tech	
 liberación	liberation	noun	B2.1	health	
 liberalismo	liberalism	adj	B2.1		
-libre albedrío	free will	phrase	B2.1	MWU|philosophy	
+libre albedrío	free will	phrase	B2.1	MWU	
 libre mercado	free market	phrase	B2.1	MWU	
 liderar	to lead	verb	B2.1	work	
 liderazgo carismático	charismatic leadership	phrase	B2.1	MWU|work	
@@ -3859,7 +3859,7 @@ macroeconomía	macroeconomics	adj	B2.1
 madurez organizacional	organizational maturity	phrase	B2.1	MWU|work	remove:glue
 malo	bad	noun	B2.1		
 malware	malware	adj	B2.1		
-manifiesto	manifest	adj	B2.1	philosophy	
+manifiesto	manifest	adj	B2.1		
 marco conceptual	conceptual framework	phrase	B2.1	MWU|education	remove:glue
 marco metodológico	methodological framework	phrase	B2.1	MWU|education	remove:glue
 marco teórico	theoretical framework	phrase	B2.1	MWU|education	remove:glue
@@ -3882,11 +3882,11 @@ mentalidad emprendedora	entrepreneurial mindset	phrase	B2.1	MWU|work
 mentalidad estratégica	strategic mindset	phrase	B2.1	MWU|work	
 mercado de valores	stock market	phrase	B2.1	MWU	
 meta-análisis	meta-analysis	adj	B2.1	education	
-metafísica	metaphysics	adj	B2.1	philosophy	
+metafísica	metaphysics	adj	B2.1		
 meteorología	meteorology	noun	B2.1	tech	
-metodizar	to methodize	verb	B2.1	philosophy	
+metodizar	to methodize	verb	B2.1		
 microeconomía	microeconomics	adj	B2.1		
-mientras más...más	the more...the more	phrase	B2.1	MWU|philosophy	remove:glue
+mientras más...más	the more...the more	phrase	B2.1	MWU	remove:glue
 miniaturización	miniaturization	noun	B2.1	tech	
 minoría	minority	noun	B2.1		
 minuciosidad	thoroughness	noun	B2.1	education	
@@ -3897,72 +3897,72 @@ modificar	to modify	verb	B2.1	work
 molécula	molecule	noun	B2.1		
 monetizar	to monetize	verb	B2.1	work	
 monismo	monism	noun	B2.1		
-moral	morality	adj	B2.1	philosophy	
+moral	morality	adj	B2.1		
 multilateralismo	multilateralism	adv	B2.1	time	incorrect POS
 multipartidismo	multipartisanship	noun	B2.1		
 mutación	mutation	noun	B2.1		
 mutualidad	mutuality	adj	B2.1	health	
-más aún	even more	phrase	B2.1	MWU|comparison|philosophy	remove:glue
-máxime	especially	adv	B2.1	philosophy	
+más aún	even more	phrase	B2.1	MWU|comparison	remove:glue
+máxime	especially	adv	B2.1		
 método científico	scientific method	phrase	B2.1	MWU|tech	
 nacionalismo	nationalism	adj	B2.1		
 narración	narrative	adj	B2.1		
-negar	to deny	verb	B2.1	philosophy	
+negar	to deny	verb	B2.1		
 neurobiología	neurobiology	noun	B2.1	tech	
 neurociencia	neuroscience	noun	B2.1	tech	
 neurotecnología	neurotechnology	noun	B2.1	tech	
 neutralidad científica	scientific neutrality	phrase	B2.1	MWU|education	
-ni...ni	neither...nor	conj	B2.1	philosophy	remove:glue
+ni...ni	neither...nor	conj	B2.1		remove:glue
 no intervención	non-intervention	phrase	B2.1	MWU	
-no solo...sino también	not only...but also	phrase	B2.1	MWU|philosophy	remove:glue
+no solo...sino también	not only...but also	phrase	B2.1	MWU	remove:glue
 nominalismo	nominalism	adj	B2.1		
 norma	norm	noun	B2.1		
 normalización	normalization	adj	B2.1	tech	
 normalizar	to normalize	verb	B2.1	tech	
 normativa	regulation, normative	adj	B2.1		
-notorio	notorious	adj	B2.1	philosophy	
-noúmeno	noumenon	noun	B2.1	philosophy	
-o bien...o bien	either...or	phrase	B2.1	MWU|philosophy	remove:glue
+notorio	notorious	adj	B2.1		
+noúmeno	noumenon	noun	B2.1		
+o bien...o bien	either...or	phrase	B2.1	MWU	remove:glue
 objetividad	objectivity	noun	B2.1		
 objetividad científica	scientific objectivity	phrase	B2.1	MWU|education	
 objeto	object	noun	B2.1		
 obligación	obligation	noun	B2.1		
 observación	observation	noun	B2.1	education	
 obsolescencia tecnológica	technological obsolescence	phrase	B2.1	MWU|tech	
-obviamente	obviously	adv	B2.1	philosophy	
+obviamente	obviously	adv	B2.1		
 oceanografía	oceanography	noun	B2.1	tech	
 oficialismo	ruling party	noun	B2.1		
 oligopolio	oligopoly	noun	B2.1		
 onda	wave	noun	B2.1		
-ontología	ontology	noun	B2.1	philosophy	
+ontología	ontology	noun	B2.1		
 opción	option	noun	B2.1		
 operacionalizar	to operationalize	verb	B2.1	education|work	
 oposición	opposition	noun	B2.1		
 optimización	optimization	noun	B2.1	tech	
 optimización de procesos	process optimization	phrase	B2.1	MWU|work	
-ora...ora	either...or	conj	B2.1	philosophy	remove:glue
+ora...ora	either...or	conj	B2.1		remove:glue
 organismo	organism	noun	B2.1		
 orientación estratégica	strategic orientation	phrase	B2.1	MWU|work	remove:glue
 oscilar	to oscillate	verb	B2.1	health|time	
-ostensible	ostensible	adj	B2.1	philosophy	
+ostensible	ostensible	adj	B2.1		
 otredad	otherness	noun	B2.1		
 oxidación	oxidation	noun	B2.1		
-palmario	obvious	adj	B2.1	philosophy	
+palmario	obvious	adj	B2.1		
 paradigma	paradigm	noun	B2.1	education	
-paradigmático	paradigmatic	adj	B2.1	philosophy	
-paradoja	paradox	noun	B2.1	philosophy	
+paradigmático	paradigmatic	adj	B2.1		
+paradoja	paradox	noun	B2.1		
 parametrizar	to parameterize	verb	B2.1	tech	
 parangonar	to compare	verb	B2.1	education	
 paraíso fiscal	tax haven	phrase	B2.1	MWU	
 paroxismo	paroxysm	noun	B2.1	health	
-particulares	particulars	adj	B2.1	philosophy	
+particulares	particulars	adj	B2.1		
 particularidad	particularity	adj	B2.1		
-particularizar	to particularize	verb	B2.1	philosophy	
+particularizar	to particularize	verb	B2.1		
 partícula	particle	adj	B2.1		
 pasmo	astonishment	adj	B2.1	health	
-patente	patent	adj	B2.1	philosophy	
+patente	patent	adj	B2.1		
 patología	pathology	noun	B2.1		
-peculiar	peculiar	verb	B2.1	philosophy	incorrect POS
+peculiar	peculiar	verb	B2.1		incorrect POS
 pensamiento convergente	convergent thinking	phrase	B2.1	MWU|work	
 pensamiento creativo	creative thinking	phrase	B2.1	MWU|work	
 pensamiento divergente	divergent thinking	phrase	B2.1	MWU|work	
@@ -3970,14 +3970,14 @@ pensamiento estratégico	strategic thinking	phrase	B2.1	MWU|work
 pensamiento lateral	lateral thinking	phrase	B2.1	MWU|time|work	
 percibir	to perceive	verb	B2.1	health	
 perfeccionar	to perfect	verb	B2.1	tech|work	
-permanencia	permanence	noun	B2.1	philosophy	
+permanencia	permanence	noun	B2.1		
 perplejidad	perplexity	noun	B2.1	health	
 personalizar	to customize	verb	B2.1	tech	
 perspectiva estratégica	strategic perspective	phrase	B2.1	MWU|work	
 perspectivismo	perspectivism	noun	B2.1		
 pH	pH	noun	B2.1		
 planificación estratégica	strategic planning	phrase	B2.1	MWU|work	
-plantear	to pose	verb	B2.1	education|philosophy|tech	
+plantear	to pose	verb	B2.1	education|tech	
 plataforma digital	digital platform	phrase	B2.1	MWU|tech	remove:glue
 plausibilidad	plausibility	noun	B2.1	education	
 plebiscito	plebiscite	noun	B2.1		
@@ -3992,17 +3992,17 @@ política fiscal	fiscal policy	phrase	B2.1	MWU
 política monetaria	monetary policy	phrase	B2.1	MWU	
 ponderar	to weigh	verb	B2.1	education	
 populismo	populism	noun	B2.1		
-por añadidura	moreover	phrase	B2.1	MWU|philosophy	remove:glue
-por cierto	by the way	phrase	B2.1	MWU|philosophy	
-por ende	therefore	connector	B2.1	MWU|discourse|philosophy	remove:glue
-por excelencia	par excellence	phrase	B2.1	MWU|philosophy	
-por lo demás	for the rest	phrase	B2.1	MWU|philosophy	remove:glue
-por lo que se ve	from what can be seen	phrase	B2.1	MWU|comparison|philosophy|reflexive	
-por lo visto	apparently	phrase	B2.1	MWU|philosophy	
-por un lado...por otro lado	on one side...on the other	phrase	B2.1	MWU|philosophy	
-por una parte...por otra	on one hand...on the other	phrase	B2.1	MWU|philosophy	remove:glue
-posibilidad	possibility	noun	B2.1	philosophy	
-posiblemente	possibly	adv	B2.1	philosophy	
+por añadidura	moreover	phrase	B2.1	MWU	remove:glue
+por cierto	by the way	phrase	B2.1	MWU	
+por ende	therefore	connector	B2.1	MWU|discourse	remove:glue
+por excelencia	par excellence	phrase	B2.1	MWU	
+por lo demás	for the rest	phrase	B2.1	MWU	remove:glue
+por lo que se ve	from what can be seen	phrase	B2.1	MWU|comparison|reflexive	
+por lo visto	apparently	phrase	B2.1	MWU	
+por un lado...por otro lado	on one side...on the other	phrase	B2.1	MWU	
+por una parte...por otra	on one hand...on the other	phrase	B2.1	MWU	remove:glue
+posibilidad	possibility	noun	B2.1		
+posiblemente	possibly	adv	B2.1		
 posicionamiento estratégico	strategic positioning	phrase	B2.1	MWU|work	
 positivismo	positivism	noun	B2.1		
 posmoderno	postmodern	noun	B2.1		
@@ -4010,7 +4010,7 @@ postestructuralismo	post-structuralism	adj	B2.1
 posthumanismo	posthumanism	noun	B2.1		
 postmodernismo	postmodernism	noun	B2.1		
 postulado	postulate	adv	B2.1	time	incorrect POS
-postular	to postulate	verb	B2.1	education|philosophy|tech|time	
+postular	to postulate	verb	B2.1	education|tech|time	
 potenciar	to enhance	verb	B2.1	work	
 pragmatismo	pragmatism	noun	B2.1		
 precio	price	adj	B2.1		
@@ -4020,14 +4020,14 @@ precisión	precision	noun	B2.1	education
 preconsciente	preconscious	adj	B2.1	health	
 premisa	premise	noun	B2.1		
 presentir	to have a premonition	verb	B2.1	health	
-presumiblemente	presumably	adv	B2.1	philosophy	
-primordial	primordial	adj	B2.1	philosophy	
-principio	principle	noun	B2.1	philosophy|tech	
+presumiblemente	presumably	adv	B2.1		
+primordial	primordial	adj	B2.1		
+principio	principle	noun	B2.1	tech	
 privacidad	privacy	noun	B2.1		
 privacidad digital	digital privacy	phrase	B2.1	MWU|tech	
-probabilidad	probability	noun	B2.1	education|philosophy	
-probablemente	probably	adv	B2.1	philosophy	
-problematizar	to problematize	verb	B2.1	education|philosophy	
+probabilidad	probability	noun	B2.1	education	
+probablemente	probably	adv	B2.1		
+problematizar	to problematize	verb	B2.1	education	
 procesamiento	processing	noun	B2.1		
 procesar	to process	verb	B2.1	tech	
 producción	production	noun	B2.1		
@@ -4035,30 +4035,30 @@ productividad organizacional	organizational productivity	phrase	B2.1	MWU|work	re
 producto interno bruto	gross domestic product	phrase	B2.1	MWU	
 profundizar	to deepen	verb	B2.1	education	
 programación	programming	noun	B2.1	tech	
-progreso	progress	noun	B2.1	philosophy|tech|work	
-prominente	prominent	adj	B2.1	philosophy	
+progreso	progress	noun	B2.1	tech|work	
+prominente	prominent	adj	B2.1		
 propiedad intelectual	intellectual property	phrase	B2.1	MWU	
-proponer	to propose	verb	B2.1	philosophy	
+proponer	to propose	verb	B2.1		
 propuesta de valor	value proposition	phrase	B2.1	MWU|work	
 prototipado	prototyping	noun	B2.1	tech|work	
 prototipo	prototype	noun	B2.1		
 proximidad	proximity	noun	B2.1	health	
 prueba de concepto	proof of concept	phrase	B2.1	MWU|tech	
 psique	psyche	noun	B2.1	health	
-puede que	it may be that	phrase	B2.1	MWU|comparison|philosophy	
-pues bien	well then	phrase	B2.1	MWU|philosophy|time	
+puede que	it may be that	phrase	B2.1	MWU|comparison	
+pues bien	well then	phrase	B2.1	MWU|time	
 pulir	to polish	verb	B2.1	work	
 puntualizar	to point out	verb	B2.1	education	
 pérdida	loss	noun	B2.1		
 quiebra	bankruptcy	noun	B2.1		
-quizás	perhaps	adv	B2.1	philosophy	
+quizás	perhaps	adv	B2.1		
 racionalismo	rationalism	adj	B2.1		
-racionalizar	to rationalize	verb	B2.1	philosophy|work	
+racionalizar	to rationalize	verb	B2.1	work	
 radiación	radiation	noun	B2.1		
 radicalización	radicalization	adj	B2.1		
-razón	reason	noun	B2.1	philosophy	
+razón	reason	noun	B2.1		
 reacción química	chemical reaction	phrase	B2.1	MWU	
-realidad	reality	adj	B2.1	philosophy	
+realidad	reality	adj	B2.1		
 realismo	realism	adj	B2.1		
 realización	fulfillment	adj	B2.1	health	
 rebelión	rebellion	noun	B2.1		
@@ -4073,22 +4073,22 @@ referencia	reference	noun	B2.1
 referéndum	referendum	noun	B2.1		
 refinar	to refine	verb	B2.1	tech|work	
 reforma	reform	noun	B2.1		
-refutación	refutation	noun	B2.1	education|philosophy	
-regresión	regression	noun	B2.1	philosophy	
+refutación	refutation	noun	B2.1	education	
+regresión	regression	noun	B2.1		
 regulación	regulation	noun	B2.1		
 reinventar	to reinvent	verb	B2.1	work	
 relaciones internacionales	international relations	phrase	B2.1	MWU	
 relatividad	relativity	noun	B2.1	tech	
-relativismo	relativism	noun	B2.1	philosophy	
+relativismo	relativism	noun	B2.1		
 renacentista	renaissance	noun	B2.1		
 renta fija	fixed income	phrase	B2.1	MWU	
 renta variable	variable income	phrase	B2.1	MWU	
 rentabilidad	profitability	noun	B2.1	work	
 reorganizar	to reorganize	verb	B2.1	work	
 replicar	to replicate	verb	B2.1	tech	
-reposo	rest	noun	B2.1	philosophy	
+reposo	rest	noun	B2.1		
 representación	representation	adj	B2.1	media	
-representativo	representative	adj	B2.1	philosophy	
+representativo	representative	adj	B2.1		
 reproducir	to reproduce	verb	B2.1	tech	
 resiliencia	resilience	noun	B2.1	health	
 resiliencia organizacional	organizational resilience	phrase	B2.1	MWU|work	remove:glue
@@ -4102,33 +4102,33 @@ rigidez	rigidity	noun	B2.1	health
 rigor científico	scientific rigor	phrase	B2.1	MWU|education	remove:glue
 robotizar	to robotize	verb	B2.1	tech	
 romanticismo	romanticism	adj	B2.1		
-rotundo	resounding	adj	B2.1	philosophy	
+rotundo	resounding	adj	B2.1		
 salud pública	public health	phrase	B2.1	MWU	
 satélite	satellite	noun	B2.1		
-sea como sea	be that as it may	phrase	B2.1	MWU|comparison|philosophy	
-sea...sea	whether...or	conj	B2.1	philosophy	remove:glue
+sea como sea	be that as it may	phrase	B2.1	MWU|comparison	
+sea...sea	whether...or	conj	B2.1		remove:glue
 secesión	secession	noun	B2.1		
 sector bancario	banking sector	phrase	B2.1	MWU	remove:glue
 sector privado	private sector	phrase	B2.1	MWU	remove:glue
 sector público	public sector	phrase	B2.1	MWU	remove:glue
-seguramente	surely	adv	B2.1	philosophy	
+seguramente	surely	adv	B2.1		
 seguridad digital	digital security	phrase	B2.1	MWU|tech	
-según como	depending on how	phrase	B2.1	MWU|comparison|philosophy	
-según parece	apparently	phrase	B2.1	MWU|philosophy	
+según como	depending on how	phrase	B2.1	MWU|comparison	
+según parece	apparently	phrase	B2.1	MWU	
 selección natural	natural selection	phrase	B2.1	MWU	
 semiótica	semiotics	adj	B2.1		
-sentido	sense, meaning	noun	B2.1	philosophy	
+sentido	sense, meaning	noun	B2.1		
 separación de poderes	separation of powers	phrase	B2.1	MWU	
 serenarse	to calm down	verb	B2.1	health|reflexive	
-seriamente	seriously	adv	B2.1	philosophy	
+seriamente	seriously	adv	B2.1		
 servidor	server	noun	B2.1		
-siempre que	provided that	phrase	B2.1	MWU|comparison|philosophy	
-siempre y cuando	provided that	phrase	B2.1	MWU|philosophy	
+siempre que	provided that	phrase	B2.1	MWU|comparison	
+siempre y cuando	provided that	phrase	B2.1	MWU	
 significación	signification	adj	B2.1	education	
 significancia	significance	adj	B2.1	education	
 signo	sign	noun	B2.1		
-sin duda alguna	without a doubt	phrase	B2.1	MWU|philosophy	
-sinceramente	sincerely	adv	B2.1	philosophy|time	
+sin duda alguna	without a doubt	phrase	B2.1	MWU	
+sinceramente	sincerely	adv	B2.1	time	
 sincronizar	to synchronize	verb	B2.1	tech	
 singularidad	singularity	noun	B2.1		
 sintonía	harmony	noun	B2.1	health	
@@ -4136,10 +4136,10 @@ sistema financiero	financial system	phrase	B2.1	MWU
 sistema operativo	operating system	phrase	B2.1	MWU	
 sistematicidad	systematicity	adj	B2.1	education	
 sistematización	systematization	noun	B2.1	tech	
-sistematizar	to systematize	verb	B2.1	education|philosophy|tech|work	
+sistematizar	to systematize	verb	B2.1	education|tech|work	
 soberanía	sovereignty	noun	B2.1		
-sobremanera	exceedingly	noun	B2.1	philosophy	
-sobresaliente	excellent	adj	B2.1	philosophy	
+sobremanera	exceedingly	noun	B2.1		
+sobresaliente	excellent	adj	B2.1		
 socialismo	socialism	adj	B2.1		
 sociedad	society	noun	B2.1	society	
 sociedad civil	civil society	phrase	B2.1	MWU	
@@ -4160,28 +4160,28 @@ sufragio	suffrage	noun	B2.1
 sujeto	subject	noun	B2.1		
 superpotencia	superpower	noun	B2.1		
 superyó	superego	noun	B2.1	health	
-suponiendo que	supposing that	phrase	B2.1	MWU|comparison|philosophy	
-supuestamente	supposedly	adv	B2.1	philosophy	
-sustancia	substance	noun	B2.1	philosophy	
+suponiendo que	supposing that	phrase	B2.1	MWU|comparison	
+supuestamente	supposedly	adv	B2.1		
+sustancia	substance	noun	B2.1		
 sustentabilidad	sustainability	noun	B2.1		
 sustento científico	scientific support	phrase	B2.1	MWU|education	remove:glue
-síntesis	synthesis	noun	B2.1	education|philosophy	
-sólidamente	solidly	adv	B2.1	philosophy	
+síntesis	synthesis	noun	B2.1	education	
+sólidamente	solidly	adv	B2.1		
 tambalearse	to waver	verb	B2.1	health|reflexive	
-tanto...como	both...and	conj	B2.1	philosophy	remove:glue
+tanto...como	both...and	conj	B2.1		remove:glue
 taxonomía	taxonomy	noun	B2.1		
 tejido	tissue	noun	B2.1		
-teleología	teleology	noun	B2.1	philosophy	
-temporalidad	temporality	adj	B2.1	philosophy	
+teleología	teleology	noun	B2.1		
+temporalidad	temporality	adj	B2.1		
 tendencia central	central tendency	phrase	B2.1	MWU|education	
 teorema	theorem	noun	B2.1		
-teorizar	to theorize	verb	B2.1	education|philosophy|tech	
+teorizar	to theorize	verb	B2.1	education|tech	
 teoría social	social theory	phrase	B2.1	MWU	remove:glue
 termodinámica	thermodynamics	adj	B2.1	tech	
 tipificar	to typify	verb	B2.1	education	
 tipo de cambio	exchange rate	phrase	B2.1	MWU	
 titubear	to hesitate	verb	B2.1	health	
-toda vez que	since	phrase	B2.1	MWU|comparison|philosophy|time	remove:glue
+toda vez que	since	phrase	B2.1	MWU|comparison|time	remove:glue
 totalitarismo	totalitarianism	adj	B2.1		
 tranquilizarse	to calm down	verb	B2.1	health|reflexive	
 transferencia de tecnología	technology transfer	phrase	B2.1	MWU|tech	
@@ -4190,18 +4190,18 @@ transformación digital	digital transformation	phrase	B2.1	MWU|tech	remove:glue
 transformación organizacional	organizational transformation	phrase	B2.1	MWU|work	remove:glue
 transformar	to transform	verb	B2.1	work	
 trascendencia	transcendence	noun	B2.1		
-trascendental	transcendental	adj	B2.1	philosophy	
+trascendental	transcendental	adj	B2.1		
 tratado	treaty	noun	B2.1		
 tregua	truce	noun	B2.1		
 triangulación	triangulation	noun	B2.1	education	
 turbación	perturbation	noun	B2.1	health	
 unilateralismo	unilateralism	adv	B2.1	time	
-universales	universals	adj	B2.1	philosophy	
+universales	universals	adj	B2.1		
 universalidad	universality	adj	B2.1		
-universo	universe	adj	B2.1	philosophy	
+universo	universe	adj	B2.1		
 utilitarismo	utilitarianism	noun	B2.1		
 vacilar	to hesitate	verb	B2.1	health	
-vale decir	that is to say	phrase	B2.1	MWU|philosophy	
+vale decir	that is to say	phrase	B2.1	MWU	
 validación técnica	technical validation	phrase	B2.1	MWU|tech	
 validez	validity	adj	B2.1	education	
 validez científica	scientific validity	phrase	B2.1	MWU|education	
@@ -4210,28 +4210,28 @@ variabilidad	variability	noun	B2.1	education
 varianza	variance	noun	B2.1	education	
 ventaja competitiva	competitive advantage	phrase	B2.1	MWU|work	
 veracidad	veracity	noun	B2.1	education	
-verdad	truth	noun	B2.1	philosophy	
+verdad	truth	noun	B2.1		
 verificación	verification	adj	B2.1	education|tech	
 verosimilitud	verisimilitude	noun	B2.1	education	
 viabilidad	viability	noun	B2.1	work	
-vicio	vice	adj	B2.1	philosophy	
-virtualidad	virtuality	adj	B2.1	philosophy	
-virtud	virtue	noun	B2.1	philosophy	
+vicio	vice	adj	B2.1		
+virtualidad	virtuality	adj	B2.1		
+virtud	virtue	noun	B2.1		
 visionar	to envision	verb	B2.1	work	
 visión empresarial	business vision	phrase	B2.1	MWU|work	
 visión estratégica	strategic vision	phrase	B2.1	MWU|work	
 vislumbrar	to glimpse	verb	B2.1	health	
-visto que	seeing that	phrase	B2.1	MWU|comparison|philosophy	
+visto que	seeing that	phrase	B2.1	MWU|comparison	
 vivenciar	to experience	verb	B2.1	health	
 volatilidad	volatility	noun	B2.1		
 vulnerabilidad	vulnerability	noun	B2.1	health	
 web	web	noun	B2.1		
 ácido	acid	noun	B2.1		
 átomo	atom	noun	B2.1		
-ética	ethics	adj	B2.1	philosophy	
+ética	ethics	adj	B2.1		
 ética de la virtud	virtue ethics	phrase	B2.1	MWU	
 éxtasis	ecstasy	noun	B2.1	health	
-íntimamente	intimately	adv	B2.1	philosophy	
+íntimamente	intimately	adv	B2.1		
 órbita	orbit	noun	B2.1		
 órgano	organ	noun	B2.1		
 ablativo	ablative	adj	B2.2		
@@ -4288,7 +4288,7 @@ antihéroe	antihero	adj	B2.2
 antijuridicidad	unlawfulness	adj	B2.2		
 antonimia	antonymy	adj	B2.2		
 antonomasia	antonomasia	adj	B2.2		
-antítesis	antithesis	adj	B2.2	philosophy	
+antítesis	antithesis	adj	B2.2		
 anulabilidad	voidability	noun	B2.2		
 anáfora	anaphora	noun	B2.2		
 análisis literario	literary analysis	phrase	B2.2	MWU	
@@ -4451,7 +4451,7 @@ derecho subjetivo	subjective right	phrase	B2.2	MWU
 desenlace	denouement	adj	B2.2		
 desviación	deviance	noun	B2.2		
 detención	detention	adj	B2.2		
-determinante	determiner, determining	adj	B2.2	philosophy	
+determinante	determiner, determining	adj	B2.2		
 devoción	devotion	noun	B2.2		
 deísmo	deism	noun	B2.2		
 dialecto	dialect	adj	B2.2		
@@ -4926,7 +4926,7 @@ sinagoga	synagogue	noun	B2.2
 sinalefa	synalepha	adj	B2.2		
 sincretismo	syncretism	noun	B2.2		
 sinestesia	synesthesia	noun	B2.2		
-singular	singular	verb	B2.2	philosophy	incorrect POS
+singular	singular	verb	B2.2		incorrect POS
 sinonimia	synonymy	noun	B2.2		
 sintagma	syntagm	noun	B2.2		
 sintagma adjetival	adjectival phrase	phrase	B2.2	MWU	
@@ -4965,7 +4965,7 @@ sátira	satire	noun	B2.2
 sílaba	syllable	adj	B2.2		
 sílaba tónica	stressed syllable	phrase	B2.2	MWU	
 sílaba átona	unstressed syllable	phrase	B2.2	MWU	
-tautología	tautology	noun	B2.2	philosophy	
+tautología	tautology	noun	B2.2		
 templo	temple	noun	B2.2		
 tentación	temptation	noun	B2.2		
 tentativa	attempt	noun	B2.2		
