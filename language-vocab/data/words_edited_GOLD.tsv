@@ -30,7 +30,7 @@ amarillo	yellow	adj	A1.1	colors
 americana	American	noun	A1.1		
 animal	animal	noun	A1.1	nature	
 antes	before	adv	A1.1	glue|time	add:glue
-apartamento	apartment	adv	A1.1	home	incorrect POS
+apartamento	apartment	noun	A1.1	home	incorrect POS
 apellido	surname, last name	noun	A1.1		
 aquí	here	adv	A1.1	glue	add:glue
 Argentina	Argentina	noun	A1.1	countries	
@@ -40,7 +40,7 @@ asustado	scared	adj	A1.1	health
 auto	car, court order	noun	A1.1		
 autobús	bus	noun	A1.1	travel	
 avión	airplane	noun	A1.1	nature|travel	
-ayer	yesterday	verb	A1.1	time	incorrect POS
+ayer	yesterday	adv	A1.1	time	incorrect POS
 ayudar	to help	verb	A1.1	society|work	
 azul	blue	adj	A1.1	colors	
 año	year	noun	A1.1	health|time	
@@ -88,7 +88,7 @@ carro	car	noun	A1.1	travel
 casa	house	noun	A1.1	home	
 casado	married	adj	A1.1	society	
 catorce	fourteen	num	A1.1		
-celular	mobile phone, cell phone	verb	A1.1	tech	incorrect POS
+celular	mobile phone, cell phone	noun	A1.1	tech	incorrect POS
 cena	dinner	noun	A1.1	food	
 centro	center, downtown	noun	A1.1		
 cerca	near, close	adv	A1.1	glue|health	add:glue
@@ -118,7 +118,7 @@ conversar	to converse	verb	A1.1	society
 correo electrónico	email	phrase	A1.1	MWU|tech|work	
 corto	short	adj	A1.1	travel	
 cuaderno	notebook	noun	A1.1	education	
-cuando	when	conj	A1.1	glue	
+cuando	when	adv	A1.1	glue	
 cuarenta	forty	num	A1.1		
 cuatro	four	num	A1.1		
 cuello	neck	noun	A1.1	health	
@@ -138,7 +138,7 @@ delgado	thin	adj	A1.1	health
 delicioso	delicious	adj	A1.1	food	
 demasiado	too much, too many	adv	A1.1	glue	add:glue
 dentro	inside	adv	A1.1	glue	add:glue
-departamento	apartment	adv	A1.1	home	incorrect POS
+departamento	apartment	noun	A1.1	home	incorrect POS
 deporte	sport	noun	A1.1	media	
 derecha	right	adv	A1.1	glue	add:glue
 desayuno	breakfast	adj	A1.1	food	
@@ -165,7 +165,7 @@ dos	two	num	A1.1
 dulce	sweet	adj	A1.1	food	
 durar	to last	verb	A1.1	time	
 día	day	noun	A1.1	time	
-dólar	dollar	verb	A1.1	finance	incorrect POS
+dólar	dollar	noun	A1.1	finance	incorrect POS
 dónde	where	adv	A1.1	glue	add:glue
 edad	age	noun	A1.1		
 el	the - masculine, the (masculine), the one who, that, which	det	A1.1	glue	add:glue
@@ -233,7 +233,7 @@ hermana	sister	noun	A1.1	society
 hermano	brother, sister	noun	A1.1	society	
 hija	daughter	noun	A1.1	society	
 hijo	son, daughter	noun	A1.1	society	
-hogar	home	verb	A1.1	home	incorrect POS
+hogar	home	noun	A1.1	home	incorrect POS
 hola	hello	interj	A1.1	society	
 hombre	man	noun	A1.1		
 hora	hour, time	noun	A1.1	time	
@@ -285,7 +285,7 @@ llover	to rain	verb	A1.1	nature
 lluvioso	rainy	adj	A1.1	nature	
 lo siento	I'm sorry	phrase	A1.1	MWU	remove:glue
 los	the - masculine plural, the (masculine plural), them (masculine), which (plural)	det	A1.1	glue	add:glue
-lugar	place	verb	A1.1	glue	incorrect POS, add:glue
+lugar	place	noun	A1.1	glue	incorrect POS, add:glue
 lunes	Monday	noun	A1.1	time	
 lápiz	pencil	noun	A1.1	education	
 madre	mother	noun	A1.1	society	
@@ -305,7 +305,7 @@ mañana	tomorrow	adv	A1.1	time
 mañana	morning	noun	A1.1	time	
 medianoche	midnight	noun	A1.1	time	
 mediodía	noon	noun	A1.1	time	
-menos	less	verb	A1.1	comparison|glue	incorrect POS, add:glue
+menos	less	adv	A1.1	comparison|glue	incorrect POS, add:glue
 mes	month	noun	A1.1	time	
 mesa	table	noun	A1.1	education|food|home	
 mesero	waiter, waitress	noun	A1.1	education|food	
@@ -318,11 +318,11 @@ miércoles	Wednesday	noun	A1.1	time
 momento	moment	noun	A1.1	time	
 morado	purple	adj	A1.1	colors	
 muchas gracias	thank you very much	phrase	A1.1	MWU|comparison	
-mucho	a lot, much	verb	A1.1	food|glue	incorrect POS, add:glue
+mucho	a lot, much	adv	A1.1	food|glue	incorrect POS, add:glue
 mucho gusto	nice to meet you	phrase	A1.1	MWU|work	
-mujer	woman	verb	A1.1		incorrect POS
-muy	very	verb	A1.1	glue	incorrect POS, add:glue
-más	more	verb	A1.1	comparison|glue	incorrect POS, add:glue
+mujer	woman	noun	A1.1		incorrect POS
+muy	very	adv	A1.1	glue	incorrect POS, add:glue
+más	more	adv	A1.1	comparison|glue	incorrect POS, add:glue
 más o menos	more or less, so-so	phrase	A1.1	MWU|comparison|society	remove:glue
 médica	doctor	noun	A1.1		
 México	Mexico	noun	A1.1	countries	
@@ -335,7 +335,7 @@ negro	black	adj	A1.1	colors
 nevar	to snow	verb	A1.1	nature|time	
 niña	girl	noun	A1.1		
 niño	boy, child	noun	A1.1	society	
-no	no, not	verb	A1.1	glue	incorrect POS, add:glue
+no	no, not	adv	A1.1	glue	incorrect POS, add:glue
 noche	night	noun	A1.1	time	
 nombre	name	noun	A1.1		
 normalmente	normally	adv	A1.1	media|time	
@@ -386,7 +386,7 @@ piano	piano	noun	A1.1	media
 pizza	pizza	noun	A1.1	food	
 pluma	pen	noun	A1.1	education	
 plátano	banana	noun	A1.1	food	
-poco	a little, little, few	verb	A1.1	food|glue	incorrect POS, add:glue
+poco	a little, little, few	adv	A1.1	food|glue	incorrect POS, add:glue
 poder	to be able to, can, power	verb	A1.1	glue|society|work	add:glue
 por	by, for, through	prep	A1.1	glue	
 por favor	please	interj	A1.1	MWU|society	
@@ -409,7 +409,7 @@ qué	what	noun	A1.1
 radio	radio	noun	A1.1	media|tech	
 recibir	to receive	verb	A1.1	tech|work	
 refresco	soft drink, soda	noun	A1.1	food	
-regular	okay, regular, average	verb	A1.1	education|society	incorrect POS
+regular	okay, regular, average	adj	A1.1	education|society	incorrect POS
 responder	to answer	verb	A1.1	society	
 restaurante	restaurant	noun	A1.1	food|work	
 rico	delicious, rich	adj	A1.1	food	
@@ -448,7 +448,7 @@ subir	to get on, to go up, to upload	verb	A1.1	tech|travel
 sucio	dirty	adj	A1.1	home	
 supermercado	supermarket	adv	A1.1		
 supermercado	supermarket	noun	A1.1		
-suéter	sweater	verb	A1.1		incorrect POS
+suéter	sweater	noun	A1.1		incorrect POS
 sábado	Saturday	noun	A1.1	time	
 sí	yes	pron	A1.1	glue	add:glue
 también	also	adv	A1.1	glue	add:glue
@@ -533,9 +533,9 @@ algo	something	pron	A1.2	glue	add:glue
 alguien	someone	pron	A1.2	glue	add:glue
 almohada	pillow	noun	A1.2	home	
 almorzar	to have lunch	verb	A1.2	food	
-alquiler	rent	verb	A1.2	home	incorrect POS
+alquiler	rent	noun	A1.2	home	incorrect POS
 alrededor	around	noun	A1.2		
-anteayer	day before yesterday	verb	A1.2	time	incorrect POS
+anteayer	day before yesterday	adv	A1.2	time	incorrect POS
 aquella	that over there	adv	A1.2	glue	add:glue
 aquellas	those over there	adv	A1.2	glue	add:glue
 armario	closet, wardrobe	noun	A1.2	home	
@@ -546,12 +546,12 @@ así que	so, therefore	connector	A1.2	MWU|comparison|discourse|glue
 aunque	although, even though	conj	A1.2	discourse|glue	
 avenida	avenue	noun	A1.2		
 avergonzado	embarrassed	adj	A1.2		
-azúcar	sugar	verb	A1.2	food	incorrect POS
+azúcar	sugar	noun	A1.2	food	incorrect POS
 bailar	to dance	verb	A1.2	media	
 balcón	balcony	noun	A1.2	home	
 barato	cheap	adj	A1.2	finance|travel	
 barco	boat	noun	A1.2	travel	
-bastante	quite, enough	verb	A1.2	glue	incorrect POS, add:glue
+bastante	quite, enough	adv	A1.2	glue	incorrect POS, add:glue
 bañera	bathtub	noun	A1.2		
 biblioteca	library	noun	A1.2	education	
 boca	mouth	noun	A1.2	health	
@@ -579,7 +579,7 @@ centro comercial	shopping mall	phrase	A1.2	MWU
 cepillarse	to brush	verb	A1.2	home|reflexive	
 cerradura	lock	noun	A1.2	home	
 chaqueta	jacket	noun	A1.2		
-chocolate	chocolate	adv	A1.2		incorrect POS
+chocolate	chocolate	noun	A1.2		incorrect POS
 cierto	true, certain	adj	A1.2		
 cine	cinema, movie theater	noun	A1.2	media	
 cocinar	to cook	verb	A1.2	food|home|media	
@@ -654,7 +654,7 @@ falso	FALSE	adj	A1.2
 farmacia	pharmacy	noun	A1.2	health	
 feliz	happy	adj	A1.2	health	
 fiebre	fever	noun	A1.2	health	
-fotografía	photography	adj	A1.2		incorrect POS
+fotografía	photography	noun	A1.2		incorrect POS
 fue	was, went	noun	A1.2		
 gafas	glasses	noun	A1.2		
 galleta	cookie, biscuit	noun	A1.2	food	
@@ -713,7 +713,7 @@ nadie	no one, nobody	pron	A1.2	glue	add:glue
 nariz	nose	noun	A1.2	health	
 necesario	necessary	adj	A1.2		
 nervioso	nervous	adj	A1.2	health	
-nieve	snow	adv	A1.2	nature|time	incorrect POS
+nieve	snow	noun	A1.2	nature|time	incorrect POS
 normal	normal	noun	A1.2		
 nos	us	pron	A1.2	glue	add:glue
 nube	cloud	noun	A1.2	nature	
@@ -744,7 +744,7 @@ pie	foot	noun	A1.2	health
 piel	skin	noun	A1.2	health	
 pierna	leg	noun	A1.2	health	
 pintar	to paint	verb	A1.2	health|media	
-piso	floor, apartment	adv	A1.2	home	incorrect POS
+piso	floor, apartment	noun	A1.2	home	incorrect POS
 playa	beach	noun	A1.2	nature	
 plaza	square	noun	A1.2		
 pollo	chicken	noun	A1.2	food	
@@ -787,11 +787,11 @@ sofá	sofa	noun	A1.2	home
 sol	sun	noun	A1.2	nature	
 solamente	only	adv	A1.2		
 sombrero	hat	noun	A1.2		
-sopa	soup	adv	A1.2	food	incorrect POS
+sopa	soup	noun	A1.2	food	incorrect POS
 sorprendido	surprised	adj	A1.2		
 tal como	just as	phrase	A1.2	MWU|comparison	
 tal vez	perhaps, maybe	phrase	A1.2	MWU	
-tampoco	neither, not either	verb	A1.2	glue	incorrect POS, add:glue
+tampoco	neither, not either	adv	A1.2	glue	incorrect POS, add:glue
 tan...como	as...as	phrase	A1.2	comparison	
 tanto como	as much as	phrase	A1.2	MWU|comparison	
 taxi	taxi	noun	A1.2	travel	
@@ -860,7 +860,7 @@ alojamiento	accommodation	noun	A2.1	travel
 alrededor de	around	phrase	A2.1	MWU	
 altavoces	speakers	noun	A2.1	tech	
 altura	height	noun	A2.1		
-alumna	student, pupil	adv	A2.1	education	incorrect POS
+alumna	student, pupil	noun	A2.1	education	incorrect POS
 alérgico	allergic	adj	A2.1	health	
 amargo	bitter	adj	A2.1	food	
 ambicioso	ambitious	adj	A2.1	work	
@@ -880,7 +880,7 @@ antes de	before	phrase	A2.1	MWU|time	remove:glue
 antipático	unfriendly	adj	A2.1		
 anulado	cancelled	noun	A2.1	travel	
 apagar	to turn off	verb	A2.1	tech	
-apenas	barely, hardly	verb	A2.1	time	incorrect POS
+apenas	barely, hardly	adv	A2.1	time	incorrect POS
 apio	celery	noun	A2.1	food	
 aplaudir	to applaud	verb	A2.1	media|sports	
 aplicación	application, app	noun	A2.1	tech|work	
@@ -917,8 +917,8 @@ batidora	mixer	noun	A2.1	food
 batir	to beat	verb	A2.1	food	
 bebida	drink	noun	A2.1	food	
 beca	scholarship	noun	A2.1	education	
-bienestar	well-being	verb	A2.1	health	incorrect POS
-billar	billiards	verb	A2.1	food	incorrect POS
+bienestar	well-being	noun	A2.1	health	incorrect POS
+billar	billiards	noun	A2.1	food	incorrect POS
 biología	biology	noun	A2.1	education|tech	
 blog	blog	noun	A2.1	tech	
 boda	wedding	noun	A2.1	society	
@@ -956,7 +956,7 @@ capacitación	training	noun	A2.1	work
 capítulo	chapter	noun	A2.1	media	
 carpeta	folder	noun	A2.1	education|work	
 carrera	career	noun	A2.1	work	
-carácter	character	verb	A2.1	health	incorrect POS
+carácter	character	noun	A2.1	health	incorrect POS
 casada	married	noun	A2.1	society	
 caza	hunting	noun	A2.1	sports	
 cazar	to hunt	verb	A2.1		
@@ -992,7 +992,7 @@ colgar	to hang up	verb	A2.1	tech
 colina	hill	noun	A2.1	nature	
 comentar	to comment	verb	A2.1	media	
 comercial	commercial	noun	A2.1	media	
-como	how, as	verb	A2.1	glue	incorrect POS, add:glue
+como	how, as	noun	A2.1	glue	incorrect POS, add:glue
 comparar	to compare	verb	A2.1	education	
 compañera	colleague	noun	A2.1	work	
 compañera de clase	classmate	phrase	A2.1	MWU|education|reflexive	
@@ -1038,7 +1038,7 @@ criticar	to criticize, to critique	verb	A2.1	education|media|society
 cruel	cruel	adj	A2.1		
 crujiente	crispy	adj	A2.1	food	
 crónico	chronic	adj	A2.1	health	
-cuando	when	verb	A2.1	glue	incorrect POS, add:glue
+cuando	when	adv	A2.1	glue	incorrect POS, add:glue
 cuarto	quarter	noun	A2.1	media	
 cuchara	spoon	noun	A2.1	food	
 cucharita	teaspoon	noun	A2.1	food	
@@ -1246,7 +1246,7 @@ gramo	gram	noun	A2.1
 graso	greasy	adj	A2.1	food	
 grave	serious	adj	A2.1	health	
 gravemente	seriously	adv	A2.1	health	
-grupo	group, band	adv	A2.1	media	incorrect POS
+grupo	group, band	noun	A2.1	media	incorrect POS
 guardar	to save	verb	A2.1	tech	
 guisar	to stew	verb	A2.1	food	
 guión	script	noun	A2.1	media	
@@ -1342,7 +1342,7 @@ lucha	wrestling	noun	A2.1	sports
 luna	moon	noun	A2.1	nature	
 mantequilla	butter	noun	A2.1	food	
 mapa	map	noun	A2.1	education|travel	
-mar	sea	verb	A2.1	nature	incorrect POS
+mar	sea	noun	A2.1	nature	incorrect POS
 maratón	marathon	noun	A2.1	sports	
 marcador	marker	noun	A2.1	education	
 margarina	margarine	noun	A2.1	food	
@@ -1352,7 +1352,7 @@ matricularse	to register	verb	A2.1	education|reflexive
 matrimonio	marriage	noun	A2.1	society	
 medalla	medal	noun	A2.1	sports	
 medicamento	medication	noun	A2.1	health	
-medida	measurement	adj	A2.1		incorrect POS
+medida	measurement	noun	A2.1		incorrect POS
 medios	media	noun	A2.1	media	
 meditar	to meditate	verb	A2.1		
 mejorar	to improve	verb	A2.1	health|tech|work	
@@ -1388,8 +1388,8 @@ necesitar	to need	verb	A2.1
 negocio	business	noun	A2.1	work	
 ninguno	none, not any	pron	A2.1	glue	add:glue
 nota	grade, note	noun	A2.1	education	
-noticia	news	adj	A2.1	media	incorrect POS
-noticias	news	adj	A2.1	media	incorrect POS
+noticia	news	noun	A2.1	media	incorrect POS
+noticias	news	noun	A2.1	media	incorrect POS
 novela	novel	noun	A2.1	media	
 novia	boyfriend, girlfriend	noun	A2.1	society	
 nuera	daughter-in-law	noun	A2.1	society	
@@ -1416,7 +1416,7 @@ pantalla	screen	noun	A2.1	tech
 paracaidismo	skydiving	noun	A2.1	nature	
 parada	stop	noun	A2.1	travel	
 parapente	paragliding	noun	A2.1	sports	
-pareja	couple, partner	adv	A2.1	media	incorrect POS
+pareja	couple, partner	noun	A2.1	media	incorrect POS
 pariente	relative	noun	A2.1	society	
 parte	part, party	noun	A2.1	media	
 particularmente	particularly	adv	A2.1	time	
@@ -1451,10 +1451,10 @@ planeta	planet	noun	A2.1	nature
 planificar	to plan	verb	A2.1	travel|work	
 plano	map, plan	noun	A2.1	travel	
 planta	plant	noun	A2.1	nature	
-plato	plate	adv	A2.1	food|time	incorrect POS
+plato	plate	noun	A2.1	food|time	incorrect POS
 plato principal	main course	phrase	A2.1	MWU|food	
 poesía	poetry	noun	A2.1	media	
-popular	popular	verb	A2.1	media	incorrect POS
+popular	popular	adj	A2.1	media	incorrect POS
 portátil	portable	adj	A2.1	tech	
 posada	inn	noun	A2.1	travel	
 practicar	to practice	verb	A2.1	education|sports	
@@ -1568,7 +1568,7 @@ simpático	nice, friendly	adj	A2.1
 sino	but (after negative)	conj	A2.1	glue|time	
 sino que	but rather	phrase	A2.1	MWU|comparison	remove:glue
 sitio web	website	phrase	A2.1	MWU|tech	
-snowboard	snowboarding	adv	A2.1	sports|time	incorrect POS
+snowboard	snowboarding	noun	A2.1	sports|time	incorrect POS
 sobrina	nephew, niece	noun	A2.1	society	
 software	software	noun	A2.1	tech	
 soler	to usually do	verb	A2.1		
@@ -1593,7 +1593,7 @@ suspenso	suspense, thriller	noun	A2.1	media
 síntoma	symptom	noun	A2.1	health	
 tableta	tablet	noun	A2.1	tech	
 tamaño	size	noun	A2.1		
-tampoco	neither, not either	connector	A2.1	discourse|glue	
+tampoco	neither, not either	adv	A2.1	discourse|glue	
 tan pronto como	as soon as	phrase	A2.1	MWU|comparison|time	remove:glue
 tarea	homework, task	noun	A2.1	education|home|work	
 tarjeta de embarque	boarding pass	phrase	A2.1	MWU|travel	
@@ -1632,7 +1632,7 @@ trama	plot	noun	A2.1	media
 tratamiento	treatment	noun	A2.1	health	
 tratar de	to try to	phrase	A2.1	MWU	
 triatlón	triathlon	noun	A2.1	sports	
-tristeza	sadness	adj	A2.1		incorrect POS
+tristeza	sadness	noun	A2.1		incorrect POS
 trofeo	trophy	noun	A2.1	sports	
 tropical	tropical	adj	A2.1	travel	
 trozo	piece	noun	A2.1		
@@ -1693,7 +1693,7 @@ advertir	to warn	verb	A2.2
 afeitadora	razor	noun	A2.2		
 afeitar	to shave	verb	A2.2		
 agresiva	aggressive	noun	A2.2		
-agricultora	farmer	adv	A2.2	health	incorrect POS
+agricultora	farmer	noun	A2.2	health	incorrect POS
 aire acondicionado	air conditioning	phrase	A2.2	MWU|nature|travel	
 al contrario	on the contrary	phrase	A2.2	MWU	
 alergia	allergy	noun	A2.2	health	
@@ -1748,7 +1748,7 @@ clase ejecutiva	business class	phrase	A2.2	MWU|education
 clase turista	economy class	phrase	A2.2	MWU|education	
 cobarde	coward	noun	A2.2	nature	
 cocinera	cook	noun	A2.2		
-collar	necklace	verb	A2.2		incorrect POS
+collar	necklace	noun	A2.2		incorrect POS
 comedia	comedy	noun	A2.2	media	
 comprobar	to check, verify, to verify	verb	A2.2	education|tech	
 comunicar	to communicate	verb	A2.2	work	
@@ -1760,7 +1760,7 @@ contrato de arrendamiento	lease, rental agreement	phrase	A2.2	MWU|home
 convivencia	coexistence	noun	A2.2		
 correo	mail	noun	A2.2		
 corte de pelo	haircut	phrase	A2.2	MWU|health	
-cortocircuito	short circuit	adj	A2.2		incorrect POS
+cortocircuito	short circuit	noun	A2.2		incorrect POS
 cosmética	cosmetics	noun	A2.2		
 costumbre	custom	noun	A2.2		
 crema	cream	noun	A2.2		
@@ -1785,7 +1785,7 @@ defectuosa	defective	noun	A2.2
 dejar prestado	to lend	phrase	A2.2	MWU	
 democracia	democracy	noun	A2.2	society	
 depósito	deposit	noun	A2.2	finance	
-derechos	rights	adv	A2.2		incorrect POS
+derechos	rights	noun	A2.2		incorrect POS
 descolgar	to pick up	verb	A2.2		
 descuidada	careless	noun	A2.2		
 desde luego	certainly, of course	phrase	A2.2	MWU	
@@ -1849,8 +1849,8 @@ falsificación	counterfeit	noun	A2.2
 felicitación	congratulation	noun	A2.2		
 firma	signature	noun	A2.2	nature	
 fuga de agua	water leak	phrase	A2.2	MWU|nature	
-funeral	funeral	adj	A2.2		incorrect POS
-garantía	warranty, guarantee	noun	A2.2	finance	
+funeral	funeral	noun	A2.2		incorrect POS
+garantía	warranty, guarantee	verb	A2.2	finance	
 gasolinera	gas station	noun	A2.2	comparison	
 generosa	generous	noun	A2.2		
 gobierno	government	noun	A2.2	work	
@@ -1891,7 +1891,7 @@ jardinera	gardener	noun	A2.2	home
 joyería	jewelry	noun	A2.2		
 jubilada	retired	adj	A2.2		
 jueza	judge	noun	A2.2		
-justicia	justice	adv	A2.2	society	incorrect POS
+justicia	justice	noun	A2.2	society	incorrect POS
 ley	law	noun	A2.2	society	
 libertad	freedom	noun	A2.2		
 llamada perdida	missed call	phrase	A2.2	MWU|work	
@@ -1901,11 +1901,11 @@ loción	lotion	noun	A2.2
 límite de velocidad	speed limit	phrase	A2.2	MWU	
 línea ocupada	busy line	phrase	A2.2	MWU	
 madura	mature	noun	A2.2		
-mal	to make a good, bad impression, badly	adv	A2.2		incorrect POS
+mal	to make a good, bad impression, badly	adj	A2.2		incorrect POS
 maletero	trunk, boot	noun	A2.2		
 mantenimiento	maintenance	noun	A2.2		
 manual	manual	noun	A2.2		
-maquillaje	makeup	adv	A2.2		incorrect POS
+maquillaje	makeup	noun	A2.2		incorrect POS
 maquillar	to apply makeup	verb	A2.2		
 marca	brand	noun	A2.2		
 marcar	to dial	verb	A2.2		
@@ -1917,7 +1917,7 @@ me molesta que	it bothers me that...	phrase	A2.2	MWU|comparison
 me sorprende que	it surprises me that...	phrase	A2.2	MWU|comparison	
 mecánica	mechanic	noun	A2.2		
 mentirosa	liar	noun	A2.2		
-militar	military person	verb	A2.2	society	incorrect POS
+militar	military person	noun	A2.2	society	incorrect POS
 moda	fashion	noun	A2.2		
 modelo	model	noun	A2.2		
 mudanza	move, moving	noun	A2.2		
@@ -1953,7 +1953,7 @@ peluquería	hair salon	noun	A2.2	health
 perezosa	lazy	noun	A2.2		
 perfume	perfume	noun	A2.2		
 periodista	journalist	noun	A2.2		
-periódico	newspaper	adj	A2.2	media	incorrect POS
+periódico	newspaper	noun	A2.2	media	incorrect POS
 permitir	to allow	verb	A2.2		
 pescadora	fisher	noun	A2.2	nature	
 pesimista	pessimistic	adj	A2.2		
@@ -1985,7 +1985,7 @@ pulsera	bracelet	noun	A2.2
 quedarse con	to keep	phrase	A2.2	MWU	
 queja	complaint	noun	A2.2		
 quiero que	I want that...	phrase	A2.2	MWU|comparison	
-radar	radar	verb	A2.2		incorrect POS
+radar	radar	noun	A2.2		incorrect POS
 recepcionista	receptionist	noun	A2.2	travel|work	
 receptor	receiver	noun	A2.2		
 receta médica	prescription	phrase	A2.2	MWU|health	
@@ -2000,7 +2000,7 @@ riqueza	wealth	noun	A2.2
 romántica	romantic	noun	A2.2	media	
 rotonda	roundabout	noun	A2.2		
 ruptura	breakage, rupture	noun	A2.2		
-sabrá	he, she will know	adv	A2.2	time	incorrect POS
+sabrá	he, she will know	verb	A2.2	time	incorrect POS
 salario	salary	noun	A2.2	work	
 salón de belleza	beauty salon	phrase	A2.2	MWU	
 sangre	blood	noun	A2.2	health	
@@ -2036,16 +2036,16 @@ tarjeta	card, key card	noun	A2.2	travel
 tarjeta de crédito	credit card	phrase	A2.2	MWU|finance	
 tarjeta de débito	debit card	phrase	A2.2	MWU|finance	
 te compraría	I would buy you	phrase	A2.2	MWU	
-telediario	news program	adj	A2.2	tech	incorrect POS
+telediario	news program	noun	A2.2	tech	incorrect POS
 tendré	I will have	noun	A2.2		
 tener en cuenta	to take into account	phrase	A2.2	MWU|finance	
 tener razón	to be right	phrase	A2.2	MWU	
 tener suerte	to be lucky	phrase	A2.2	MWU	
 terror	horror	noun	A2.2	media	
-thriller	thriller	verb	A2.2	media	incorrect POS
-titular	headline	verb	A2.2	health	incorrect POS
+thriller	thriller	noun	A2.2	media	incorrect POS
+titular	headline	noun	A2.2	health	incorrect POS
 toalla	towel	noun	A2.2		
-tonta	silly, stupid	adv	A2.2		incorrect POS
+tonta	silly, stupid	adj	A2.2		incorrect POS
 tos	cough	noun	A2.2	health	
 trabajadora	hardworking	noun	A2.2		
 tradición	tradition	noun	A2.2		
@@ -2111,44 +2111,44 @@ alcalde	mayor	noun	B1.1	society
 alcanzar	to reach	verb	B1.1	work	
 alcanzar a	to manage to	phrase	B1.1	MWU	
 alergia	allergy	adj	B1.1		
-algoritmo	algorithm	adj	B1.1	tech	incorrect POS
-altruismo	altruism	adj	B1.1	health	incorrect POS
+algoritmo	algorithm	noun	B1.1	tech	incorrect POS
+altruismo	altruism	noun	B1.1	health	incorrect POS
 amateur	amateur	noun	B1.1		
 ambición	ambition	noun	B1.1	work	
 ambiguo	ambiguous	adj	B1.1		
 ambivalencia	ambivalence	adj	B1.1		
 amorosamente	lovingly	adv	B1.1	health	
-analogía	analogy	adj	B1.1	education	incorrect POS
+analogía	analogy	noun	B1.1	education	incorrect POS
 analítico	analytical	adj	B1.1	tech	
 analógico	analog	adj	B1.1	tech	
 anhelo	yearning	noun	B1.1	health	
 anormal	abnormal	adj	B1.1		
 ansiedad	anxiety	noun	B1.1		
-antibiótico	antibiotic	adj	B1.1		incorrect POS
-anuncio	advertisement	adj	B1.1		incorrect POS
-análisis	analysis	adj	B1.1	education	incorrect POS
+antibiótico	antibiotic	noun	B1.1		incorrect POS
+anuncio	advertisement	noun	B1.1		incorrect POS
+análisis	analysis	noun	B1.1	education	incorrect POS
 análisis de sangre	blood test	phrase	B1.1	MWU	
 aparato	apparatus	noun	B1.1		
 apasionadamente	passionately	adv	B1.1	health	
 apatía	apathy	noun	B1.1	health	
-aplicación	application	adj	B1.1	tech	incorrect POS
+aplicación	application	noun	B1.1	tech	incorrect POS
 apoyar	to support	verb	B1.1	society	
 apreciar	to appreciate	verb	B1.1	health|media	
 aptitud	aptitude	noun	B1.1	work	
 aptitudes	aptitudes	noun	B1.1		
 apuntes	notes	noun	B1.1		
 ardorosamente	ardently	adv	B1.1	health	
-argumentación	argumentation	adj	B1.1	education	incorrect POS
+argumentación	argumentation	noun	B1.1	education	incorrect POS
 argumentar	to argue	verb	B1.1	education	
-argumento	plot, argument	adj	B1.1	education|media	incorrect POS
+argumento	plot, argument	noun	B1.1	education|media	incorrect POS
 arqueología	archaeology	noun	B1.1	tech	
 arquitectura	architecture	noun	B1.1	media	
-arrepentimiento	regret, repentance	adj	B1.1	health	incorrect POS
+arrepentimiento	regret, repentance	noun	B1.1	health	incorrect POS
 arrogancia	arrogance	noun	B1.1		
 artesanía	crafts	noun	B1.1		
-artículo	article	adj	B1.1		incorrect POS
+artículo	article	noun	B1.1		incorrect POS
 ascender	to be promoted	verb	B1.1	work	
-ascenso	promotion, advancement	adj	B1.1	work	incorrect POS
+ascenso	promotion, advancement	noun	B1.1	work	incorrect POS
 asignatura obligatoria	mandatory subject	phrase	B1.1	MWU	remove:glue
 asignatura optativa	elective subject	phrase	B1.1	MWU	
 asilo	asylum	noun	B1.1		
@@ -2166,13 +2166,13 @@ automático	automatic	adj	B1.1	tech
 autoritario	authoritarian	adj	B1.1	society	
 avance	advance, progress	noun	B1.1	tech	
 avanzar	to advance	verb	B1.1	work	
-ayudante	assistant	adj	B1.1		incorrect POS
+ayudante	assistant	noun	B1.1		incorrect POS
 añoranza	longing	noun	B1.1	health	
-bachillerato	high school diploma, baccalaureate	adj	B1.1		incorrect POS
+bachillerato	high school diploma, baccalaureate	noun	B1.1		incorrect POS
 bacteria	bacteria	noun	B1.1		
 baja por enfermedad	sick leave	phrase	B1.1	MWU	
 basura	trash	noun	B1.1		
-beca	scholarship, grant	adj	B1.1		incorrect POS
+beca	scholarship, grant	noun	B1.1		incorrect POS
 belleza	beauty	noun	B1.1		
 bello	beautiful	adj	B1.1	media	
 beneficio	benefit	noun	B1.1		
@@ -2198,29 +2198,29 @@ carta de presentación	cover letter	phrase	B1.1	MWU
 catedrático	professor	noun	B1.1		
 categorizar	to categorize	verb	B1.1	education	
 categoría	category	noun	B1.1	education	
-celos	jealousy	adj	B1.1		incorrect POS
+celos	jealousy	noun	B1.1		incorrect POS
 censurar	to censure	verb	B1.1	society	
-centrista	centrist	adj	B1.1		incorrect POS
+centrista	centrist	noun	B1.1		incorrect POS
 cerebro	brain	noun	B1.1	health	
 certeza	certainty	noun	B1.1		
-certificación	certification	adj	B1.1	tech	incorrect POS
+certificación	certification	noun	B1.1	tech	incorrect POS
 cesar de	to cease doing	phrase	B1.1	MWU	
 ciencia	science	noun	B1.1	tech	
-científico	scientist, scientific	adj	B1.1	education|tech	incorrect POS
+científico	scientist, scientific	noun	B1.1	education|tech	incorrect POS
 cinematografía	cinematography	noun	B1.1	media	
 ciudadano	citizen	noun	B1.1	society	
 ciudadanía	citizenship	noun	B1.1		
 civil	civil	adj	B1.1	society	
 claro	clear	adj	B1.1		
-clasificación	classification	adj	B1.1	education	incorrect POS
+clasificación	classification	noun	B1.1	education	incorrect POS
 clasificar	to classify	verb	B1.1	education	
 clonación	cloning	noun	B1.1		
-cobardía	cowardice	adj	B1.1		incorrect POS
+cobardía	cowardice	noun	B1.1		incorrect POS
 codificar	to code	verb	B1.1	tech	
-coherente	coherent	adv	B1.1		incorrect POS
+coherente	coherent	noun	B1.1		incorrect POS
 columna	column	noun	B1.1		
 combatir	to combat	verb	B1.1	society	
-comentarista	commentator	adj	B1.1		incorrect POS
+comentarista	commentator	noun	B1.1		incorrect POS
 como si	as if	phrase	B1.1	MWU|comparison	
 comparación	comparison	noun	B1.1	education	
 comparativamente	comparatively	adv	B1.1		
@@ -2331,7 +2331,7 @@ democrático	democratic	adj	B1.1	society
 demostración	demonstration	noun	B1.1	education	
 demostrar	to demonstrate	verb	B1.1	education|tech	
 denunciar	to denounce	verb	B1.1	society	
-departamento	department	adj	B1.1		
+departamento	department	noun	B1.1		
 deportista profesional	professional athlete	phrase	B1.1	MWU	
 derecho	right, law	noun	B1.1	society	
 derechos	rights	noun	B1.1		
@@ -2447,7 +2447,7 @@ erupción volcánica	volcanic eruption	phrase	B1.1	MWU
 esclavitud	slavery	noun	B1.1		
 esculpir	to sculpt	verb	B1.1	media	
 escultura	sculpture	noun	B1.1	media	
-escáner	scanner	verb	B1.1		incorrect POS
+escáner	scanner	noun	B1.1		incorrect POS
 esencial	essential	adj	B1.1		
 esforzarse	to make an effort	verb	B1.1	reflexive|work	
 esfuerzo	effort	noun	B1.1	work	
@@ -2543,7 +2543,7 @@ grado universitario	university degree	phrase	B1.1	MWU
 gratitud	gratitude	noun	B1.1		
 habilidades	skills	noun	B1.1		
 hardware	hardware	noun	B1.1	tech	
-herramienta	tool	adv	B1.1		incorrect POS
+herramienta	tool	noun	B1.1		incorrect POS
 hipótesis	hypothesis	noun	B1.1	education|tech	
 homofobia	homophobia	noun	B1.1		
 honestidad	honesty	noun	B1.1		
@@ -2570,7 +2570,7 @@ impuesto sobre la renta	income tax	phrase	B1.1	MWU
 impulsar	to drive	verb	B1.1	society|work	
 incluido	included	adj	B1.1	society	
 inclusión	inclusion	noun	B1.1	society	
-incoherente	incoherent	adv	B1.1		incorrect POS
+incoherente	incoherent	noun	B1.1		incorrect POS
 inconsciencia	unconsciousness	adj	B1.1	health	
 inconsistente	inconsistent	adj	B1.1		
 increíblemente	incredibly	adv	B1.1		
@@ -2647,7 +2647,7 @@ medio de comunicación	media	phrase	B1.1	MWU
 mediocre	mediocre	adj	B1.1	media	
 medir	to measure	verb	B1.1	education|tech	
 melancolía	melancholy	noun	B1.1	health	
-mente	mind	adv	B1.1	health	incorrect POS
+mente	mind	noun	B1.1	health	incorrect POS
 mentira	lie	noun	B1.1		
 merecer	to deserve	verb	B1.1	work	
 meta	goal	adj	B1.1	work	
@@ -2667,7 +2667,7 @@ movimiento	movement	adj	B1.1
 muestra	sample, display	noun	B1.1	education|media	
 musical	musical	adj	B1.1	media	
 máquina	machine	noun	B1.1		
-máster	master's degree	verb	B1.1		incorrect POS
+máster	master's degree	noun	B1.1		incorrect POS
 método	method	noun	B1.1	education|work	
 música	music	adj	B1.1	media	
 nacionalidad	nationality	adj	B1.1		
@@ -2892,7 +2892,7 @@ sustentar	to support	verb	B1.1	education
 símbolo	symbol	noun	B1.1		
 talento	talent	adj	B1.1	media|work	
 talentoso	talented	adj	B1.1	work	
-taller	workshop	verb	B1.1		incorrect POS
+taller	workshop	noun	B1.1		incorrect POS
 tecnológico	technological	adj	B1.1	tech	
 teletrabajo	remote work	noun	B1.1		
 tema	theme	noun	B1.1	media	
@@ -2958,7 +2958,7 @@ virus	virus	noun	B1.1
 visionario	visionary	adj	B1.1	work	
 visual	visual	adj	B1.1	media	
 voto	vote	noun	B1.1	society	
-vulgar	vulgar	verb	B1.1	media	incorrect POS
+vulgar	vulgar	noun	B1.1	media	incorrect POS
 válido	valid	adj	B1.1		
 xenofobia	xenophobia	noun	B1.1		
 ya que	since	phrase	B1.1	MWU|comparison|time	remove:glue
@@ -3125,7 +3125,7 @@ incentivo	incentive	adj	B1.2
 inconsciente	unconscious	adj	B1.2	health	
 incumplimiento	non-compliance	noun	B1.2		
 ingresos	income	noun	B1.2		
-injusticia	injustice	adv	B1.2	society	incorrect POS
+injusticia	injustice	noun	B1.2	society	incorrect POS
 inmaduro	immature	noun	B1.2		
 inmigrar	to immigrate	verb	B1.2		
 inmunidad	immunity	noun	B1.2		
@@ -3289,7 +3289,7 @@ abducción	abduction	noun	B2.1	education
 absolutismo	absolutism	noun	B2.1		
 abstracción	abstraction	noun	B2.1		
 abstraer	to abstract	verb	B2.1		
-acaso	perhaps	adv	B2.1		incorrect POS
+acaso	perhaps	noun	B2.1		incorrect POS
 accidente	accident	adj	B2.1		
 acelerar	to accelerate	verb	B2.1	work	
 acreditación	accreditation	noun	B2.1	tech	
@@ -3365,7 +3365,7 @@ ataque	attack	noun	B2.1
 atisbar	to catch a glimpse	verb	B2.1	health	
 auge	boom	noun	B2.1		
 aun así	even so	phrase	B2.1	MWU	remove:glue
-autenticación	authentication	adv	B2.1	time	incorrect POS
+autenticación	authentication	noun	B2.1	time	incorrect POS
 autenticidad	authenticity	adv	B2.1	health|time	
 autoconcepto	self-concept	noun	B2.1	health	
 autocracia	autocracy	noun	B2.1		
@@ -3377,7 +3377,7 @@ autorización	authorization	noun	B2.1
 autorrealización	self-actualization	adj	B2.1	health	
 aval	guarantee	adj	B2.1		
 axioma	axiom	noun	B2.1		
-azar	chance	verb	B2.1		incorrect POS
+azar	chance	noun	B2.1		incorrect POS
 backup	backup	noun	B2.1		
 balancearse	to balance	verb	B2.1	health|reflexive	
 balanza comercial	trade balance	phrase	B2.1	MWU	
@@ -3555,7 +3555,7 @@ desviación estándar	standard deviation	phrase	B2.1	MWU|education	remove:glue
 determinismo	determinism	noun	B2.1		
 deuda externa	external debt	phrase	B2.1	MWU	
 deuda pública	public debt	phrase	B2.1	MWU	
-devenir	becoming	verb	B2.1		incorrect POS
+devenir	becoming	noun	B2.1		incorrect POS
 dialéctica	dialectics	adj	B2.1		
 dicho de otro modo	in other words	phrase	B2.1	MWU	remove:glue
 dicho esto	having said this	phrase	B2.1	MWU	
@@ -3724,7 +3724,7 @@ física cuántica	quantum physics	phrase	B2.1	MWU|tech
 física de partículas	particle physics	phrase	B2.1	MWU	
 galaxia	galaxy	adj	B2.1		
 ganancia	profit	noun	B2.1		
-garantía	guarantee, collateral	adv	B2.1	time	incorrect POS
+garantía	guarantee, collateral	verb	B2.1	time	incorrect POS
 gasto	spending	noun	B2.1		
 gen	gene	noun	B2.1		
 generación de ideas	idea generation	phrase	B2.1	MWU|work	
@@ -3898,7 +3898,7 @@ molécula	molecule	noun	B2.1
 monetizar	to monetize	verb	B2.1	work	
 monismo	monism	noun	B2.1		
 moral	morality	adj	B2.1		
-multilateralismo	multilateralism	adv	B2.1	time	incorrect POS
+multilateralismo	multilateralism	noun	B2.1	time	incorrect POS
 multipartidismo	multipartisanship	noun	B2.1		
 mutación	mutation	noun	B2.1		
 mutualidad	mutuality	adj	B2.1	health	
@@ -3962,7 +3962,7 @@ partícula	particle	adj	B2.1
 pasmo	astonishment	adj	B2.1	health	
 patente	patent	adj	B2.1		
 patología	pathology	noun	B2.1		
-peculiar	peculiar	verb	B2.1		incorrect POS
+peculiar	peculiar	noun	B2.1		incorrect POS
 pensamiento convergente	convergent thinking	phrase	B2.1	MWU|work	
 pensamiento creativo	creative thinking	phrase	B2.1	MWU|work	
 pensamiento divergente	divergent thinking	phrase	B2.1	MWU|work	
@@ -4009,7 +4009,7 @@ posmoderno	postmodern	noun	B2.1
 postestructuralismo	post-structuralism	adj	B2.1		
 posthumanismo	posthumanism	noun	B2.1		
 postmodernismo	postmodernism	noun	B2.1		
-postulado	postulate	adv	B2.1	time	incorrect POS
+postulado	postulate	noun	B2.1	time	incorrect POS
 postular	to postulate	verb	B2.1	education|tech|time	
 potenciar	to enhance	verb	B2.1	work	
 pragmatismo	pragmatism	noun	B2.1		
@@ -4274,7 +4274,7 @@ alegoría	allegory	adj	B2.2
 alejandrino	alexandrine	adj	B2.2		
 aliteración	alliteration	adj	B2.2		
 alomorfo	allomorph	adj	B2.2		
-altar	altar	verb	B2.2		incorrect POS
+altar	altar	noun	B2.2		incorrect POS
 alófono	allophone	adj	B2.2		
 ambientación	setting	noun	B2.2		
 ambigüedad	ambiguity	noun	B2.2		
@@ -4309,7 +4309,7 @@ aspecto progresivo	progressive aspect	phrase	B2.2	MWU
 asíndeton	asyndeton	noun	B2.2		
 atenuante	mitigating circumstance	noun	B2.2		
 ateísmo	atheism	noun	B2.2		
-atmósfera	atmosphere	adv	B2.2		incorrect POS
+atmósfera	atmosphere	noun	B2.2		incorrect POS
 atributo	attribute	noun	B2.2		
 atrición	attrition	noun	B2.2		
 autor implícito	implied author	phrase	B2.2	MWU	remove:glue
@@ -4360,7 +4360,7 @@ clero	clergy	noun	B2.2
 clímax	climax	noun	B2.2		
 clímax retórico	rhetorical climax	phrase	B2.2	MWU	remove:glue
 coadyuvante	intervener	noun	B2.2		
-coherencia	coherence	adv	B2.2	education|health	incorrect POS
+coherencia	coherence	noun	B2.2	education|health	incorrect POS
 cohesión	cohesion	noun	B2.2		
 cohesión social	social cohesion	phrase	B2.2	MWU	
 colación	collation	noun	B2.2		
@@ -4483,7 +4483,7 @@ emplazamiento	summons	noun	B2.2
 empleador	employer	noun	B2.2		
 empresario	entrepreneur, businessman	adj	B2.2		
 encabalgamiento	enjambment	adj	B2.2		
-encubridor	accessory after the fact	adv	B2.2	time	incorrect POS
+encubridor	accessory after the fact	noun	B2.2	time	incorrect POS
 enculturación	enculturation	noun	B2.2		
 endecasílabo	hendecasyllable	adj	B2.2		
 eneasílabo	enneasyllable	adj	B2.2		
@@ -4528,7 +4528,7 @@ fallo	ruling	noun	B2.2
 falta	misdemeanor	noun	B2.2		
 familia léxica	lexical family	phrase	B2.2	MWU	
 fanatismo	fanaticism	adj	B2.2		
-farsa	farce	adv	B2.2		incorrect POS
+farsa	farce	noun	B2.2		incorrect POS
 fedatario	public attestor	adj	B2.2		
 femenino	feminine	noun	B2.2		
 fideicomiso	trust	noun	B2.2		
@@ -4570,7 +4570,7 @@ hecho	fact	noun	B2.2
 hemistiquio	hemistich	adj	B2.2		
 heptasílabo	heptasyllable	adj	B2.2		
 heredero	heir	noun	B2.2		
-herejía	heresy	adv	B2.2		incorrect POS
+herejía	heresy	noun	B2.2		incorrect POS
 herencia cultural	cultural heritage	phrase	B2.2	MWU	
 heterodoxia	heterodoxy	noun	B2.2		
 heteroglosia	heteroglossia	noun	B2.2		
@@ -4926,7 +4926,7 @@ sinagoga	synagogue	noun	B2.2
 sinalefa	synalepha	adj	B2.2		
 sincretismo	syncretism	noun	B2.2		
 sinestesia	synesthesia	noun	B2.2		
-singular	singular	verb	B2.2		incorrect POS
+singular	singular	noun	B2.2		incorrect POS
 sinonimia	synonymy	noun	B2.2		
 sintagma	syntagm	noun	B2.2		
 sintagma adjetival	adjectival phrase	phrase	B2.2	MWU	
