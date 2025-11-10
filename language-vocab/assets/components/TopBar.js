@@ -1,5 +1,7 @@
 // assets/components/TopBar.js
-import { applyFilters, shuffledIds, sortWords, State, subscribe } from '../state.js';
+import { applyFilters, shuffledIds, sortWords, State, subscribe, sanitizeFilters } from '../state.js';
+
+let lastSelectedFilterSetId = '';
 import { openSettingsModal } from './SettingsModal.js';
 
 export function mountTopBar(container) {
@@ -99,15 +101,34 @@ export function mountTopBar(container) {
     const el = document.createElement('div');
     el.className = 'popover';
     Object.assign(el.style, {
-      position: 'absolute', right: '12px', top: '56px',
+      position: 'absolute', right: '12px', top: '24px',
       border: '1px solid var(--line)', borderRadius: '12px',
       padding: '12px', boxShadow: '0 8px 24px rgba(0,0,0,.35)', zIndex: '1000',
-      width: 'min(720px, 96vw)'
+      width: 'min(720px, 96vw)', overflowY: 'auto'
     });
     el.addEventListener('click', (e) => e.stopPropagation());
 
+    const availableSets = Array.isArray(State.filterSets) ? State.filterSets : [];
+    const matchingSet = availableSets.find(s => filtersEqual(State.filters, s.filters));
+    let selectedSetId = '';
+    if (lastSelectedFilterSetId && availableSets.some(s => s.id === lastSelectedFilterSetId)) {
+      selectedSetId = lastSelectedFilterSetId;
+    } else if (matchingSet) {
+      selectedSetId = matchingSet.id;
+    }
+    if (selectedSetId) {
+      lastSelectedFilterSetId = selectedSetId;
+    }
+
+    const savedSection = buildSavedSetsSection();
+    el.appendChild(savedSection.wrap);
+
     const grid = document.createElement('div');
-    Object.assign(grid.style, { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '12px' });
+    Object.assign(grid.style, {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+      gap: '12px'
+    });
 
     const { posValues, cefrValues, tagValues } = collectFacetValues(State.words);
 
@@ -173,9 +194,217 @@ export function mountTopBar(container) {
     footer.append(clear, close);
     el.appendChild(footer);
 
-    el._unsub = subscribe(() => refreshWeightBtns());
+    el._unsub = subscribe(() => {
+      refreshWeightBtns();
+      savedSection.refresh();
+    });
     refreshWeightBtns();
+    savedSection.refresh();
     return el;
+
+    function buildSavedSetsSection() {
+      const wrap = document.createElement('div');
+      Object.assign(wrap.style, {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px',
+        marginBottom: '16px',
+        paddingBottom: '12px',
+        borderBottom: '1px solid var(--line)'
+      });
+
+      const title = document.createElement('div');
+      title.textContent = 'Saved filter sets';
+      title.style.fontWeight = '700';
+      wrap.appendChild(title);
+
+      const row = document.createElement('div');
+      Object.assign(row.style, {
+        display: 'flex',
+        gap: '6px',
+        flexWrap: 'wrap',
+        alignItems: 'center'
+      });
+
+      const select = document.createElement('select');
+      Object.assign(select.style, { flex: '1 1 220px', minWidth: '200px' });
+      row.appendChild(select);
+
+      const load = iconActionButton('⇩', 'Load selected set');
+      load.disabled = true;
+      row.appendChild(load);
+
+      const update = iconActionButton('⟳', 'Update selected set');
+      update.disabled = true;
+      row.appendChild(update);
+
+      const save = iconActionButton('＋', 'Save current filters as new set');
+      row.appendChild(save);
+
+      const del = iconActionButton('🗑', 'Delete selected set');
+      del.disabled = true;
+      row.appendChild(del);
+
+      wrap.appendChild(row);
+
+      const status = document.createElement('div');
+      status.style.fontSize = '12px';
+      status.style.color = 'var(--fg-dim)';
+      wrap.appendChild(status);
+
+      const getSets = () => Array.isArray(State.filterSets) ? State.filterSets : [];
+
+      select.onchange = () => {
+        selectedSetId = select.value;
+        lastSelectedFilterSetId = selectedSetId || '';
+        refresh();
+      };
+
+      load.onclick = () => {
+        if (!selectedSetId) return;
+        const sets = getSets();
+        const found = sets.find(s => s.id === selectedSetId);
+        if (!found) return;
+        lastSelectedFilterSetId = selectedSetId;
+        State.set('filters', sanitizeFilters(found.filters));
+        closePop();
+      };
+
+      save.onclick = () => {
+        const sets = getSets();
+        const defaultName = (selectedSetId && sets.find(s => s.id === selectedSetId)?.name) || '';
+        const input = prompt('Save current filters as…', defaultName || 'New filter set');
+        if (input == null) return;
+        const name = input.trim();
+        if (!name) return;
+        const filters = sanitizeFilters(State.filters);
+        const existing = sets.find(s => s.name.toLowerCase() === name.toLowerCase());
+        if (existing) {
+          const ok = confirm(`Replace the saved set “${existing.name}”?`);
+          if (!ok) return;
+          const next = sets.map(s => s.id === existing.id ? { ...s, name, filters } : s);
+          selectedSetId = existing.id;
+          lastSelectedFilterSetId = existing.id;
+          State.set('filterSets', next);
+        } else {
+          const newSet = { id: newFilterSetId(), name, filters };
+          selectedSetId = newSet.id;
+          lastSelectedFilterSetId = newSet.id;
+          State.set('filterSets', [...sets, newSet]);
+        }
+        refresh();
+      };
+
+      update.onclick = () => {
+        if (!selectedSetId) return;
+        const sets = getSets();
+        if (!sets.some(s => s.id === selectedSetId)) return;
+        const filters = sanitizeFilters(State.filters);
+        const next = sets.map(s => s.id === selectedSetId ? { ...s, filters } : s);
+        lastSelectedFilterSetId = selectedSetId;
+        State.set('filterSets', next);
+        refresh();
+      };
+
+      del.onclick = () => {
+        if (!selectedSetId) return;
+        const sets = getSets();
+        const target = sets.find(s => s.id === selectedSetId);
+        if (!target) return;
+        if (!confirm(`Delete the saved set “${target.name}”?`)) return;
+        const next = sets.filter(s => s.id !== selectedSetId);
+        if (lastSelectedFilterSetId === selectedSetId) {
+          lastSelectedFilterSetId = '';
+        }
+        selectedSetId = '';
+        State.set('filterSets', next);
+        refresh();
+      };
+
+      const refresh = () => {
+        const sets = getSets();
+        if (selectedSetId && !sets.some(s => s.id === selectedSetId)) {
+          if (lastSelectedFilterSetId === selectedSetId) {
+            lastSelectedFilterSetId = '';
+          }
+          selectedSetId = '';
+        }
+
+        if (!selectedSetId) {
+          if (lastSelectedFilterSetId && sets.some(s => s.id === lastSelectedFilterSetId)) {
+            selectedSetId = lastSelectedFilterSetId;
+          } else {
+            const match = sets.find(s => filtersEqual(State.filters, s.filters));
+            if (match) {
+              selectedSetId = match.id;
+              lastSelectedFilterSetId = match.id;
+            }
+          }
+        }
+
+        select.innerHTML = '';
+        if (!sets.length) {
+          lastSelectedFilterSetId = '';
+          selectedSetId = '';
+          const opt = document.createElement('option');
+          opt.value = '';
+          opt.textContent = 'No saved sets yet';
+          opt.selected = true;
+          select.appendChild(opt);
+          select.disabled = true;
+        } else {
+          select.disabled = false;
+          const placeholder = document.createElement('option');
+          placeholder.value = '';
+          placeholder.textContent = 'Select a saved set…';
+          placeholder.selected = !selectedSetId;
+          select.appendChild(placeholder);
+          sets.forEach(set => {
+            const opt = document.createElement('option');
+            opt.value = set.id;
+            opt.textContent = set.name;
+            opt.selected = set.id === selectedSetId;
+            select.appendChild(opt);
+          });
+          select.value = selectedSetId || '';
+        }
+
+        load.disabled = !selectedSetId;
+        update.disabled = !selectedSetId;
+        del.disabled = !selectedSetId;
+
+        const setsNow = getSets();
+        const selected = setsNow.find(s => s.id === selectedSetId);
+        const matching = setsNow.find(s => filtersEqual(State.filters, s.filters));
+        let message = '';
+        if (!setsNow.length) {
+          message = 'Save the current filters to reuse them later.';
+        } else if (selected) {
+          message = filtersEqual(State.filters, selected.filters)
+            ? `Current filters match “${selected.name}”.`
+            : 'Current filters differ from the selected set.';
+        } else if (matching) {
+          message = `Current filters match “${matching.name}”.`;
+        }
+        status.textContent = message;
+        status.style.display = message ? 'block' : 'none';
+      };
+
+      return { wrap, refresh };
+
+      function iconActionButton(symbol, label) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'chip chip--icon';
+        btn.setAttribute('aria-label', label);
+        btn.title = label;
+        const icon = document.createElement('span');
+        icon.textContent = symbol;
+        icon.setAttribute('aria-hidden', 'true');
+        btn.appendChild(icon);
+        return btn;
+      }
+    }
 
     function sectionChecks(title, values = [], selected = [], onChange) {
       const wrap = document.createElement('div');
@@ -207,10 +436,44 @@ export function mountTopBar(container) {
       wrap.appendChild(box);
       return wrap;
     }
+
+    function filtersEqual(a, b) {
+      return canonicalizeFilters(a) === canonicalizeFilters(b);
+    }
+
+    function canonicalizeFilters(f) {
+      const clean = sanitizeFilters(f || {});
+      const normList = (list = []) => [...(list || [])].map(v => v.toLowerCase()).sort();
+      const normWeight = (list = []) => [...(list || [])].map(n => Number(n)).sort((x, y) => x - y);
+      return JSON.stringify({
+        starred: !!clean.starred,
+        search: typeof clean.search === 'string' ? clean.search : '',
+        weight: normWeight(clean.weight),
+        pos: normList(clean.pos),
+        cefr: normList(clean.cefr),
+        tags: normList(clean.tags)
+      });
+    }
+
+    function newFilterSetId() {
+      if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+      }
+      return 'fs_' + Math.random().toString(36).slice(2, 10);
+    }
   }
 
   function positionPopover(popover, anchor) {
-    popover.style.top = (anchor.offsetTop + anchor.offsetHeight + 8) + 'px';
+    const parentRect = popover.parentElement?.getBoundingClientRect?.();
+    const anchorRect = anchor.getBoundingClientRect();
+    let top = anchor.offsetTop + anchor.offsetHeight + 8;
+    const viewportLimit = Math.max(320, Math.min(window.innerHeight - 32, 720));
+    if (parentRect) {
+      const desiredTop = Math.max(12, anchorRect.top - parentRect.top - 24);
+      top = desiredTop;
+    }
+    popover.style.maxHeight = viewportLimit + 'px';
+    popover.style.top = top + 'px';
     popover.style.right = '12px';
   }
 
@@ -254,7 +517,6 @@ export function mountTopBar(container) {
     resultCount.textContent = `${n} result${n === 1 ? '' : 's'}`;
   });
 
-  panel.appendChild(row);
   return () => { unsub(); };
 }
 
