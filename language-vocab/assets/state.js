@@ -17,15 +17,79 @@ const DEFAULT_FILTERS = {
   cefr: [],
   tags: []
 };
+
+const DEFAULT_WEIGHT = [...DEFAULT_FILTERS.weight];
+
+function normalizeList(list = []) {
+  const out = [];
+  const seen = new Set();
+  (Array.isArray(list) ? list : []).forEach(item => {
+    const raw = typeof item === 'string' ? item.trim() : '';
+    if (!raw) return;
+    const key = raw.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push(raw);
+  });
+  return out;
+}
+
+function normalizeWeight(list = []) {
+  const seen = new Set();
+  const out = [];
+  (Array.isArray(list) ? list : []).forEach(item => {
+    const n = Number(item);
+    if (!Number.isFinite(n)) return;
+    if (n < 0 || n > 4) return;
+    if (seen.has(n)) return;
+    seen.add(n);
+    out.push(n);
+  });
+  return out.length ? out.sort((a, b) => a - b) : [...DEFAULT_WEIGHT];
+}
+
+export function sanitizeFilters(filters = {}) {
+  const base = { ...DEFAULT_FILTERS };
+  base.starred = !!filters.starred;
+  base.weight = normalizeWeight(filters.weight);
+  base.search = typeof filters.search === 'string' ? filters.search : '';
+  base.pos = normalizeList(filters.pos);
+  base.cefr = normalizeList(filters.cefr);
+  base.tags = normalizeList(filters.tags);
+  return base;
+}
+
+function sanitizeFilterSets(list = []) {
+  if (!Array.isArray(list)) return [];
+  const usedIds = new Set();
+  return list.map((entry, idx) => {
+    let id = typeof entry?.id === 'string' ? entry.id.trim() : '';
+    if (!id) id = `fs_${idx}`;
+    while (usedIds.has(id)) id = `${id}_${idx}`;
+    usedIds.add(id);
+    const name = typeof entry?.name === 'string' && entry.name.trim() ? entry.name.trim() : `Set ${idx + 1}`;
+    return {
+      id,
+      name,
+      filters: sanitizeFilters(entry?.filters || {})
+    };
+  });
+}
+
 function loadFilters() {
   const stored = LS.get('v23:filters', {});
-  const weight = Array.isArray(stored?.weight) ? stored.weight : DEFAULT_FILTERS.weight;
-  return { ...DEFAULT_FILTERS, ...(stored || {}), weight };
+  return sanitizeFilters(stored || {});
+}
+
+function loadFilterSets() {
+  const stored = LS.get('v23:filterSets', []);
+  return sanitizeFilterSets(stored || []);
 }
 
 export const State = {
   words: [],
   filters: loadFilters(),
+  filterSets: loadFilterSets(),
   sort: LS.get('v23:sort', { key: 'spanish', dir: 'asc' }),
   columns: LS.get('v23:columns', { star: true, weight: true, spanish: true, english: true, pos: true, cefr: true, tags: true }),
   order: LS.get('v23:order', []),
@@ -34,9 +98,13 @@ export const State = {
   set(k, v) {
     // ensure we never lose default keys when updating filters
     if (k === 'filters') {
-      const merged = { ...DEFAULT_FILTERS, ...(v || {}) };
+      const merged = sanitizeFilters(v || {});
       this.filters = merged;
       LS.set('v23:filters', merged);
+    } else if (k === 'filterSets') {
+      const next = sanitizeFilterSets(v || []);
+      this.filterSets = next;
+      LS.set('v23:filterSets', next);
     } else {
       this[k] = v;
       if (['sort', 'columns', 'order', 'words', 'ui'].includes(k)) LS.set('v23:' + k, v);
