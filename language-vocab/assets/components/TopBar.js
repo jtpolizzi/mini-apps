@@ -123,6 +123,9 @@ export function mountTopBar(container) {
     const savedSection = buildSavedSetsSection();
     el.appendChild(savedSection.wrap);
 
+    const facetSections = [];
+    const refreshFacetSections = () => facetSections.forEach(sec => sec.refresh());
+
     const grid = document.createElement('div');
     Object.assign(grid.style, {
       display: 'grid',
@@ -132,15 +135,23 @@ export function mountTopBar(container) {
 
     const { posValues, cefrValues, tagValues } = collectFacetValues(State.words);
 
-    grid.appendChild(sectionChecks('POS', posValues, State.filters.pos || [], next => {
+    const posSection = sectionChecks('POS', posValues, State.filters.pos || [], next => {
       State.set('filters', { ...State.filters, pos: next });
-    }));
-    grid.appendChild(sectionChecks('CEFR', cefrValues, State.filters.cefr || [], next => {
+    });
+    facetSections.push(posSection);
+    grid.appendChild(posSection.wrap);
+
+    const cefrSection = sectionChecks('CEFR', cefrValues, State.filters.cefr || [], next => {
       State.set('filters', { ...State.filters, cefr: next });
-    }));
-    grid.appendChild(sectionChecks('Tags', tagValues, State.filters.tags || [], next => {
+    });
+    facetSections.push(cefrSection);
+    grid.appendChild(cefrSection.wrap);
+
+    const tagSection = sectionChecks('Tags', tagValues, State.filters.tags || [], next => {
       State.set('filters', { ...State.filters, tags: next });
-    }));
+    });
+    facetSections.push(tagSection);
+    grid.appendChild(tagSection.wrap);
 
     // Weight row (buttons) with live UI refresh
     const weightWrap = document.createElement('div');
@@ -183,7 +194,11 @@ export function mountTopBar(container) {
     clear.textContent = 'Clear';
     clear.onclick = () => {
       State.set('filters', { ...State.filters, pos: [], cefr: [], tags: [], weight: [0, 1, 2, 3, 4] });
+      selectedSetId = '';
+      lastSelectedFilterSetId = '';
       refreshWeightBtns();
+      savedSection.refresh();
+      refreshFacetSections();
     };
 
     const close = document.createElement('button');
@@ -197,9 +212,11 @@ export function mountTopBar(container) {
     el._unsub = subscribe(() => {
       refreshWeightBtns();
       savedSection.refresh();
+      refreshFacetSections();
     });
     refreshWeightBtns();
     savedSection.refresh();
+    refreshFacetSections();
     return el;
 
     function buildSavedSetsSection() {
@@ -406,36 +423,51 @@ export function mountTopBar(container) {
       }
     }
 
-    function sectionChecks(title, values = [], selected = [], onChange) {
-      const wrap = document.createElement('div');
-      const h = document.createElement('div');
-      h.textContent = title;
-      h.style.fontWeight = '700';
-      h.style.marginBottom = '6px';
-      wrap.appendChild(h);
+  function sectionChecks(title, values = [], selected = [], onChange) {
+    const wrap = document.createElement('div');
+    const h = document.createElement('div');
+    h.textContent = title;
+    h.style.fontWeight = '700';
+    h.style.marginBottom = '6px';
+    wrap.appendChild(h);
 
-      const box = document.createElement('div');
-      Object.assign(box.style, { display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '40vh', overflow: 'auto' });
+    const box = document.createElement('div');
+    Object.assign(box.style, { display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '40vh', overflow: 'auto' });
 
-      const selLower = (selected || []).map(s => s.toLowerCase());
-      (values || []).forEach(v => {
-        const lab = document.createElement('label');
-        lab.style.display = 'flex'; lab.style.alignItems = 'center'; lab.style.gap = '8px';
-        const cb = document.createElement('input');
-        cb.type = 'checkbox';
-        cb.checked = selLower.includes(v.toLowerCase());
-        cb.onchange = () => {
-          const set = new Set((State.filters[title.toLowerCase()] || []).map(s => s.toLowerCase()));
-          if (cb.checked) set.add(v.toLowerCase()); else set.delete(v.toLowerCase());
-          onChange([...set]);
-        };
-        const span = document.createElement('span'); span.textContent = v;
-        lab.append(cb, span);
-        box.appendChild(lab);
+    const key = title.toLowerCase();
+    const toLower = (val) => String(val || '').toLowerCase();
+    const controls = [];
+    const selLower = new Set((selected || []).map(toLower));
+
+    (values || []).forEach(v => {
+      const lab = document.createElement('label');
+      lab.style.display = 'flex'; lab.style.alignItems = 'center'; lab.style.gap = '8px';
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      const valueLower = toLower(v);
+      cb.checked = selLower.has(valueLower);
+      cb.onchange = () => {
+        const set = new Set((State.filters[key] || []).map(toLower));
+        if (cb.checked) set.add(valueLower); else set.delete(valueLower);
+        onChange([...set]);
+      };
+      const span = document.createElement('span'); span.textContent = v;
+      lab.append(cb, span);
+      box.appendChild(lab);
+      controls.push({ checkbox: cb, valueLower });
+    });
+    wrap.appendChild(box);
+
+    const refresh = () => {
+      const active = new Set((State.filters[key] || []).map(toLower));
+      controls.forEach(({ checkbox, valueLower }) => {
+        const shouldCheck = active.has(valueLower);
+        if (checkbox.checked !== shouldCheck) checkbox.checked = shouldCheck;
       });
-      wrap.appendChild(box);
-      return wrap;
-    }
+    };
+
+    return { wrap, refresh };
+  }
 
     function filtersEqual(a, b) {
       return canonicalizeFilters(a) === canonicalizeFilters(b);
