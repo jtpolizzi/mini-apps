@@ -3,6 +3,7 @@ import { mountSettings } from './components/SettingsModal.js';
 import { mountTopBar } from './components/TopBar.js';
 import { mountWordList } from './components/WordList.js';
 import { mountWordMatch } from './components/WordMatch.js';
+import { mountMultipleChoice } from './components/MultipleChoice.js';
 import { State, mapRaw } from './state.js';
 
 const topbar = document.getElementById('topbar');
@@ -23,6 +24,8 @@ function renderRoute() {
         cleanupView = mountFlashcards(view) || (() => {});
     } else if (hash.startsWith('#/match')) {
         cleanupView = mountWordMatch(view) || (() => {});
+    } else if (hash.startsWith('#/choice')) {
+        cleanupView = mountMultipleChoice(view) || (() => {});
     } else {
         cleanupView = mountWordList(view) || (() => {});
     }
