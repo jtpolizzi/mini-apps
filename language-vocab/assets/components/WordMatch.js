@@ -2,14 +2,14 @@
 import { applyFilters, LS, State, subscribe } from '../state.js';
 
 const PREF_KEY = 'v24:matchPrefs';
-const DEFAULT_PREFS = { size: 10, direction: 'es-en' };
+const DEFAULT_PREFS = { size: 10, direction: 'es-en', collapseMatches: false };
 const MIN_SET = 4;
 const MAX_SET = 15;
 const MIN_PLAYABLE = 2;
 
 const DIRECTIONS = [
-  { key: 'es-en', label: 'ES -> EN' },
-  { key: 'en-es', label: 'EN -> ES' },
+  { key: 'es-en', label: 'ES->EN' },
+  { key: 'en-es', label: 'EN->ES' },
   { key: 'random', label: 'Random' }
 ];
 
@@ -30,20 +30,18 @@ export function mountWordMatch(container) {
   let interactionLocked = false;
   let remainingPairs = 0;
 
+  const statusText = document.createElement('span');
+  statusText.className = 'match-status-text';
+  statusText.textContent = 'Loading...';
+
   const wrap = document.createElement('div');
   wrap.className = 'match-wrap';
 
-  const controls = buildControls();
-
-  const statusStrip = document.createElement('div');
-  statusStrip.className = 'match-status panel';
-  const statusText = document.createElement('span');
-  statusText.textContent = 'Loading...';
-  statusStrip.appendChild(statusText);
+  const controls = buildToolbar();
+  wrap.appendChild(controls.root);
 
   const board = document.createElement('div');
   board.className = 'match-board panel';
-
   const leftCol = document.createElement('div');
   const rightCol = document.createElement('div');
   leftCol.className = 'match-column';
@@ -55,7 +53,7 @@ export function mountWordMatch(container) {
   emptyState.textContent = 'Adjust your filters to load words.';
   board.appendChild(emptyState);
 
-  wrap.append(controls.root, statusStrip, board);
+  wrap.appendChild(board);
   container.appendChild(wrap);
 
   function loadPrefs() {
@@ -63,7 +61,8 @@ export function mountWordMatch(container) {
     const dir = DIRECTIONS.some((d) => d.key === stored?.direction) ? stored.direction : DEFAULT_PREFS.direction;
     return {
       size: clampSize(stored?.size ?? DEFAULT_PREFS.size),
-      direction: dir
+      direction: dir,
+      collapseMatches: !!stored?.collapseMatches
     };
   }
 
@@ -82,104 +81,8 @@ export function mountWordMatch(container) {
     return Math.max(MIN_SET, Math.min(MAX_SET, Math.round(num)));
   }
 
-  function buildControls() {
-    const root = document.createElement('div');
-    root.className = 'match-controls panel';
-
-    const sizeControl = document.createElement('div');
-    sizeControl.className = 'match-control';
-    const sizeLabel = document.createElement('label');
-    sizeLabel.textContent = 'Set Size';
-    sizeLabel.htmlFor = 'match-size-input';
-    const sizeInput = document.createElement('input');
-    sizeInput.type = 'range';
-    sizeInput.min = String(MIN_SET);
-    sizeInput.max = String(MAX_SET);
-    sizeInput.step = '1';
-    sizeInput.id = 'match-size-input';
-    sizeInput.value = String(prefs.size);
-    const sizeValue = document.createElement('span');
-    sizeValue.className = 'match-size-value';
-    sizeValue.textContent = `${prefs.size} words`;
-    const sizeHint = document.createElement('div');
-    sizeHint.className = 'match-hint';
-
-    sizeInput.addEventListener('input', () => {
-      prefs.size = clampSize(sizeInput.value);
-      sizeValue.textContent = `${prefs.size} words`;
-      savePrefs({ ...prefs });
-      updateAvailabilityHint();
-    });
-
-    sizeControl.append(sizeLabel, sizeInput, sizeValue, sizeHint);
-
-    const directionControl = document.createElement('div');
-    directionControl.className = 'match-direction';
-    const dirLabel = document.createElement('span');
-    dirLabel.textContent = 'Direction';
-    const dirButtonsWrap = document.createElement('div');
-    dirButtonsWrap.className = 'match-direction-buttons';
-    const dirButtons = new Map();
-
-    DIRECTIONS.forEach(({ key, label }) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'chip';
-      btn.textContent = label;
-      btn.setAttribute('aria-pressed', String(prefs.direction === key));
-      btn.addEventListener('click', () => {
-        prefs.direction = key;
-        dirButtons.forEach((node, entryKey) => {
-          node.setAttribute('aria-pressed', String(entryKey === key));
-        });
-        savePrefs({ ...prefs });
-      });
-      dirButtons.set(key, btn);
-      dirButtonsWrap.appendChild(btn);
-    });
-    directionControl.append(dirLabel, dirButtonsWrap);
-
-    const infoControl = document.createElement('div');
-    infoControl.className = 'match-info';
-    const infoButton = document.createElement('button');
-    infoButton.type = 'button';
-    infoButton.className = 'chip chip--icon';
-    infoButton.innerHTML = '<span>?</span>';
-    infoButton.title = 'How to play';
-    const infoPanel = document.createElement('div');
-    infoPanel.className = 'match-info-panel';
-    infoPanel.innerHTML = `
-      <p>Tap any card, then tap its translation in the opposite column. Correct pairs flash and fade; mismatches shake.</p>
-      <p>Use Play Again after adjusting the controls. Your latest size and direction are saved for next time.</p>
-    `;
-    infoPanel.hidden = true;
-    infoButton.addEventListener('click', () => {
-      infoPanel.hidden = !infoPanel.hidden;
-    });
-    infoControl.append(infoButton, infoPanel);
-
-    const playAgainBtn = document.createElement('button');
-    playAgainBtn.type = 'button';
-    playAgainBtn.className = 'chip match-play-again';
-    playAgainBtn.textContent = 'Play Again';
-    playAgainBtn.addEventListener('click', () => startRound());
-
-    root.append(sizeControl, directionControl, infoControl, playAgainBtn);
-
-    function updateAvailabilityHint() {
-      const desired = prefs.size;
-      const usable = Math.min(desired, available.length);
-      if (available.length < MIN_PLAYABLE) {
-        sizeHint.textContent = 'Need at least two filtered words to start a round.';
-      } else if (usable < desired) {
-        sizeHint.textContent = `Only ${available.length} filtered words available; using ${usable}.`;
-      } else {
-        sizeHint.textContent = '';
-      }
-      playAgainBtn.disabled = available.length < MIN_PLAYABLE;
-    }
-
-    return { root, updateAvailabilityHint };
+  function updateCompactMode() {
+    board.classList.toggle('compact-matches', !!prefs.collapseMatches);
   }
 
   function startRound() {
@@ -257,12 +160,11 @@ export function mountWordMatch(container) {
       emptyState.hidden = false;
       emptyState.textContent = available.length < MIN_PLAYABLE
         ? 'Need at least two filtered words. Adjust your filters and try again.'
-        : 'Hit Play Again to start a fresh round.';
+        : 'Tap Play Again to shuffle a new set.';
       return;
     }
 
     emptyState.hidden = true;
-
     boardColumns.left.forEach((card) => leftCol.appendChild(buildCard(card)));
     boardColumns.right.forEach((card) => rightCol.appendChild(buildCard(card)));
   }
@@ -353,7 +255,7 @@ export function mountWordMatch(container) {
       statusText.textContent = 'Pick at least two filtered words to start a round.';
       return;
     }
-    statusText.textContent = `${remainingPairs} pair${remainingPairs === 1 ? '' : 's'} left | Using ${Math.min(prefs.size, available.length)} of ${available.length} filtered words`;
+    statusText.textContent = `${remainingPairs} pair${remainingPairs === 1 ? '' : 's'} left | Using ${Math.min(prefs.size, available.length)} of ${available.length}`;
   }
 
   function shuffle(list) {
@@ -379,7 +281,139 @@ export function mountWordMatch(container) {
     updateStatus();
   }
 
+  function buildToolbar() {
+    const root = document.createElement('div');
+    root.className = 'match-toolbar panel';
+
+    const sizeControl = document.createElement('div');
+    sizeControl.className = 'match-toolbar-item match-size-control';
+    const sizeLabel = document.createElement('span');
+    sizeLabel.textContent = 'Set size';
+    const sizeInput = document.createElement('input');
+    sizeInput.type = 'number';
+    sizeInput.min = String(MIN_SET);
+    sizeInput.max = String(MAX_SET);
+    sizeInput.value = String(prefs.size);
+    const sizeSuffix = document.createElement('span');
+    sizeSuffix.className = 'match-size-suffix';
+    sizeSuffix.textContent = 'words';
+    const sizeHint = document.createElement('span');
+    sizeHint.className = 'match-hint';
+    sizeControl.append(sizeLabel, sizeInput, sizeSuffix, sizeHint);
+
+    const dirControl = document.createElement('div');
+    dirControl.className = 'match-toolbar-item match-direction';
+    const dirLabel = document.createElement('span');
+    dirLabel.textContent = 'Direction';
+    const dirButtonsWrap = document.createElement('div');
+    dirButtonsWrap.className = 'match-direction-buttons';
+    const dirButtons = new Map();
+    DIRECTIONS.forEach(({ key, label }) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chip';
+      btn.textContent = label;
+      btn.setAttribute('aria-pressed', String(prefs.direction === key));
+      btn.addEventListener('click', () => {
+        if (prefs.direction === key) return;
+        prefs.direction = key;
+        dirButtons.forEach((node, id) => node.setAttribute('aria-pressed', String(id === key)));
+        savePrefs({ ...prefs });
+      });
+      dirButtons.set(key, btn);
+      dirButtonsWrap.appendChild(btn);
+    });
+    dirControl.append(dirLabel, dirButtonsWrap);
+
+    const collapseControl = document.createElement('label');
+    collapseControl.className = 'match-toolbar-item match-collapse';
+    const collapseToggle = document.createElement('input');
+    collapseToggle.type = 'checkbox';
+    collapseToggle.checked = !!prefs.collapseMatches;
+    collapseToggle.addEventListener('change', () => {
+      prefs.collapseMatches = collapseToggle.checked;
+      savePrefs({ ...prefs });
+      updateCompactMode();
+    });
+    const collapseText = document.createElement('span');
+    collapseText.textContent = 'Collapse matches';
+    collapseControl.append(collapseToggle, collapseText);
+
+    const helpContainer = document.createElement('div');
+    helpContainer.className = 'match-toolbar-item match-help';
+    const helpButton = document.createElement('button');
+    helpButton.type = 'button';
+    helpButton.className = 'match-help-btn';
+    helpButton.textContent = '?';
+    helpButton.title = 'How to play';
+    const helpPanel = document.createElement('div');
+    helpPanel.className = 'match-info-panel';
+    helpPanel.innerHTML = `
+      <p>Tap any card, then tap its translation in the opposite column.</p>
+      <p>Correct pairs flash and disappear; mismatches shake.</p>
+    `;
+    helpPanel.hidden = true;
+    helpButton.addEventListener('click', () => {
+      helpPanel.hidden = !helpPanel.hidden;
+    });
+    helpContainer.append(helpButton, helpPanel);
+
+    const statusWrap = document.createElement('div');
+    statusWrap.className = 'match-toolbar-item match-status-wrap';
+    statusWrap.appendChild(statusText);
+
+    const playAgainBtn = document.createElement('button');
+    playAgainBtn.type = 'button';
+    playAgainBtn.className = 'match-play-again';
+    playAgainBtn.textContent = 'Play Again';
+    playAgainBtn.addEventListener('click', () => startRound());
+
+    root.append(
+      sizeControl,
+      dirControl,
+      collapseControl,
+      helpContainer,
+      statusWrap,
+      playAgainBtn
+    );
+
+    function commitSize() {
+      prefs.size = clampSize(sizeInput.value);
+      sizeInput.value = String(prefs.size);
+      savePrefs({ ...prefs });
+      updateAvailabilityHint();
+    }
+    sizeInput.addEventListener('input', commitSize);
+    sizeInput.addEventListener('change', commitSize);
+    sizeInput.addEventListener('blur', commitSize);
+    sizeInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        commitSize();
+      }
+    });
+
+    function updateAvailabilityHint() {
+      const desired = prefs.size;
+      const usable = Math.min(desired, available.length);
+      if (available.length < MIN_PLAYABLE) {
+        sizeHint.textContent = 'Need at least two filtered words.';
+      } else if (usable < desired) {
+        sizeHint.textContent = `Only ${available.length} available; using ${usable}.`;
+      } else {
+        sizeHint.textContent = '';
+      }
+      playAgainBtn.disabled = available.length < MIN_PLAYABLE;
+    }
+
+    return {
+      root,
+      updateAvailabilityHint
+    };
+  }
+
   controls.updateAvailabilityHint();
+  updateCompactMode();
   startRound();
 
   const unsubscribe = subscribe(() => handleStateChange());
