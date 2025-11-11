@@ -6,6 +6,7 @@ const DEFAULT_PREFS = { size: 10, direction: 'es-en', collapseMatches: false };
 const MIN_SET = 4;
 const MAX_SET = 15;
 const MIN_PLAYABLE = 2;
+const MATCH_CLEAR_DELAY = 480;
 
 const DIRECTIONS = [
   { key: 'es-en', label: 'ES->EN' },
@@ -219,7 +220,7 @@ export function mountWordMatch(container) {
     setTimeout(() => {
       affected.forEach((uid) => clearedCards.add(uid));
       syncAllCardStates();
-    }, 240);
+    }, MATCH_CLEAR_DELAY);
     updateStatus();
   }
 
@@ -289,41 +290,37 @@ export function mountWordMatch(container) {
     sizeControl.className = 'match-toolbar-item match-size-control';
     const sizeLabel = document.createElement('span');
     sizeLabel.textContent = 'Set size';
-    const sizeInput = document.createElement('input');
-    sizeInput.type = 'number';
-    sizeInput.min = String(MIN_SET);
-    sizeInput.max = String(MAX_SET);
-    sizeInput.value = String(prefs.size);
+    const sizeSelect = document.createElement('select');
+    sizeSelect.className = 'match-select';
+    for (let n = MIN_SET; n <= MAX_SET; n++) {
+      const opt = document.createElement('option');
+      opt.value = String(n);
+      opt.textContent = String(n);
+      sizeSelect.appendChild(opt);
+    }
+    sizeSelect.value = String(prefs.size);
     const sizeSuffix = document.createElement('span');
     sizeSuffix.className = 'match-size-suffix';
     sizeSuffix.textContent = 'words';
     const sizeHint = document.createElement('span');
     sizeHint.className = 'match-hint';
-    sizeControl.append(sizeLabel, sizeInput, sizeSuffix, sizeHint);
+    sizeHint.hidden = true;
+    sizeControl.append(sizeLabel, sizeSelect, sizeSuffix, sizeHint);
 
     const dirControl = document.createElement('div');
     dirControl.className = 'match-toolbar-item match-direction';
     const dirLabel = document.createElement('span');
     dirLabel.textContent = 'Direction';
-    const dirButtonsWrap = document.createElement('div');
-    dirButtonsWrap.className = 'match-direction-buttons';
-    const dirButtons = new Map();
+    const directionSelect = document.createElement('select');
+    directionSelect.className = 'match-select';
     DIRECTIONS.forEach(({ key, label }) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'chip';
-      btn.textContent = label;
-      btn.setAttribute('aria-pressed', String(prefs.direction === key));
-      btn.addEventListener('click', () => {
-        if (prefs.direction === key) return;
-        prefs.direction = key;
-        dirButtons.forEach((node, id) => node.setAttribute('aria-pressed', String(id === key)));
-        savePrefs({ ...prefs });
-      });
-      dirButtons.set(key, btn);
-      dirButtonsWrap.appendChild(btn);
+      const opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = label;
+      directionSelect.appendChild(opt);
     });
-    dirControl.append(dirLabel, dirButtonsWrap);
+    directionSelect.value = prefs.direction;
+    dirControl.append(dirLabel, directionSelect);
 
     const collapseControl = document.createElement('label');
     collapseControl.className = 'match-toolbar-item match-collapse';
@@ -372,37 +369,35 @@ export function mountWordMatch(container) {
       sizeControl,
       dirControl,
       collapseControl,
-      helpContainer,
       statusWrap,
-      playAgainBtn
+      playAgainBtn,
+      helpContainer
     );
 
     function commitSize() {
-      prefs.size = clampSize(sizeInput.value);
-      sizeInput.value = String(prefs.size);
+      prefs.size = clampSize(sizeSelect.value);
+      sizeSelect.value = String(prefs.size);
       savePrefs({ ...prefs });
       updateAvailabilityHint();
     }
-    sizeInput.addEventListener('input', commitSize);
-    sizeInput.addEventListener('change', commitSize);
-    sizeInput.addEventListener('blur', commitSize);
-    sizeInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        commitSize();
-      }
+    sizeSelect.addEventListener('input', commitSize);
+    sizeSelect.addEventListener('change', commitSize);
+    directionSelect.addEventListener('change', () => {
+      prefs.direction = directionSelect.value;
+      savePrefs({ ...prefs });
     });
 
     function updateAvailabilityHint() {
       const desired = prefs.size;
       const usable = Math.min(desired, available.length);
+      let msg = '';
       if (available.length < MIN_PLAYABLE) {
-        sizeHint.textContent = 'Need at least two filtered words.';
+        msg = 'Need at least two filtered words.';
       } else if (usable < desired) {
-        sizeHint.textContent = `Only ${available.length} available; using ${usable}.`;
-      } else {
-        sizeHint.textContent = '';
+        msg = `Only ${available.length} available; using ${usable}.`;
       }
+      sizeHint.textContent = msg;
+      sizeHint.hidden = !msg;
       playAgainBtn.disabled = available.length < MIN_PLAYABLE;
     }
 
@@ -419,3 +414,6 @@ export function mountWordMatch(container) {
   const unsubscribe = subscribe(() => handleStateChange());
   return () => unsubscribe();
 }
+
+
+
