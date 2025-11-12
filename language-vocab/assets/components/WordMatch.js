@@ -30,6 +30,7 @@ export function mountWordMatch(container) {
   let shakingCards = new Set();
   let interactionLocked = false;
   let remainingPairs = 0;
+  let quickPlay = false;
 
   const statusText = document.createElement('span');
   statusText.className = 'match-status-text';
@@ -141,6 +142,9 @@ export function mountWordMatch(container) {
 
     renderBoard();
     updateStatus();
+    if (quickPlay) {
+      setTimeout(() => autoSelectTopLeft(), 0);
+    }
   }
 
   function createCard(word, lang, column) {
@@ -191,6 +195,26 @@ export function mountWordMatch(container) {
     if (matchedPairs.has(card.pairId)) return;
     if (clearedCards.has(card.uid)) return;
 
+    const isLeftCol = card.column === 'left';
+    const isTopLeft = isLeftCol && isTopLeftCard(card);
+
+    if (!quickPlay && isTopLeft) {
+      quickPlay = true;
+    }
+
+    if (quickPlay && isLeftCol && !isTopLeft) {
+      quickPlay = false;
+      selection = { uid: card.uid, pairId: card.pairId, column: card.column };
+      syncAllCardStates();
+      return;
+    }
+
+    if (isTopLeft) {
+      selection = { uid: card.uid, pairId: card.pairId, column: card.column };
+      syncAllCardStates();
+      return;
+    }
+
     if (!selection) {
       selection = { uid: card.uid, pairId: card.pairId, column: card.column };
       syncAllCardStates();
@@ -198,8 +222,10 @@ export function mountWordMatch(container) {
     }
 
     if (selection.uid === card.uid) {
-      selection = null;
-      syncAllCardStates();
+      if (!quickPlay) {
+        selection = null;
+        syncAllCardStates();
+      }
       return;
     }
 
@@ -220,6 +246,9 @@ export function mountWordMatch(container) {
     setTimeout(() => {
       affected.forEach((uid) => clearedCards.add(uid));
       syncAllCardStates();
+      if (quickPlay) {
+        setTimeout(() => autoSelectTopLeft(), 0);
+      }
     }, MATCH_CLEAR_DELAY);
     updateStatus();
   }
@@ -235,6 +264,9 @@ export function mountWordMatch(container) {
       selection = null;
       interactionLocked = false;
       syncAllCardStates();
+      if (quickPlay) {
+        setTimeout(() => autoSelectTopLeft(), 0);
+      }
     }, 500);
   }
 
@@ -483,6 +515,30 @@ export function mountWordMatch(container) {
     controls.destroy?.();
     unsubscribe();
   };
+
+  function findTopLeftCandidate() {
+    return boardColumns.left.find(
+      (card) => !matchedPairs.has(card.pairId) && !clearedCards.has(card.uid)
+    );
+  }
+
+  function isTopLeftCard(card) {
+    const candidate = findTopLeftCandidate();
+    return !!candidate && candidate.uid === card.uid;
+  }
+
+  function autoSelectTopLeft() {
+    if (!quickPlay) return;
+    const candidate = findTopLeftCandidate();
+    if (!candidate) {
+      quickPlay = false;
+      selection = null;
+      syncAllCardStates();
+      return;
+    }
+    selection = { uid: candidate.uid, pairId: candidate.pairId, column: candidate.column };
+    syncAllCardStates();
+  }
 }
 
 
