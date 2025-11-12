@@ -98,6 +98,7 @@ export function mountMultipleChoice(container) {
     unsubscribe();
     window.removeEventListener('keydown', keyHandler);
     clearTimeout(feedbackTimer);
+    controls.destroy?.();
   };
 
   // ---- helpers ----
@@ -139,6 +140,7 @@ export function mountMultipleChoice(container) {
     continueBtn.hidden = true;
     continueBtn.disabled = true;
     feedback.textContent = '';
+    controls.setRoundComplete(false);
 
     if (available.length < MIN_PLAYABLE) {
       roundWords = [];
@@ -157,6 +159,7 @@ export function mountMultipleChoice(container) {
   }
 
   function showUnavailableState() {
+    controls.setRoundComplete(false);
     progressLabel.textContent = 'Not enough words';
     progressFill.style.width = '0%';
     questionLang.textContent = '';
@@ -282,6 +285,7 @@ export function mountMultipleChoice(container) {
     feedback.textContent = '';
     continueBtn.hidden = true;
     continueBtn.disabled = true;
+    controls.setRoundComplete(true);
   }
 
   function selectAnswer(answerId) {
@@ -365,13 +369,34 @@ export function mountMultipleChoice(container) {
 
   function buildToolbar({ statusText, onPlayAgain }) {
     const root = document.createElement('div');
-    root.className = 'match-toolbar panel';
+    root.className = 'match-toolbar panel match-toolbar--lean';
 
-    // Set size select
-    const sizeControl = document.createElement('div');
-    sizeControl.className = 'match-toolbar-item match-size-control';
-    const sizeLabel = document.createElement('span');
-    sizeLabel.textContent = 'Set size';
+    const statusWrap = document.createElement('div');
+    statusWrap.className = 'match-toolbar-item match-status-wrap';
+    statusWrap.appendChild(statusText);
+
+    const actions = document.createElement('div');
+    actions.className = 'match-toolbar-actions';
+
+    const playAgainBtn = document.createElement('button');
+    playAgainBtn.type = 'button';
+    playAgainBtn.className = 'match-play-again';
+    playAgainBtn.textContent = 'Play Again';
+    playAgainBtn.addEventListener('click', () => onPlayAgain());
+
+    const optionsAnchor = document.createElement('div');
+    optionsAnchor.className = 'options-anchor';
+    const optionsBtn = document.createElement('button');
+    optionsBtn.type = 'button';
+    optionsBtn.className = 'chip chip--icon match-options-btn';
+    optionsBtn.setAttribute('aria-label', 'Choice options');
+    optionsBtn.setAttribute('aria-expanded', 'false');
+    optionsBtn.textContent = '⚙︎';
+
+    actions.append(playAgainBtn, optionsAnchor);
+    optionsAnchor.appendChild(optionsBtn);
+    root.append(statusWrap, actions);
+
     const sizeSelect = document.createElement('select');
     sizeSelect.className = 'match-select';
     for (let n = MIN_SET; n <= MAX_SET; n++) {
@@ -386,14 +411,9 @@ export function mountMultipleChoice(container) {
       sizeSelect.value = String(prefs.size);
       savePrefs();
       updateStatusText();
+      updateAvailabilityHint();
     });
-    sizeControl.append(sizeLabel, sizeSelect, createSuffix('words'));
 
-    // Direction select
-    const dirControl = document.createElement('div');
-    dirControl.className = 'match-toolbar-item match-direction';
-    const dirLabel = document.createElement('span');
-    dirLabel.textContent = 'Direction';
     const dirSelect = document.createElement('select');
     dirSelect.className = 'match-select';
     [
@@ -410,15 +430,8 @@ export function mountMultipleChoice(container) {
     dirSelect.addEventListener('change', () => {
       prefs.direction = dirSelect.value;
       savePrefs();
-      updateStatusText();
     });
-    dirControl.append(dirLabel, dirSelect);
 
-    // Answer count
-    const answerControl = document.createElement('div');
-    answerControl.className = 'match-toolbar-item match-size-control';
-    const answerLabel = document.createElement('span');
-    answerLabel.textContent = '# answers';
     const answerSelect = document.createElement('select');
     answerSelect.className = 'match-select';
     for (let n = MIN_ANSWERS; n <= MAX_ANSWERS; n++) {
@@ -433,27 +446,115 @@ export function mountMultipleChoice(container) {
       answerSelect.value = String(prefs.answers);
       savePrefs();
     });
-    answerControl.append(answerLabel, answerSelect);
 
-    const statusWrap = document.createElement('div');
-    statusWrap.className = 'match-toolbar-item match-status-wrap';
-    statusWrap.appendChild(statusText);
+    const sizeHint = document.createElement('div');
+    sizeHint.className = 'match-hint options-hint';
+    sizeHint.hidden = true;
 
-    const playAgainBtn = document.createElement('button');
-    playAgainBtn.type = 'button';
-    playAgainBtn.className = 'match-play-again';
-    playAgainBtn.textContent = 'Play Again';
-    playAgainBtn.addEventListener('click', () => onPlayAgain());
+    let popover = null;
 
-    root.append(sizeControl, dirControl, answerControl, statusWrap, playAgainBtn);
+    function buildOptionsPopover() {
+      const pop = document.createElement('div');
+      pop.className = 'options-popover';
+
+      const title = document.createElement('div');
+      title.className = 'options-popover-title';
+      title.textContent = 'Choice options';
+
+      const sizeRow = document.createElement('div');
+      sizeRow.className = 'options-row';
+      const sizeLabel = document.createElement('span');
+      sizeLabel.textContent = 'Set size';
+      const sizeValue = document.createElement('div');
+      sizeValue.className = 'options-value';
+      sizeValue.append(sizeSelect, createSuffix('words'));
+      sizeRow.append(sizeLabel, sizeValue);
+
+      const dirRow = document.createElement('div');
+      dirRow.className = 'options-row';
+      const dirLabel = document.createElement('span');
+      dirLabel.textContent = 'Direction';
+      const dirValue = document.createElement('div');
+      dirValue.className = 'options-value';
+      dirValue.append(dirSelect);
+      dirRow.append(dirLabel, dirValue);
+
+      const answerRow = document.createElement('div');
+      answerRow.className = 'options-row';
+      const answerLabel = document.createElement('span');
+      answerLabel.textContent = '# answers';
+      const answerValue = document.createElement('div');
+      answerValue.className = 'options-value';
+      answerValue.append(answerSelect);
+      answerRow.append(answerLabel, answerValue);
+
+      pop.append(title, sizeRow, dirRow, answerRow, sizeHint);
+      pop.addEventListener('click', (ev) => ev.stopPropagation());
+      return pop;
+    }
+
+    function openOptions() {
+      popover = buildOptionsPopover();
+      optionsAnchor.appendChild(popover);
+      document.addEventListener('click', handleOutside, true);
+      window.addEventListener('keydown', handleEscape);
+      optionsBtn.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeOptions() {
+      if (!popover) return;
+      popover.remove();
+      popover = null;
+      document.removeEventListener('click', handleOutside, true);
+      window.removeEventListener('keydown', handleEscape);
+      optionsBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function handleOutside(ev) {
+      if (!popover) return;
+      if (popover.contains(ev.target) || optionsBtn.contains(ev.target)) return;
+      closeOptions();
+    }
+
+    function handleEscape(ev) {
+      if (ev.key === 'Escape') {
+        ev.stopPropagation();
+        closeOptions();
+      }
+    }
+
+    optionsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (popover) {
+        closeOptions();
+      } else {
+        openOptions();
+      }
+    });
+
+    function updateAvailabilityHint() {
+      const usable = Math.min(prefs.size, available.length);
+      let msg = '';
+      if (available.length < MIN_PLAYABLE) {
+        msg = 'Need at least two filtered words.';
+      } else if (usable < prefs.size) {
+        msg = `Only ${available.length} available; using ${usable}.`;
+      }
+      sizeHint.textContent = msg;
+      sizeHint.hidden = !msg;
+      playAgainBtn.disabled = available.length < MIN_PLAYABLE;
+    }
 
     return {
       root,
-      updateAvailabilityHint() {
-        const usable = Math.min(prefs.size, available.length);
-        playAgainBtn.disabled = available.length < MIN_PLAYABLE;
-        statusText.textContent = `${usable} question${usable === 1 ? '' : 's'} • Using ${available.length} filtered words`;
-      }
+      updateAvailabilityHint,
+      setRoundComplete(isComplete) {
+        playAgainBtn.classList.toggle('is-celebrate', !!isComplete);
+        if (isComplete) {
+          playAgainBtn.disabled = false;
+        }
+      },
+      destroy: closeOptions
     };
   }
 

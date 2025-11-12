@@ -38,6 +38,11 @@ function setActiveNav(hash) {
         const target = link.getAttribute('href') || '';
         const isActive = target && hash.startsWith(target);
         link.classList.toggle('active', !!isActive);
+        if (isActive) {
+            link.setAttribute('aria-current', 'page');
+        } else {
+            link.removeAttribute('aria-current');
+        }
     });
 }
 

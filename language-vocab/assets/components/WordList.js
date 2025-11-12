@@ -8,18 +8,6 @@ export function mountWordList(container) {
   document.querySelectorAll('.bottombar').forEach((el) => el.remove());
   document.body.classList.remove('pad-bottom');
 
-  const info = document.createElement('div');
-  info.className = 'panel current-word-banner';
-  const infoText = document.createElement('span');
-  infoText.textContent = 'Tap a row to set the current word for Flashcards.';
-  const clearBtn = document.createElement('button');
-  clearBtn.className = 'chip';
-  clearBtn.textContent = 'Clear selection';
-  clearBtn.hidden = true;
-  clearBtn.type = 'button';
-  clearBtn.addEventListener('click', () => setCurrentWordId(''));
-  info.append(infoText, clearBtn);
-
   const table = document.createElement('table');
   const thead = document.createElement('thead');
   const tbody = document.createElement('tbody');
@@ -63,7 +51,6 @@ export function mountWordList(container) {
   thead.appendChild(trh);
   table.appendChild(thead);
   table.appendChild(tbody);
-  container.appendChild(info);
   container.appendChild(table);
 
   tbody.addEventListener('click', (e) => {
@@ -136,7 +123,6 @@ export function mountWordList(container) {
     }
 
     tbody.innerHTML = '';
-    let currentWord = null;
     let focusedRow = null;
     for (const w of rows) {
       const tr = document.createElement('tr');
@@ -153,7 +139,6 @@ export function mountWordList(container) {
       if (currentId && currentId === w.id) {
         tr.classList.add('is-current');
         tr.setAttribute('aria-current', 'true');
-        currentWord = w;
         focusedRow = tr;
       } else {
         tr.removeAttribute('aria-current');
@@ -173,19 +158,6 @@ export function mountWordList(container) {
         focusedRow.focus({ preventScroll: true });
         focusedRow.scrollIntoView({ block: 'center', behavior: 'smooth' });
       });
-    }
-
-    if (currentWord) {
-      infoText.innerHTML = '';
-      const strong = document.createElement('strong');
-      strong.textContent = 'Current word';
-      const detail = document.createElement('span');
-      detail.textContent = ` ${currentWord.es || '—'} • ${currentWord.en || '—'}`;
-      infoText.append(strong, detail);
-      clearBtn.hidden = false;
-    } else {
-      infoText.textContent = 'Tap a row to set the current word for Flashcards.';
-      clearBtn.hidden = true;
     }
 
     updateHeaderIndicators();

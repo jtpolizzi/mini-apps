@@ -254,9 +254,11 @@ export function mountWordMatch(container) {
   function updateStatus() {
     if (available.length < MIN_PLAYABLE) {
       statusText.textContent = 'Pick at least two filtered words to start a round.';
+      controls.setRoundComplete(false);
       return;
     }
     statusText.textContent = `${remainingPairs} pair${remainingPairs === 1 ? '' : 's'} left | Using ${Math.min(prefs.size, available.length)} of ${available.length}`;
+    controls.setRoundComplete(remainingPairs === 0 && boardColumns.left.length > 0);
   }
 
   function shuffle(list) {
@@ -284,12 +286,44 @@ export function mountWordMatch(container) {
 
   function buildToolbar() {
     const root = document.createElement('div');
-    root.className = 'match-toolbar panel';
+    root.className = 'match-toolbar panel match-toolbar--lean';
 
-    const sizeControl = document.createElement('div');
-    sizeControl.className = 'match-toolbar-item match-size-control';
-    const sizeLabel = document.createElement('span');
-    sizeLabel.textContent = 'Set size';
+    const statusWrap = document.createElement('div');
+    statusWrap.className = 'match-toolbar-item match-status-wrap';
+    statusWrap.appendChild(statusText);
+
+    const actions = document.createElement('div');
+    actions.className = 'match-toolbar-actions';
+
+    const playAgainBtn = document.createElement('button');
+    playAgainBtn.type = 'button';
+    playAgainBtn.className = 'match-play-again';
+    playAgainBtn.textContent = 'Play Again';
+    playAgainBtn.addEventListener('click', () => startRound());
+
+    const optionsAnchor = document.createElement('div');
+    optionsAnchor.className = 'options-anchor';
+    const optionsBtn = document.createElement('button');
+    optionsBtn.type = 'button';
+    optionsBtn.className = 'chip chip--icon match-options-btn';
+    optionsBtn.setAttribute('aria-label', 'Match options');
+    optionsBtn.textContent = '⚙︎';
+    optionsBtn.setAttribute('aria-expanded', 'false');
+    optionsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (popover) {
+        closeOptions();
+      } else {
+        openOptions();
+      }
+    });
+    optionsAnchor.appendChild(optionsBtn);
+
+    actions.appendChild(playAgainBtn);
+    actions.appendChild(optionsAnchor);
+
+    root.append(statusWrap, actions);
+
     const sizeSelect = document.createElement('select');
     sizeSelect.className = 'match-select';
     for (let n = MIN_SET; n <= MAX_SET; n++) {
@@ -299,18 +333,7 @@ export function mountWordMatch(container) {
       sizeSelect.appendChild(opt);
     }
     sizeSelect.value = String(prefs.size);
-    const sizeSuffix = document.createElement('span');
-    sizeSuffix.className = 'match-size-suffix';
-    sizeSuffix.textContent = 'words';
-    const sizeHint = document.createElement('span');
-    sizeHint.className = 'match-hint';
-    sizeHint.hidden = true;
-    sizeControl.append(sizeLabel, sizeSelect, sizeSuffix, sizeHint);
 
-    const dirControl = document.createElement('div');
-    dirControl.className = 'match-toolbar-item match-direction';
-    const dirLabel = document.createElement('span');
-    dirLabel.textContent = 'Direction';
     const directionSelect = document.createElement('select');
     directionSelect.className = 'match-select';
     DIRECTIONS.forEach(({ key, label }) => {
@@ -320,59 +343,89 @@ export function mountWordMatch(container) {
       directionSelect.appendChild(opt);
     });
     directionSelect.value = prefs.direction;
-    dirControl.append(dirLabel, directionSelect);
 
-    const collapseControl = document.createElement('label');
-    collapseControl.className = 'match-toolbar-item match-collapse';
     const collapseToggle = document.createElement('input');
     collapseToggle.type = 'checkbox';
     collapseToggle.checked = !!prefs.collapseMatches;
-    collapseToggle.addEventListener('change', () => {
-      prefs.collapseMatches = collapseToggle.checked;
-      savePrefs({ ...prefs });
-      updateCompactMode();
-    });
-    const collapseText = document.createElement('span');
-    collapseText.textContent = 'Collapse matches';
-    collapseControl.append(collapseToggle, collapseText);
 
-    const helpContainer = document.createElement('div');
-    helpContainer.className = 'match-toolbar-item match-help';
-    const helpButton = document.createElement('button');
-    helpButton.type = 'button';
-    helpButton.className = 'match-help-btn';
-    helpButton.textContent = '?';
-    helpButton.title = 'How to play';
-    const helpPanel = document.createElement('div');
-    helpPanel.className = 'match-info-panel';
-    helpPanel.innerHTML = `
-      <p>Tap any card, then tap its translation in the opposite column.</p>
-      <p>Correct pairs flash and disappear; mismatches shake.</p>
-    `;
-    helpPanel.hidden = true;
-    helpButton.addEventListener('click', () => {
-      helpPanel.hidden = !helpPanel.hidden;
-    });
-    helpContainer.append(helpButton, helpPanel);
+    const sizeHint = document.createElement('div');
+    sizeHint.className = 'match-hint options-hint';
+    sizeHint.hidden = true;
 
-    const statusWrap = document.createElement('div');
-    statusWrap.className = 'match-toolbar-item match-status-wrap';
-    statusWrap.appendChild(statusText);
+    let popover = null;
 
-    const playAgainBtn = document.createElement('button');
-    playAgainBtn.type = 'button';
-    playAgainBtn.className = 'match-play-again';
-    playAgainBtn.textContent = 'Play Again';
-    playAgainBtn.addEventListener('click', () => startRound());
+    function buildOptionsPopover() {
+      const pop = document.createElement('div');
+      pop.className = 'options-popover';
 
-    root.append(
-      sizeControl,
-      dirControl,
-      collapseControl,
-      statusWrap,
-      playAgainBtn,
-      helpContainer
-    );
+      const title = document.createElement('div');
+      title.className = 'options-popover-title';
+      title.textContent = 'Match options';
+
+      const sizeRow = document.createElement('div');
+      sizeRow.className = 'options-row';
+      const sizeLabel = document.createElement('span');
+      sizeLabel.textContent = 'Set size';
+      const sizeValue = document.createElement('div');
+      sizeValue.className = 'options-value';
+      const sizeSuffix = document.createElement('span');
+      sizeSuffix.className = 'match-size-suffix';
+      sizeSuffix.textContent = 'words';
+      sizeValue.append(sizeSelect, sizeSuffix);
+      sizeRow.append(sizeLabel, sizeValue);
+
+      const dirRow = document.createElement('div');
+      dirRow.className = 'options-row';
+      const dirLabel = document.createElement('span');
+      dirLabel.textContent = 'Direction';
+      const dirValue = document.createElement('div');
+      dirValue.className = 'options-value';
+      dirValue.append(directionSelect);
+      dirRow.append(dirLabel, dirValue);
+
+      const collapseRow = document.createElement('div');
+      collapseRow.className = 'options-row options-row--toggle';
+      const collapseText = document.createElement('span');
+      collapseText.textContent = 'Collapse matches';
+      const collapseValue = document.createElement('div');
+      collapseValue.className = 'options-value';
+      collapseValue.append(collapseToggle);
+      collapseRow.append(collapseText, collapseValue);
+
+      pop.append(title, sizeRow, dirRow, collapseRow, sizeHint);
+      pop.addEventListener('click', (ev) => ev.stopPropagation());
+      return pop;
+    }
+
+    function openOptions() {
+      popover = buildOptionsPopover();
+      optionsAnchor.appendChild(popover);
+      document.addEventListener('click', handleOutside, true);
+      window.addEventListener('keydown', handleEscape);
+      optionsBtn.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeOptions() {
+      if (!popover) return;
+      popover.remove();
+      popover = null;
+      document.removeEventListener('click', handleOutside, true);
+      window.removeEventListener('keydown', handleEscape);
+      optionsBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function handleOutside(ev) {
+      if (!popover) return;
+      if (popover.contains(ev.target) || optionsBtn.contains(ev.target)) return;
+      closeOptions();
+    }
+
+    function handleEscape(ev) {
+      if (ev.key === 'Escape') {
+        ev.stopPropagation();
+        closeOptions();
+      }
+    }
 
     function commitSize() {
       prefs.size = clampSize(sizeSelect.value);
@@ -382,9 +435,16 @@ export function mountWordMatch(container) {
     }
     sizeSelect.addEventListener('input', commitSize);
     sizeSelect.addEventListener('change', commitSize);
+
     directionSelect.addEventListener('change', () => {
       prefs.direction = directionSelect.value;
       savePrefs({ ...prefs });
+    });
+
+    collapseToggle.addEventListener('change', () => {
+      prefs.collapseMatches = collapseToggle.checked;
+      savePrefs({ ...prefs });
+      updateCompactMode();
     });
 
     function updateAvailabilityHint() {
@@ -403,7 +463,14 @@ export function mountWordMatch(container) {
 
     return {
       root,
-      updateAvailabilityHint
+      updateAvailabilityHint,
+      setRoundComplete(isComplete) {
+        playAgainBtn.classList.toggle('is-celebrate', !!isComplete);
+        if (isComplete) {
+          playAgainBtn.disabled = false;
+        }
+      },
+      destroy: closeOptions
     };
   }
 
@@ -412,7 +479,10 @@ export function mountWordMatch(container) {
   startRound();
 
   const unsubscribe = subscribe(() => handleStateChange());
-  return () => unsubscribe();
+  return () => {
+    controls.destroy?.();
+    unsubscribe();
+  };
 }
 
 
