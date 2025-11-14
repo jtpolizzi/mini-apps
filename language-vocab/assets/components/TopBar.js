@@ -9,8 +9,7 @@ export function mountTopBar(container) {
   container.innerHTML = '';
 
   const panel = document.createElement('div');
-  panel.className = 'panel';
-  panel.id = 'topbar';
+  panel.className = 'panel panel--topbar';
   panel.style.position = 'relative';
 
   const row = document.createElement('div');

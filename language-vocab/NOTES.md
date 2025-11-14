@@ -1,4 +1,4 @@
-# Vocab Mini-App Notes (v2.9)
+# Vocab Mini-App Notes (v2.11.1)
 
 ## Snapshot
 - SPA written in vanilla HTML/CSS/JS; routes driven via hash (`#/list`, `#/cards`, `#/match`, `#/choice`).
@@ -32,6 +32,17 @@
 2. Flashcard refinements: guarded controls, translation toggle, improved touch targets, keyboard helpers.
 3. New learning modes (Match, Multiple Choice) alongside the list/cards staples.
 4. TSV-first loading pipeline with JSON fallback plus better tag formatting.
+
+## v2.10 Highlights
+1. Word List tap-to-select: every pointer interaction on a row (including weight/star controls) now syncs the current word selection so other views stay in lockstep.
+2. Shuffle/sort state hygiene: pointer suppression + focus restoration tweaks keep keyboard navigation sharp after sorting or randomizing.
+3. Styling polish: refreshed accent tokens, spark icon usage, and darker chips for better contrast on the list/filters.
+
+## v2.11.x Refinements
+1. Word List layout overhaul so the entire top stack (header + filters + table head) stays fixed while only the rows scroll; shuffle order respected via dedicated scroll container.
+2. Tightened spacing between the top bar, column headers, and list rows to match the Match/Choice views; table rows now slide neatly under the sticky header without “jumping”.
+3. Flashcards regained their full-width sizing inside the new layout (`width: min(100%, 720px)`), preventing narrow cards when the body switches flex modes.
+4. Body scroll locking now activates only while the list view is mounted, so Flashcards, Word Match, and Multiple Choice retain their original column/flow layouts.
 
 ## Next Targets / Ideas
 1. Progress export/import (JSON) for stars + weights.

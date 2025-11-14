@@ -27,7 +27,28 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 500 15px/1.5 system-ui, Segoe UI, Roboto, Arial
+  font: 500 15px/1.5 system-ui, Segoe UI, Roboto, Arial;
+}
+
+body.wordlist-lock {
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.wordlist-lock main#app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+body.wordlist-lock #view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 a {
@@ -93,6 +114,11 @@ a:hover {
   padding: 10px 14px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, .25);
   margin: 12px 0
+}
+
+.panel--topbar {
+  margin: 8px 0 0;
+  padding: 8px 16px 10px;
 }
 
 .row {
@@ -370,6 +396,21 @@ a:hover {
 }
 
 /* Word list */
+.wordlist-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin-top: 4px;
+}
+
+.wordlist-scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 0 0 24px;
+  scroll-padding-top: 0;
+}
+
 table {
   width: 100%;
   border-collapse: separate;
@@ -443,14 +484,11 @@ tbody tr.is-current td {
   display: none !important
 }
 
-/* Word List: sticky header (apply to THEAD, not TH) */
-thead {
+.wordlist-scroll thead {
   position: sticky;
-  top: var(--sticky-offset, 0px);
-  /* right under the app header */
+  top: 0;
   z-index: 6;
   background: #121631;
-  /* solid background for the whole band */
   box-shadow: 0 1px 0 0 var(--line) inset;
 }
 
@@ -491,6 +529,7 @@ thead th[data-key="tags"] {
 .card {
   position: relative;
   max-width: 720px;
+  width: min(100%, 720px);
   margin: 40px auto;
   background: #1b2137;
   border-radius: 20px;

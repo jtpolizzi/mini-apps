@@ -8,6 +8,7 @@ export function mountWordList(container) {
   // Defensive cleanup in case the previous flashcard view didn't teardown
   document.querySelectorAll('.bottombar').forEach((el) => el.remove());
   document.body.classList.remove('pad-bottom');
+  document.body.classList.add('wordlist-lock');
 
   const table = document.createElement('table');
   const thead = document.createElement('thead');
@@ -56,7 +57,13 @@ export function mountWordList(container) {
   thead.appendChild(trh);
   table.appendChild(thead);
   table.appendChild(tbody);
-  container.appendChild(table);
+  const wrap = document.createElement('div');
+  wrap.className = 'wordlist-view';
+  const scrollRegion = document.createElement('div');
+  scrollRegion.className = 'wordlist-scroll';
+  scrollRegion.appendChild(table);
+  wrap.appendChild(scrollRegion);
+  container.appendChild(wrap);
 
   tbody.addEventListener('click', (e) => {
     const row = e.target.closest('tr');
@@ -65,16 +72,13 @@ export function mountWordList(container) {
     row.focus();
   });
   tbody.addEventListener('keydown', handleRowKeydown, true);
-
-  // sticky offset (under app header)
-  function setStickyOffset() {
-    const appHeader = document.querySelector('.app-header');
-    const offset = appHeader ? appHeader.offsetHeight : 0;
-    document.documentElement.style.setProperty('--sticky-offset', `${offset}px`);
-  }
-  setStickyOffset();
-  window.addEventListener('resize', setStickyOffset);
-  window.addEventListener('hashchange', setStickyOffset);
+  tbody.addEventListener('pointerdown', (e) => {
+    const row = e.target.closest('tr');
+    if (!row) return;
+    const wordId = row.dataset.wordId;
+    if (!wordId) return;
+    setCurrentWordId(wordId);
+  }, true);
 
   function fmtTagsComma(s) {
     if (!s) return '';
@@ -167,7 +171,6 @@ export function mountWordList(container) {
 
     updateHeaderIndicators();
     applyColumnVisibility(table);
-    setStickyOffset();
   }
 
   render();
@@ -175,8 +178,7 @@ export function mountWordList(container) {
   return () => {
     if (cleaned) return;
     cleaned = true;
-    window.removeEventListener('resize', setStickyOffset);
-    window.removeEventListener('hashchange', setStickyOffset);
+    document.body.classList.remove('wordlist-lock');
     unsubscribe();
   };
 }
