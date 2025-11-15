@@ -58,6 +58,9 @@
 - Added canonical `termKey`s (normalized word + POS) to every word so multiple source files recognize the same vocab entry.
 - Stars/weights now persist against the `termKey`, letting overlapping rows share user progress while table rows keep their original hashes for UI focus/shuffle.
 
+### Phase 3 (v2.12.4+)
+- Architectural/code review in progress; see `ARCHITECTURE_PLAN.md` for the modernization roadmap (TypeScript build → Svelte evaluation → potential migration).
+
 ## Next Targets / Ideas
 1. Progress export/import (JSON) for stars + weights.
 2. Optional TTS button + auto-speak toggle on flashcards.
