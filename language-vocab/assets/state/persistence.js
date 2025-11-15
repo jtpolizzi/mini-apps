@@ -1,26 +1,5 @@
 // assets/state/persistence.js
 const STORAGE_PREFIX = 'lv:';
-const LEGACY_PREFIX = 'v23:';
-const LEGACY_PURGE_FLAG = `${STORAGE_PREFIX}purged-v23`;
-// TODO: Remove LEGACY_* storage purge helpers once the v23 keys are fully retired.
-
-// TODO: Delete `purgeLegacyStorage` when LEGACY_PREFIX usage is fully removed.
-function purgeLegacyStorage() {
-  try {
-    if (localStorage.getItem(LEGACY_PURGE_FLAG) === '1') return;
-    const doomed = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith(LEGACY_PREFIX)) doomed.push(key);
-    }
-    doomed.forEach(key => localStorage.removeItem(key));
-    localStorage.setItem(LEGACY_PURGE_FLAG, '1');
-  } catch {
-    // ignore storage issues; app will fall back to defaults
-  }
-}
-purgeLegacyStorage();
-
 function withPrefix(key) {
   return STORAGE_PREFIX + key;
 }
