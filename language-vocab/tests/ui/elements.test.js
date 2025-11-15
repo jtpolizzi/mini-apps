@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { createChip, createIconChip } from '../../assets/components/ui/elements.js';
+import { createPopover } from '../../assets/components/ui/popover.js';
 
 describe('ui/elements helpers', () => {
   it('creates a chip with label and pressed state', () => {
@@ -16,5 +17,14 @@ describe('ui/elements helpers', () => {
     expect(chip.className).toContain('chip--icon');
     expect(chip.getAttribute('aria-label')).toBe('Settings');
     expect(chip.textContent?.includes('⚙︎')).toBe(true);
+  });
+
+  it('creates a popover that stops propagation', () => {
+    const pop = createPopover();
+    const handler = vi.fn();
+    const evt = new Event('click', { bubbles: true });
+    pop.addEventListener('click', handler);
+    pop.dispatchEvent(evt);
+    expect(handler).toHaveBeenCalled();
   });
 });
