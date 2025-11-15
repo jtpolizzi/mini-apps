@@ -111,6 +111,13 @@ export function forceStateUpdate() {
   subscribers.forEach(fn => fn());
 }
 
+export function setFilters(next) { State.set('filters', next); }
+export function setFilterSets(next) { State.set('filterSets', next); }
+export function setSort(next) { State.set('sort', next); }
+export function setColumns(next) { State.set('columns', next); }
+export function setOrder(next) { State.set('order', next); }
+export function clearOrder() { State.set('order', []); }
+
 export function resetPersistentState() {
   clearStorageNamespace();
   State.set('filters', DEFAULT_FILTERS);

@@ -1,5 +1,5 @@
 // assets/components/TopBar.js
-import { applyFilters, shuffledIds, sortWords, State, subscribe, sanitizeFilters, filtersEqual } from '../state.js';
+import { applyFilters, shuffledIds, sortWords, State, sanitizeFilters, filtersEqual, onStateEvent, setFilters, setFilterSets, setSort, setOrder } from '../state.js';
 import { createSparkIcon, WEIGHT_DESCRIPTIONS, WEIGHT_SHORT_LABELS } from './WeightControl.js';
 import { openSettingsModal } from './SettingsModal.js';
 
@@ -19,8 +19,8 @@ export function mountTopBar(container) {
   const sh = chip('Shuffle', false, () => {
     const filtered = applyFilters(State.words);
     const sorted = sortWords(filtered);
-    State.set('order', shuffledIds(sorted));
-    State.set('sort', { key: '', dir: 'asc' }); // ← clear sort UI after shuffle
+    setOrder(shuffledIds(sorted));
+    setSort({ key: '', dir: 'asc' }); // ← clear sort UI after shuffle
   });
   row.appendChild(sh);
 
@@ -62,7 +62,7 @@ export function mountTopBar(container) {
     clearTimeout(t);
     const val = search.value;
     t = setTimeout(() => {
-      State.set('filters', { ...State.filters, search: val });
+      setFilters({ ...State.filters, search: val });
     }, 200);
   };
   row.appendChild(search);
@@ -132,7 +132,7 @@ export function mountTopBar(container) {
     quickLabel.textContent = 'Quick filters';
     quickLabel.style.fontWeight = '700';
     const starToggle = chip('Only ★', !!State.filters.starred, () => {
-      State.set('filters', { ...State.filters, starred: !State.filters.starred });
+      setFilters({ ...State.filters, starred: !State.filters.starred });
     });
     const refreshStarToggle = () => {
       starToggle.setAttribute('aria-pressed', String(!!State.filters.starred));
@@ -153,19 +153,19 @@ export function mountTopBar(container) {
     const { posValues, cefrValues, tagValues } = collectFacetValues(State.words);
 
     const posSection = sectionChecks('POS', posValues, State.filters.pos || [], next => {
-      State.set('filters', { ...State.filters, pos: next });
+      setFilters({ ...State.filters, pos: next });
     });
     facetSections.push(posSection);
     grid.appendChild(posSection.wrap);
 
     const cefrSection = sectionChecks('CEFR', cefrValues, State.filters.cefr || [], next => {
-      State.set('filters', { ...State.filters, cefr: next });
+      setFilters({ ...State.filters, cefr: next });
     });
     facetSections.push(cefrSection);
     grid.appendChild(cefrSection.wrap);
 
     const tagSection = sectionChecks('Tags', tagValues, State.filters.tags || [], next => {
-      State.set('filters', { ...State.filters, tags: next });
+      setFilters({ ...State.filters, tags: next });
     });
     facetSections.push(tagSection);
     grid.appendChild(tagSection.wrap);
@@ -202,7 +202,7 @@ export function mountTopBar(container) {
       b.addEventListener('click', () => {
         const set = new Set(State.filters.weight || allWeights);
         set.has(n) ? set.delete(n) : set.add(n);
-        State.set('filters', { ...State.filters, weight: [...set].sort((a, b) => a - b) });
+        setFilters({ ...State.filters, weight: [...set].sort((a, b) => a - b) });
         refreshWeightBtns();
       });
       weightBtns.push(b);
@@ -220,7 +220,7 @@ export function mountTopBar(container) {
     clear.className = 'chip';
     clear.textContent = 'Clear';
     clear.onclick = () => {
-      State.set('filters', { ...State.filters, pos: [], cefr: [], tags: [], weight: [...allWeights] });
+      setFilters({ ...State.filters, pos: [], cefr: [], tags: [], weight: [...allWeights] });
       selectedSetId = '';
       lastSelectedFilterSetId = '';
       refreshWeightBtns();
@@ -236,12 +236,18 @@ export function mountTopBar(container) {
     footer.append(clear, close);
     el.appendChild(footer);
 
-    el._unsub = subscribe(() => {
-      refreshStarToggle();
-      refreshWeightBtns();
-      savedSection.refresh();
-      refreshFacetSections();
-    });
+    const popUnsubs = [
+      onStateEvent('filtersChanged', () => {
+        refreshStarToggle();
+        refreshWeightBtns();
+        savedSection.refresh();
+        refreshFacetSections();
+      }),
+      onStateEvent('filterSetsChanged', () => savedSection.refresh()),
+      onStateEvent('wordsChanged', refreshFacetSections),
+      onStateEvent('progressChanged', refreshStarToggle)
+    ];
+    el._unsub = () => popUnsubs.forEach(unsub => unsub());
     refreshStarToggle();
     refreshWeightBtns();
     savedSection.refresh();
@@ -312,7 +318,7 @@ export function mountTopBar(container) {
         const found = sets.find(s => s.id === selectedSetId);
         if (!found) return;
         lastSelectedFilterSetId = selectedSetId;
-        State.set('filters', sanitizeFilters(found.filters));
+        setFilters(sanitizeFilters(found.filters));
         closePop();
       };
 
@@ -331,12 +337,12 @@ export function mountTopBar(container) {
           const next = sets.map(s => s.id === existing.id ? { ...s, name, filters } : s);
           selectedSetId = existing.id;
           lastSelectedFilterSetId = existing.id;
-          State.set('filterSets', next);
+          setFilterSets(next);
         } else {
           const newSet = { id: newFilterSetId(), name, filters };
           selectedSetId = newSet.id;
           lastSelectedFilterSetId = newSet.id;
-          State.set('filterSets', [...sets, newSet]);
+          setFilterSets([...sets, newSet]);
         }
         refresh();
       };
@@ -348,7 +354,7 @@ export function mountTopBar(container) {
         const filters = sanitizeFilters(State.filters);
         const next = sets.map(s => s.id === selectedSetId ? { ...s, filters } : s);
         lastSelectedFilterSetId = selectedSetId;
-        State.set('filterSets', next);
+        setFilterSets(next);
         refresh();
       };
 
@@ -363,7 +369,7 @@ export function mountTopBar(container) {
           lastSelectedFilterSetId = '';
         }
         selectedSetId = '';
-        State.set('filterSets', next);
+        setFilterSets(next);
         refresh();
       };
 
@@ -520,32 +526,51 @@ export function mountTopBar(container) {
     return { posValues: [...pos].sort(), cefrValues: [...cefr].sort(), tagValues };
   }
 
-  function hasActiveFilters() {
+  function activeFilterCount() {
     const f = State.filters || {};
-    const filterCount =
+    return (
       (f.starred ? 1 : 0) +
       (Array.isArray(f.weight) && f.weight.length < 5 ? 1 : 0) +
-      (f.pos?.length || 0) + (f.cefr?.length || 0) + (f.tags?.length || 0);
-    return filterCount > 0;
+      (f.pos?.length || 0) + (f.cefr?.length || 0) + (f.tags?.length || 0)
+    );
   }
 
-  // Subscribe to keep UI in sync
-  const unsub = subscribe(() => {
-    if (document.activeElement !== search) search.value = State.filters.search || '';
+  function hasActiveFilters() {
+    return activeFilterCount() > 0;
+  }
 
-    const f = State.filters || {};
-    const count =
-      (f.starred ? 1 : 0) +
-      (Array.isArray(f.weight) && f.weight.length < 5 ? 1 : 0) +
-      (f.pos?.length || 0) + (f.cefr?.length || 0) + (f.tags?.length || 0);
+  function syncSearchInput() {
+    if (document.activeElement !== search) {
+      search.value = State.filters.search || '';
+    }
+  }
+
+  function refreshFilterChip() {
+    const count = activeFilterCount();
     filtersChip.textContent = count ? `Filters (${count})` : 'Filters';
     filtersChip.setAttribute('aria-pressed', String(!!count));
+  }
 
+  function refreshResultCount() {
     const n = applyFilters(State.words).length;
     resultCount.textContent = `${n} result${n === 1 ? '' : 's'}`;
-  });
+  }
 
-  return () => { unsub(); };
+  syncSearchInput();
+  refreshFilterChip();
+  refreshResultCount();
+
+  const eventUnsubs = [
+    onStateEvent('filtersChanged', () => {
+      syncSearchInput();
+      refreshFilterChip();
+      refreshResultCount();
+    }),
+    onStateEvent('wordsChanged', refreshResultCount),
+    onStateEvent('progressChanged', refreshResultCount)
+  ];
+
+  return () => { eventUnsubs.forEach(unsub => unsub()); };
 }
 
 function chip(label, pressed, onClick) {

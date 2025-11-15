@@ -16,7 +16,13 @@ export {
   isRowSelectionModeEnabled,
   hydrateWords,
   on as onStateEvent,
-  resetPersistentState
+  resetPersistentState,
+  setFilters,
+  setFilterSets,
+  setSort,
+  setColumns,
+  setOrder,
+  clearOrder
 } from './state/store.js';
 
 export {

@@ -1,5 +1,5 @@
 // assets/components/WordList.js
-import { applyFilters, Prog, setCurrentWordId, setRowSelectionMode, isRowSelectionModeEnabled, sortWords, State, subscribe } from '../state.js';
+import { applyFilters, Prog, setCurrentWordId, setRowSelectionMode, isRowSelectionModeEnabled, sortWords, State, onStateEvent, clearOrder, setSort } from '../state.js';
 import { createWeightControl, createSparkIcon } from './WeightControl.js';
 
 function syncSelectionIfEnabled(wordId) {
@@ -55,8 +55,8 @@ export function mountWordList(container) {
     th.append(label, arrow);
     th.onclick = () => {
       const nextDir = (State.sort.key === c.key && State.sort.dir === 'asc') ? 'desc' : 'asc';
-      State.set('order', []);                         // <-- clear Shuffle order
-      State.set('sort', { key: c.key, dir: nextDir }); //     then apply sort
+      clearOrder();                         // <-- clear Shuffle order
+      setSort({ key: c.key, dir: nextDir }); //     then apply sort
     };
 
     trh.appendChild(th);
@@ -241,12 +241,20 @@ export function mountWordList(container) {
   }
 
   render();
-  const unsubscribe = subscribe(render);
+  const eventUnsubs = [
+    onStateEvent('wordsChanged', render),
+    onStateEvent('filtersChanged', render),
+    onStateEvent('sortChanged', render),
+    onStateEvent('orderChanged', render),
+    onStateEvent('columnsChanged', render),
+    onStateEvent('uiChanged', render),
+    onStateEvent('progressChanged', render)
+  ];
   return () => {
     if (cleaned) return;
     cleaned = true;
     document.body.classList.remove('wordlist-lock');
-    unsubscribe();
+    eventUnsubs.forEach(unsub => unsub());
   };
 }
 

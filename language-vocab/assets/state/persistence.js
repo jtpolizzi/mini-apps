@@ -164,7 +164,7 @@ export function sanitizeUI(ui = {}) {
   };
 }
 
-const SORT_KEYS = new Set(['star', 'weight', 'word', 'definition', 'pos', 'cefr', 'tags']);
+const SORT_KEYS = new Set(['', 'star', 'weight', 'word', 'definition', 'pos', 'cefr', 'tags']);
 
 export function sanitizeSort(sort = DEFAULT_SORT) {
   const next = typeof sort === 'object' && sort ? { ...DEFAULT_SORT, ...sort } : { ...DEFAULT_SORT };
