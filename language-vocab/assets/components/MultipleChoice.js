@@ -2,13 +2,18 @@
 import { applyFilters, LS, State, subscribe } from '../state.js';
 
 const PREF_KEY = 'v24:choicePrefs';
-const DEFAULT_PREFS = { size: 10, direction: 'es-en', answers: 4 };
+const DEFAULT_PREFS = { size: 10, direction: 'word-definition', answers: 4 };
 const MIN_SET = 4;
 const MAX_SET = 15;
 const MIN_PLAYABLE = 2;
 const MIN_ANSWERS = 2;
 const MAX_ANSWERS = 6;
 const CORRECT_ADVANCE_DELAY = 1000;
+const DIRECTION_OPTIONS = [
+  { key: 'word-definition', label: 'Word → Definition' },
+  { key: 'definition-word', label: 'Definition → Word' },
+  { key: 'random', label: 'Random' }
+];
 
 export function mountMultipleChoice(container) {
   container.innerHTML = '';
@@ -102,9 +107,15 @@ export function mountMultipleChoice(container) {
   };
 
   // ---- helpers ----
+  function normalizeDirection(value) {
+    if (value === 'es-en') return 'word-definition';
+    if (value === 'en-es') return 'definition-word';
+    return DIRECTION_OPTIONS.some((d) => d.key === value) ? value : DEFAULT_PREFS.direction;
+  }
+
   function loadPrefs() {
     const stored = LS.get(PREF_KEY, {});
-    const direction = ['es-en', 'en-es', 'random'].includes(stored.direction) ? stored.direction : DEFAULT_PREFS.direction;
+    const direction = normalizeDirection(stored.direction);
     return {
       size: clampSize(stored.size ?? DEFAULT_PREFS.size),
       direction,
@@ -130,7 +141,7 @@ export function mountMultipleChoice(container) {
 
   function computeAvailable() {
     const filtered = applyFilters(State.words || []);
-    return filtered.filter(w => (w.es || '').trim() && (w.en || '').trim());
+    return filtered.filter(w => (w.word || '').trim() && (w.definition || '').trim());
   }
 
   function startRound() {
@@ -163,7 +174,7 @@ export function mountMultipleChoice(container) {
     progressLabel.textContent = 'Not enough words';
     progressFill.style.width = '0%';
     questionLang.textContent = '';
-    questionText.textContent = 'Need at least two filtered words with translations to play.';
+    questionText.textContent = 'Need at least two entries with both word and definition to play.';
     answersList.innerHTML = '';
     promptSub.style.visibility = 'hidden';
   }
@@ -200,18 +211,18 @@ export function mountMultipleChoice(container) {
 
   function buildQuestion(word) {
     const mode = prefs.direction === 'random'
-      ? (Math.random() < 0.5 ? 'es-en' : 'en-es')
+      ? (Math.random() < 0.5 ? 'word-definition' : 'definition-word')
       : prefs.direction;
-    const promptLang = mode === 'es-en' ? 'es' : 'en';
-    const answerLang = promptLang === 'es' ? 'en' : 'es';
+    const promptField = mode === 'word-definition' ? 'word' : 'definition';
+    const answerField = promptField === 'word' ? 'definition' : 'word';
 
-    const prompt = (word[promptLang] || '').trim();
-    const correctText = (word[answerLang] || '').trim();
+    const prompt = (word[promptField] || '').trim();
+    const correctText = (word[answerField] || '').trim();
     if (!prompt || !correctText) return null;
 
     const candidatePool = roundWords
       .filter(w => w.id !== word.id)
-      .filter(w => (w[answerLang] || '').trim());
+      .filter(w => (w[answerField] || '').trim());
 
     const maxAnswers = Math.max(
       MIN_ANSWERS,
@@ -227,7 +238,7 @@ export function mountMultipleChoice(container) {
 
     shuffle(candidatePool).some(candidate => {
       if (answers.length >= maxAnswers) return true;
-      const text = (candidate[answerLang] || '').trim();
+      const text = (candidate[answerField] || '').trim();
       if (!text || usedTexts.has(text.toLowerCase())) return false;
       answers.push({ id: candidate.id, text, isCorrect: false });
       usedTexts.add(text.toLowerCase());
@@ -238,8 +249,8 @@ export function mountMultipleChoice(container) {
 
     return {
       word,
-      promptLang,
-      answerLang,
+      promptField,
+      answerField,
       prompt,
       answers: shuffle(answers),
       correctId: word.id,
@@ -255,7 +266,7 @@ export function mountMultipleChoice(container) {
     progressLabel.textContent = `Question ${Math.min(questionIndex + 1, total)} / ${total}`;
     progressFill.style.width = `${((questionIndex) / total) * 100}%`;
 
-    questionLang.textContent = currentQuestion.promptLang === 'es' ? 'Spanish' : 'English';
+    questionLang.textContent = currentQuestion.promptField === 'word' ? 'Word' : 'Definition';
     questionText.textContent = currentQuestion.prompt;
 
     answersList.innerHTML = '';
@@ -416,11 +427,7 @@ export function mountMultipleChoice(container) {
 
     const dirSelect = document.createElement('select');
     dirSelect.className = 'match-select';
-    [
-      { key: 'es-en', label: 'ES → EN' },
-      { key: 'en-es', label: 'EN → ES' },
-      { key: 'random', label: 'Random' }
-    ].forEach(({ key, label }) => {
+    DIRECTION_OPTIONS.forEach(({ key, label }) => {
       const opt = document.createElement('option');
       opt.value = key;
       opt.textContent = label;

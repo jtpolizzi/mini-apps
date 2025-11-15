@@ -2,15 +2,15 @@
 import { applyFilters, LS, State, subscribe } from '../state.js';
 
 const PREF_KEY = 'v24:matchPrefs';
-const DEFAULT_PREFS = { size: 10, direction: 'es-en', collapseMatches: false };
+const DEFAULT_PREFS = { size: 10, direction: 'word-definition', collapseMatches: false };
 const MIN_SET = 4;
 const MAX_SET = 15;
 const MIN_PLAYABLE = 2;
 const MATCH_CLEAR_DELAY = 480;
 
 const DIRECTIONS = [
-  { key: 'es-en', label: 'ES->EN' },
-  { key: 'en-es', label: 'EN->ES' },
+  { key: 'word-definition', label: 'Word → Definition' },
+  { key: 'definition-word', label: 'Definition → Word' },
   { key: 'random', label: 'Random' }
 ];
 
@@ -58,9 +58,15 @@ export function mountWordMatch(container) {
   wrap.appendChild(board);
   container.appendChild(wrap);
 
+  function normalizeDirection(value) {
+    if (value === 'es-en') return 'word-definition';
+    if (value === 'en-es') return 'definition-word';
+    return DIRECTIONS.some((d) => d.key === value) ? value : DEFAULT_PREFS.direction;
+  }
+
   function loadPrefs() {
     const stored = LS.get(PREF_KEY, {});
-    const dir = DIRECTIONS.some((d) => d.key === stored?.direction) ? stored.direction : DEFAULT_PREFS.direction;
+    const dir = normalizeDirection(stored?.direction);
     return {
       size: clampSize(stored?.size ?? DEFAULT_PREFS.size),
       direction: dir,
@@ -74,7 +80,7 @@ export function mountWordMatch(container) {
 
   function computeAvailable() {
     const filtered = applyFilters(State.words || []);
-    return filtered.filter((w) => (w.es || '').trim() && (w.en || '').trim());
+    return filtered.filter((w) => (w.word || '').trim() && (w.definition || '').trim());
   }
 
   function clampSize(value) {
@@ -107,25 +113,25 @@ export function mountWordMatch(container) {
     const nextColumns = { left: [], right: [] };
 
     pool.forEach((word) => {
-      const placeSpanishLeft =
-        prefs.direction === 'es-en' ? true :
-        prefs.direction === 'en-es' ? false :
+      const placeWordLeft =
+        prefs.direction === 'word-definition' ? true :
+        prefs.direction === 'definition-word' ? false :
         Math.random() < 0.5;
 
       if (prefs.direction === 'random') {
-        if (placeSpanishLeft) {
-          nextColumns.left.push(createCard(word, 'es', 'left'));
-          nextColumns.right.push(createCard(word, 'en', 'right'));
+        if (placeWordLeft) {
+          nextColumns.left.push(createCard(word, 'word', 'left'));
+          nextColumns.right.push(createCard(word, 'definition', 'right'));
         } else {
-          nextColumns.left.push(createCard(word, 'en', 'left'));
-          nextColumns.right.push(createCard(word, 'es', 'right'));
+          nextColumns.left.push(createCard(word, 'definition', 'left'));
+          nextColumns.right.push(createCard(word, 'word', 'right'));
         }
-      } else if (prefs.direction === 'es-en') {
-        nextColumns.left.push(createCard(word, 'es', 'left'));
-        nextColumns.right.push(createCard(word, 'en', 'right'));
+      } else if (prefs.direction === 'word-definition') {
+        nextColumns.left.push(createCard(word, 'word', 'left'));
+        nextColumns.right.push(createCard(word, 'definition', 'right'));
       } else {
-        nextColumns.left.push(createCard(word, 'en', 'left'));
-        nextColumns.right.push(createCard(word, 'es', 'right'));
+        nextColumns.left.push(createCard(word, 'definition', 'left'));
+        nextColumns.right.push(createCard(word, 'word', 'right'));
       }
     });
 
@@ -152,7 +158,7 @@ export function mountWordMatch(container) {
       uid: `${lang}-${word.id}-${column}`,
       pairId: word.id,
       lang,
-      text: lang === 'es' ? word.es : word.en,
+      text: lang === 'word' ? word.word : word.definition,
       column
     };
   }
@@ -183,7 +189,7 @@ export function mountWordMatch(container) {
     btn.dataset.column = card.column;
     btn.innerHTML = `
       <span class="match-card-text">${card.text}</span>
-      <span class="match-card-lang">${card.lang === 'es' ? 'ES' : 'EN'}</span>
+      <span class="match-card-lang">${card.lang === 'word' ? 'WORD' : 'DEF'}</span>
     `;
     btn.addEventListener('click', () => handleCardClick(card));
     syncCardState(btn);

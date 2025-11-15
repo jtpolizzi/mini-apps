@@ -123,7 +123,7 @@ export function mountFlashcards(container) {
     }
 
     // main text
-    card.textContent = showFront ? (w.es || '') : (w.en || '');
+    card.textContent = showFront ? (w.word || '') : (w.definition || '');
     card.appendChild(topr);
     card.appendChild(foot);
 
@@ -182,7 +182,7 @@ export function mountFlashcards(container) {
 
     foot.innerHTML = `
       <div class="meta-line">${parts.filter(Boolean).join(' • ')}</div>
-      ${State.ui.showTranslation ? `<div class="translation">${w.en || ''}</div>` : ''}
+      ${State.ui.showTranslation ? `<div class="translation">${w.definition || ''}</div>` : ''}
     `;
 
     updateProgress(index + 1, view.length);

@@ -4,7 +4,7 @@ import { mountTopBar } from './components/TopBar.js';
 import { mountWordList } from './components/WordList.js';
 import { mountWordMatch } from './components/WordMatch.js';
 import { mountMultipleChoice } from './components/MultipleChoice.js';
-import { State, mapRaw } from './state.js';
+import { State, hydrateWords } from './state.js';
 
 const topbar = document.getElementById('topbar');
 const view = document.getElementById('view');
@@ -52,8 +52,8 @@ function parseTSV(text) {
     if (lines.length === 0) return [];
     const headers = lines[0].split('\t').map(h => h.trim());
     const idx = {
-        Spanish: headers.findIndex(h => /^(spanish|word)$/i.test(h)),
-        English: headers.findIndex(h => /^(english|definition)$/i.test(h)),
+        word: headers.findIndex(h => /^(word|spanish)$/i.test(h)),
+        definition: headers.findIndex(h => /^(definition|english)$/i.test(h)),
         POS: headers.findIndex(h => /^pos$/i.test(h)),
         CEFR: headers.findIndex(h => /^cefr$/i.test(h)),
         Tags: headers.findIndex(h => /^tags?$/i.test(h)),
@@ -63,8 +63,8 @@ function parseTSV(text) {
         const cols = lines[i].split('\t');
         if (cols.every(c => !c || !c.trim())) continue;
         out.push({
-            Spanish: (idx.Spanish >= 0 ? cols[idx.Spanish] : '').trim(),
-            English: (idx.English >= 0 ? cols[idx.English] : '').trim(),
+            word: (idx.word >= 0 ? cols[idx.word] : '').trim(),
+            definition: (idx.definition >= 0 ? cols[idx.definition] : '').trim(),
             POS: (idx.POS >= 0 ? cols[idx.POS] : '').trim(),
             CEFR: (idx.CEFR >= 0 ? cols[idx.CEFR] : '').trim(),
             Tags: (idx.Tags >= 0 ? cols[idx.Tags] : '').trim(),
@@ -97,9 +97,13 @@ async function tryLoadJSON() {
 
 async function loadData() {
     let raw = await tryLoadTSV();
-    if (!raw) raw = await tryLoadJSON();
+    let source = 'tsv';
+    if (!raw) {
+        raw = await tryLoadJSON();
+        source = raw ? 'json' : 'none';
+    }
     if (!raw) raw = [];
-    State.set('words', mapRaw(raw));
+    hydrateWords(raw, { source, loadedAt: Date.now() });
     renderRoute();
 }
 

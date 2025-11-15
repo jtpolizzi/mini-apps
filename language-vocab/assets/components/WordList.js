@@ -205,8 +205,8 @@ export function mountWordList(container) {
       tr.dataset.termKey = w.termKey || '';
       tr.appendChild(tdStar(w.termKey));
       tr.appendChild(tdWeight(w.termKey));
-      tr.appendChild(tdText(w.es));
-      tr.appendChild(tdText(w.en));
+      tr.appendChild(tdText(w.word));
+      tr.appendChild(tdText(w.definition));
       tr.appendChild(tdText(w.pos));
       tr.appendChild(tdText(w.cefr));
       tr.appendChild(tdTags(w.tags));
