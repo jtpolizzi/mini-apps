@@ -1,5 +1,5 @@
 // assets/state/persistence.js
-const STORAGE_PREFIX = 'lv:';
+export const STORAGE_PREFIX = 'lv:';
 function withPrefix(key) {
   return STORAGE_PREFIX + key;
 }
@@ -29,6 +29,19 @@ export const LS = {
     }
   }
 };
+
+export function clearStorageNamespace() {
+  try {
+    const doomed = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(STORAGE_PREFIX)) doomed.push(key);
+    }
+    doomed.forEach(key => localStorage.removeItem(key));
+  } catch {
+    // ignore storage issues to avoid masking user actions
+  }
+}
 
 export const DEFAULT_FILTERS = {
   starred: false,

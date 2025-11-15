@@ -13,7 +13,12 @@ import {
   loadColumns,
   loadUI,
   loadOrder,
-  toNewWeight
+  toNewWeight,
+  clearStorageNamespace,
+  DEFAULT_FILTERS,
+  DEFAULT_SORT,
+  DEFAULT_COLUMNS,
+  DEFAULT_UI
 } from './persistence.js';
 import { mapRaw } from './data.js';
 
@@ -104,6 +109,17 @@ State.on = on;
 
 export function forceStateUpdate() {
   subscribers.forEach(fn => fn());
+}
+
+export function resetPersistentState() {
+  clearStorageNamespace();
+  State.set('filters', DEFAULT_FILTERS);
+  State.set('filterSets', []);
+  State.set('sort', DEFAULT_SORT);
+  State.set('columns', DEFAULT_COLUMNS);
+  State.set('order', []);
+  State.set('ui', DEFAULT_UI);
+  State.meta = { ...State.meta };
 }
 
 function updateState(key, value) {

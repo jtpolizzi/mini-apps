@@ -85,6 +85,7 @@ async function tryLoadTSV() {
     }
 }
 
+// TODO: remove JSON loader - not needed.
 async function tryLoadJSON() {
     try {
         const res = await fetch('data/words.json', { cache: 'no-store' });

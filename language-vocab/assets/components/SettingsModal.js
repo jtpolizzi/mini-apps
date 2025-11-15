@@ -1,5 +1,5 @@
 // assets/components/SettingsModal.js
-import { State } from '../state.js';
+import { State, resetPersistentState } from '../state.js';
 
 export function openSettingsModal() {
   const overlay = document.createElement('div');
@@ -73,6 +73,11 @@ export function openSettingsModal() {
   // Reset
   const resetWrap = document.createElement('div');
   resetWrap.style.marginTop = '12px';
+  resetWrap.style.display = 'flex';
+  resetWrap.style.flexDirection = 'column';
+  resetWrap.style.gap = '8px';
+
+  const resetRow = document.createElement('div');
   const resetBtn = document.createElement('button');
   resetBtn.className = 'chip';
   resetBtn.textContent = 'Reset filters & order';
@@ -81,7 +86,24 @@ export function openSettingsModal() {
     State.set('order', []);
     State.set('sort', { key: 'word', dir: 'asc' });
   };
-  resetWrap.append(resetBtn);
+  resetRow.append(resetBtn);
+
+  const clearRow = document.createElement('div');
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'chip';
+  clearBtn.textContent = 'Clear all saved data';
+  clearBtn.style.background = '#6b192c';
+  clearBtn.style.borderColor = '#ff4d7d';
+  clearBtn.style.color = '#fff';
+  clearBtn.onclick = () => {
+    const ok = window.confirm('This will remove all saved filters, stars, weights, and preferences on this device. Continue?');
+    if (!ok) return;
+    resetPersistentState();
+    alert('All saved data cleared. Reload your words to start fresh.');
+  };
+  clearRow.append(clearBtn);
+
+  resetWrap.append(resetRow, clearRow);
 
   // Footer
   const footer = document.createElement('div');

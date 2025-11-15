@@ -15,7 +15,8 @@ export {
   setRowSelectionMode,
   isRowSelectionModeEnabled,
   hydrateWords,
-  on as onStateEvent
+  on as onStateEvent,
+  resetPersistentState
 } from './state/store.js';
 
 export {
