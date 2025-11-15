@@ -22,7 +22,8 @@ export {
   setSort,
   setColumns,
   setOrder,
-  clearOrder
+  clearOrder,
+  setLoaderStatus
 } from './state/store.js';
 
 export {

@@ -4,10 +4,14 @@ import { mountTopBar } from './components/TopBar.js';
 import { mountWordList } from './components/WordList.js';
 import { mountWordMatch } from './components/WordMatch.js';
 import { mountMultipleChoice } from './components/MultipleChoice.js';
-import { State, hydrateWords } from './state.js';
+import { State, hydrateWords, setLoaderStatus } from './state.js';
+import { loadWords, onDataEvent, getLoaderStatus } from './data/loader.js';
 
 const topbar = document.getElementById('topbar');
 const view = document.getElementById('view');
+const loaderStatus = document.createElement('div');
+loaderStatus.className = 'loader-status';
+loaderStatus.textContent = 'Loading words...';
 
 const VIEW_REGISTRY = {
     list: mountWordList,
@@ -39,11 +43,19 @@ function renderRoute() {
     cleanupView();
     cleanupView = () => {};
 
+    const hasWords = Array.isArray(State.words) && State.words.length > 0;
+
     const hash = location.hash || '#/list';
     setActiveNav(hash);
     const route = resolveRoute(hash);
-    const mount = VIEW_REGISTRY[route] || VIEW_REGISTRY.list;
-    cleanupView = normalizeDestroy(mount(view));
+    const mount = hasWords ? (VIEW_REGISTRY[route] || VIEW_REGISTRY.list) : null;
+
+    view.innerHTML = '';
+    if (hasWords && mount) {
+        cleanupView = normalizeDestroy(mount(view));
+    } else {
+        view.appendChild(loaderStatus);
+    }
 }
 
 window.addEventListener('hashchange', renderRoute);
@@ -90,16 +102,32 @@ function parseTSV(text) {
 }
 
 async function loadData() {
+    const offLoading = onDataEvent('loading', () => {
+        setLoaderStatus('loading');
+        loaderStatus.textContent = 'Loading words...';
+        renderRoute();
+    });
+    const offLoaded = onDataEvent('loaded', ({ text }) => {
+        const raw = parseTSV(text);
+        setLoaderStatus('loaded');
+        loaderStatus.textContent = `Loaded ${raw.length} words.`;
+        hydrateWords(raw || [], { source: 'tsv', loadedAt: Date.now(), loaderStatus: 'loaded' });
+        renderRoute();
+    });
+    const offError = onDataEvent('error', () => {
+        setLoaderStatus('error');
+        loaderStatus.textContent = 'Failed to load words. Check console for details.';
+        hydrateWords([], { source: 'none', loadedAt: Date.now(), loaderStatus: 'error' });
+        renderRoute();
+    });
+
     try {
-        const res = await fetch('data/words.tsv', { cache: 'no-store' });
-        if (!res.ok) throw new Error('TSV not found');
-        const txt = await res.text();
-        const raw = parseTSV(txt);
-        hydrateWords(raw || [], { source: 'tsv', loadedAt: Date.now() });
-    } catch (e) {
-        hydrateWords([], { source: 'none', loadedAt: Date.now() });
+        await loadWords({ url: 'data/words.tsv' });
+    } finally {
+        offLoading();
+        offLoaded();
+        offError();
     }
-    renderRoute();
 }
 
 loadData();

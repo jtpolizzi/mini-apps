@@ -35,10 +35,12 @@ const KEY_EVENTS = {
 
 const subscribers = new Set();
 const eventHandlers = new Map();
+const eventCounts = new Map();
 
 function emit(eventName, payload) {
   const handlers = eventHandlers.get(eventName);
   if (!handlers?.size) return;
+  eventCounts.set(eventName, (eventCounts.get(eventName) || 0) + 1);
   handlers.forEach(fn => fn(payload, State));
 }
 
@@ -81,7 +83,8 @@ export const State = {
   ui: loadUI(),
   meta: {
     wordsSource: '',
-    wordsLoadedAt: 0
+    wordsLoadedAt: 0,
+    loaderStatus: 'idle'
   },
   set(key, value) {
     updateState(key, value);
@@ -117,6 +120,9 @@ export function setSort(next) { State.set('sort', next); }
 export function setColumns(next) { State.set('columns', next); }
 export function setOrder(next) { State.set('order', next); }
 export function clearOrder() { State.set('order', []); }
+export function setLoaderStatus(status) {
+  State.meta = { ...State.meta, loaderStatus: status };
+}
 
 export function resetPersistentState() {
   clearStorageNamespace();
@@ -210,7 +216,8 @@ export function hydrateWords(raw, meta = {}) {
   State.meta = {
     ...State.meta,
     wordsSource: typeof meta.source === 'string' ? meta.source : (meta.source ?? ''),
-    wordsLoadedAt: typeof meta.loadedAt === 'number' ? meta.loadedAt : Date.now()
+    wordsLoadedAt: typeof meta.loadedAt === 'number' ? meta.loadedAt : Date.now(),
+    loaderStatus: meta.loaderStatus || State.meta.loaderStatus
   };
   updateWords(mapped, { count: mapped.length, meta: { ...State.meta } });
 }
@@ -254,4 +261,17 @@ export function setRowSelectionMode(enabled) {
 
 export function isRowSelectionModeEnabled() {
   return !!State.ui?.rowSelectionMode;
+}
+
+// Debug helper
+const DEBUG_HOOK_KEY = '__LV_DEBUG__';
+if (typeof window !== 'undefined' && !window[DEBUG_HOOK_KEY]) {
+  window[DEBUG_HOOK_KEY] = {
+    State,
+    Prog,
+    on: State.on,
+    get eventCounts() {
+      return new Map(eventCounts);
+    }
+  };
 }
