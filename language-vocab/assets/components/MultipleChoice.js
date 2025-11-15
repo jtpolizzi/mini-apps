@@ -102,12 +102,14 @@ export function mountMultipleChoice(container) {
     advanceQuestion();
   });
 
-  return () => {
+  const destroy = () => {
     eventUnsubs.forEach(unsub => unsub());
     window.removeEventListener('keydown', keyHandler);
     clearTimeout(feedbackTimer);
     controls.destroy?.();
   };
+
+  return { destroy };
 
   // ---- helpers ----
   function normalizeDirection(value) {

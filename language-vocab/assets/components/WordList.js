@@ -250,12 +250,15 @@ export function mountWordList(container) {
     onStateEvent('uiChanged', render),
     onStateEvent('progressChanged', render)
   ];
-  return () => {
+
+  const destroy = () => {
     if (cleaned) return;
     cleaned = true;
     document.body.classList.remove('wordlist-lock');
     eventUnsubs.forEach(unsub => unsub());
   };
+
+  return { destroy };
 }
 
 /* --- cells --- */

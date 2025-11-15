@@ -457,8 +457,10 @@ export function mountFlashcards(container) {
     onStateEvent('uiChanged', render),
     onStateEvent('progressChanged', render)
   ];
-  return () => {
+  const destroy = () => {
     cleanup();
     eventUnsubs.forEach(unsub => unsub());
   };
+
+  return { destroy };
 }

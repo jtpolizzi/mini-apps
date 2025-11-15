@@ -520,10 +520,13 @@ export function mountWordMatch(container) {
     onStateEvent('wordsChanged', handleStateChange),
     onStateEvent('filtersChanged', handleStateChange)
   ];
-  return () => {
+
+  const destroy = () => {
     controls.destroy?.();
     eventUnsubs.forEach(unsub => unsub());
   };
+
+  return { destroy };
 
   function findTopLeftCandidate() {
     return boardColumns.left.find(

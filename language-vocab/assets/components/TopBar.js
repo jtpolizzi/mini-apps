@@ -1,5 +1,7 @@
 // assets/components/TopBar.js
 import { applyFilters, shuffledIds, sortWords, State, sanitizeFilters, filtersEqual, onStateEvent, setFilters, setFilterSets, setSort, setOrder } from '../state.js';
+import { createChip, createIconChip } from './ui/elements.js';
+import { createPopover } from './ui/popover.js';
 import { createSparkIcon, WEIGHT_DESCRIPTIONS, WEIGHT_SHORT_LABELS } from './WeightControl.js';
 import { openSettingsModal } from './SettingsModal.js';
 
@@ -16,16 +18,18 @@ export function mountTopBar(container) {
   row.className = 'row';
 
   // Shuffle (stay on current view) + clear sort indicators
-  const sh = chip('Shuffle', false, () => {
-    const filtered = applyFilters(State.words);
-    const sorted = sortWords(filtered);
-    setOrder(shuffledIds(sorted));
-    setSort({ key: '', dir: 'asc' }); // ← clear sort UI after shuffle
+  const sh = createChip('Shuffle', {
+    onClick: () => {
+      const filtered = applyFilters(State.words);
+      const sorted = sortWords(filtered);
+      setOrder(shuffledIds(sorted));
+      setSort({ key: '', dir: 'asc' }); // ← clear sort UI after shuffle
+    }
   });
   row.appendChild(sh);
 
   // Filters (popover)
-  const filtersChip = chip('Filters', hasActiveFilters(), toggleFilters);
+  const filtersChip = createChip('Filters', { pressed: hasActiveFilters(), onClick: toggleFilters });
   filtersChip.id = 'filters-chip';
   row.appendChild(filtersChip);
 
@@ -131,8 +135,11 @@ export function mountTopBar(container) {
     const quickLabel = document.createElement('div');
     quickLabel.textContent = 'Quick filters';
     quickLabel.style.fontWeight = '700';
-    const starToggle = chip('Only ★', !!State.filters.starred, () => {
-      setFilters({ ...State.filters, starred: !State.filters.starred });
+    const starToggle = createChip('Only ★', {
+      pressed: !!State.filters.starred,
+      onClick: () => {
+        setFilters({ ...State.filters, starred: !State.filters.starred });
+      }
     });
     const refreshStarToggle = () => {
       starToggle.setAttribute('aria-pressed', String(!!State.filters.starred));
@@ -216,22 +223,18 @@ export function mountTopBar(container) {
     const footer = document.createElement('div');
     Object.assign(footer.style, { display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '12px' });
 
-    const clear = document.createElement('button');
-    clear.className = 'chip';
-    clear.textContent = 'Clear';
-    clear.onclick = () => {
-      setFilters({ ...State.filters, pos: [], cefr: [], tags: [], weight: [...allWeights] });
-      selectedSetId = '';
-      lastSelectedFilterSetId = '';
-      refreshWeightBtns();
-      savedSection.refresh();
-      refreshFacetSections();
-    };
+    const clear = createChip('Clear', {
+      onClick: () => {
+        setFilters({ ...State.filters, pos: [], cefr: [], tags: [], weight: [...allWeights] });
+        selectedSetId = '';
+        lastSelectedFilterSetId = '';
+        refreshWeightBtns();
+        savedSection.refresh();
+        refreshFacetSections();
+      }
+    });
 
-    const close = document.createElement('button');
-    close.className = 'chip';
-    close.textContent = 'Close';
-    close.onclick = closePop;
+    const close = createChip('Close', { onClick: closePop });
 
     footer.append(clear, close);
     el.appendChild(footer);
@@ -282,19 +285,16 @@ export function mountTopBar(container) {
       Object.assign(select.style, { flex: '1 1 220px', minWidth: '200px' });
       row.appendChild(select);
 
-      const load = iconActionButton('⇩', 'Load selected set');
-      load.disabled = true;
+      const load = createIconChip('⇩', 'Load selected set', { disabled: true });
       row.appendChild(load);
 
-      const update = iconActionButton('⟳', 'Update selected set');
-      update.disabled = true;
+      const update = createIconChip('⟳', 'Update selected set', { disabled: true });
       row.appendChild(update);
 
-      const save = iconActionButton('＋', 'Save current filters as new set');
+      const save = createIconChip('＋', 'Save current filters as new set');
       row.appendChild(save);
 
-      const del = iconActionButton('🗑', 'Delete selected set');
-      del.disabled = true;
+      const del = createIconChip('🗑', 'Delete selected set', { disabled: true });
       row.appendChild(del);
 
       wrap.appendChild(row);
@@ -443,19 +443,6 @@ export function mountTopBar(container) {
       };
 
       return { wrap, refresh };
-
-      function iconActionButton(symbol, label) {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'chip chip--icon';
-        btn.setAttribute('aria-label', label);
-        btn.title = label;
-        const icon = document.createElement('span');
-        icon.textContent = symbol;
-        icon.setAttribute('aria-hidden', 'true');
-        btn.appendChild(icon);
-        return btn;
-      }
     }
 
   function sectionChecks(title, values = [], selected = [], onChange) {
@@ -570,14 +557,5 @@ export function mountTopBar(container) {
     onStateEvent('progressChanged', refreshResultCount)
   ];
 
-  return () => { eventUnsubs.forEach(unsub => unsub()); };
-}
-
-function chip(label, pressed, onClick) {
-  const b = document.createElement('button');
-  b.className = 'chip';
-  b.textContent = label;
-  b.setAttribute('aria-pressed', String(!!pressed));
-  b.onclick = onClick;
-  return b;
+  return { destroy() { eventUnsubs.forEach(unsub => unsub()); } };
 }

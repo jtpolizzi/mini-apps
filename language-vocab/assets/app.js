@@ -9,10 +9,31 @@ import { State, hydrateWords } from './state.js';
 const topbar = document.getElementById('topbar');
 const view = document.getElementById('view');
 
-mountTopBar(topbar);
-mountSettings();
+const VIEW_REGISTRY = {
+    list: mountWordList,
+    cards: mountFlashcards,
+    match: mountWordMatch,
+    choice: mountMultipleChoice
+};
 
 let cleanupView = () => {};
+
+normalizeDestroy(mountTopBar(topbar));
+mountSettings();
+
+function resolveRoute(hash) {
+    const normalized = (hash || '#/list').toLowerCase();
+    if (normalized.startsWith('#/cards')) return 'cards';
+    if (normalized.startsWith('#/match')) return 'match';
+    if (normalized.startsWith('#/choice')) return 'choice';
+    return 'list';
+}
+
+function normalizeDestroy(result) {
+    if (typeof result === 'function') return result;
+    if (result && typeof result.destroy === 'function') return () => result.destroy();
+    return () => {};
+}
 
 function renderRoute() {
     cleanupView();
@@ -20,16 +41,11 @@ function renderRoute() {
 
     const hash = location.hash || '#/list';
     setActiveNav(hash);
-    if (hash.startsWith('#/cards')) {
-        cleanupView = mountFlashcards(view) || (() => {});
-    } else if (hash.startsWith('#/match')) {
-        cleanupView = mountWordMatch(view) || (() => {});
-    } else if (hash.startsWith('#/choice')) {
-        cleanupView = mountMultipleChoice(view) || (() => {});
-    } else {
-        cleanupView = mountWordList(view) || (() => {});
-    }
+    const route = resolveRoute(hash);
+    const mount = VIEW_REGISTRY[route] || VIEW_REGISTRY.list;
+    cleanupView = normalizeDestroy(mount(view));
 }
+
 window.addEventListener('hashchange', renderRoute);
 
 function setActiveNav(hash) {
