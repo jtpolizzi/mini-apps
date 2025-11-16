@@ -41,7 +41,7 @@ jobs:
           rm -rf deploy/language-vocab
           mkdir -p deploy/language-vocab
           cp -R language-vocab/dist/. deploy/language-vocab/
-      - uses: actions/upload-pages-artifact@v2
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: deploy
 
@@ -51,4 +51,4 @@ jobs:
     environment:
       name: github-pages
     steps:
-      - uses: actions/deploy-pages@v2
+      - uses: actions/deploy-pages@v4
