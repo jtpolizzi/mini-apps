@@ -128,7 +128,7 @@ async function loadData() {
     });
 
     try {
-        await loadWords({ url: 'data/words.tsv' });
+        await loadWords({ url: '/data/words.tsv' });
     } finally {
         offLoading();
         offLoaded();

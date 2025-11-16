@@ -22,21 +22,21 @@
 ## 2. Near-Term Modernization
 
 ### Step A – TypeScript + ES Modules (target v2.13.x)
-1. Introduce a lightweight build (tsc or Vite) that outputs the same static assets for GitHub Pages.
+1. Introduce a lightweight build (Vite + TypeScript) that outputs the same static assets for GitHub Pages.
 2. Define types for `VocabEntry`, `TermKey`, `State`, `Prog`, etc., and convert existing JS files incrementally (`state.ts`, `components/*.ts`, utilities).
 3. Keep the current DOM-driven UI while benefiting from type safety and clearer module boundaries.
 
-**Step A Implementation Plan**
-- Tooling
-  - Add a `tsconfig.json` plus Vite build that emits `assets/*.js` for GitHub Pages. Keep `npm test` on Vitest (already in place) and add `npm run build` / `npm run preview` scripts.
-  - Introduce ESLint/Prettier configs tuned for TS once the build compiles.
+**Status (v2.13.0 in progress)**
+- Vite + TypeScript tooling is in place (`npm run dev`, `npm run build`, `npm run preview`). All state modules, shared UI helpers, loader, and tests now compile as `.ts` with shared interfaces.
+- A GitHub Actions workflow builds/deploys `dist/` for Pages once enabled. Remaining work: convert the view modules from `// @ts-nocheck` to typed components and layer in ESLint/Prettier.
+
+**Implementation Plan (remaining work)**
 - Conversion order
-  1. Convert `assets/state/*` (`persistence`, `store`, `selectors`, `data`) to `.ts`, define shared interfaces (`VocabEntry`, `Filters`, `AppMeta`, etc.), and keep `hydrateWords` typed end-to-end.
-  2. Migrate utility modules (`components/ui/elements`, `components/ui/popover`, `data/loader`) to TS, updating imports/exports to ES modules via Vite.
-  3. Convert view modules incrementally (WordList → TopBar → Flashcards → Match → Choice → Settings) ensuring each returns the `{ destroy }` contract with explicit prop types.
-  4. After every conversion, run `npm test` and `npm run build` to verify TypeScript types and bundling.
-- Docs
-  - Update `NOTES.md` when Step A completes (v2.13.x) with links to the TypeScript/Vite workflow and any lint/test commands.
+  1. Tighten typings for `assets/components/ui/*`, `data/loader`, and `state/*` (done).
+  2. Convert view modules incrementally (WordList → TopBar → Flashcards → Match → Choice → Settings), replacing `@ts-nocheck` with typed props/events.
+  3. Add ESLint/Prettier configs once TypeScript settles.
+- Testing/Docs
+  - Continue running `npm test` + `npm run build` after each conversion. Update `NOTES.md` once Step A fully lands.
 
 ### Step B – Svelte Evaluation (target v2.14.x)
 1. Rebuild a single view (Word List) in Svelte using the typed stores to gauge ergonomics, bundle size, and complexity.
@@ -54,6 +54,6 @@
 
 ## 4. Version Milestones
 - **v2.12.4+** – Publish the code-review findings and finalize Phase 3.
-- **v2.13.x** – Land TypeScript + module build (Step A).
+- **v2.13.x** – Land TypeScript + module build (Step A, in progress).
 - **v2.14.x** – Prototype a Svelte view and decide on full migration (Step B).
 - **v2.15.x+** – Execute the migration plan if approved (Step C), or extend the vanilla codebase with the review recommendations if not.

@@ -1,4 +1,4 @@
-# Vocab Mini-App Notes (v2.12.4)
+# Vocab Mini-App Notes (v2.13.0)
 
 ## Snapshot
 - SPA written in vanilla HTML/CSS/JS; routes driven via hash (`#/list`, `#/cards`, `#/match`, `#/choice`).
@@ -49,6 +49,7 @@
 1. Phase 1 (v2.12.2): remove the legacy weight-migration UI/logic and reset the localStorage prefix so upcoming changes start from a clean slate.
 2. Phase 2 (v2.12.3): introduce canonical term keys (word + POS) for persisted progress, letting overlapping data files share stars/weights.
 3. Phase 3 (v2.12.4+): deep architectural/code review with targeted refactors for state management, shared utilities, and event handling.
+4. Step A (v2.13.0 in progress): land the TypeScript + Vite tooling and convert the state/UI layers before moving on to component rewrites.
 
 ### Phase 1 (v2.12.2 ✅ Completed)
 - Removed the one-time “weight migration” helper from Settings now that every install picked it up.
@@ -62,6 +63,11 @@
 - v2.12.4: finalized the store split by introducing a namespace-wide “Clear all saved data” action, dropped the JSON data fallback, and removed legacy sort/column migrations now that every device uses the modern schema.
 - v2.12.4: Finished the Phase 3 refactors—state actions + event map, shared chip/popover helpers, TSV loader events with a toggleable debug panel, and a Vitest + happy-dom harness covering data, selectors, loader, and UI utilities.
 - Architectural/code review complete; see `ARCHITECTURE_PLAN.md` for the modernization roadmap (TypeScript build → Svelte evaluation → potential migration).
+
+### Step A (v2.13.0 🚧 In Progress)
+- Vite + TypeScript build added (`npm run dev` / `npm run build`) with app code converted to `.ts` modules and shared interfaces for state/data/utilities.
+- Vitest suites now run against the TypeScript sources; loader events + UI helpers have direct coverage.
+- GitHub Pages workflow added to build and deploy from `dist/` once Actions are enabled.
 
 ## Next Targets / Ideas
 1. Progress export/import (JSON) for stars + weights.
