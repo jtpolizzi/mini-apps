@@ -17,6 +17,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language-vocab
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,10 +27,9 @@ jobs:
           node-version: 18
           cache: 'npm'
       - run: npm install
-        working-directory: language-vocab
       - run: npm run build
-        working-directory: language-vocab
       - name: Prepare deploy directory
+        working-directory: .
         run: |
           mkdir deploy
           rsync -av \
