@@ -19,4 +19,6 @@
 3. Commit/push to `main` – the “Deploy static site” workflow builds/tests and publishes to GitHub Pages automatically.
 
 ## Next Session
-Continue Step B by rendering the Word List table in Svelte (using the new store bridge), then note early DX/perf impressions for the docs.
+- Prep a parity checklist + work plan for the next Svelte migration target (likely Top Bar or Flashcards) before coding so we can avoid dozens of back-and-forth iterations. Checklist should cover layout constraints, typography, interactions (keyboard/touch), and edge cases.
+- Agree on the store contract the new Svelte view will consume/emit and decide which shared styles remain global vs. move into the component.
+- Once the plan is approved, implement the component in larger, deliberate batches (functionality first, styling second) and only then retire the duplicate CSS when the legacy view goes away.
