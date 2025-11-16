@@ -38,8 +38,6 @@ const KEY_EVENTS = {
   progress: 'progressChanged'
 } as const;
 
-type KeyEventName = keyof typeof KEY_EVENTS;
-
 type Subscriber = () => void;
 type EventHandler = (payload: unknown, state: AppState) => void;
 

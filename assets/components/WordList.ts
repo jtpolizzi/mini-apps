@@ -136,7 +136,7 @@ export function mountWordList(container: HTMLElement): Destroyable {
     }
   }, true);
   ['pointerup', 'pointercancel', 'pointerleave'].forEach((evt) => {
-    tbody.addEventListener(evt, cancelLongPressWatch as EventListener, true);
+    tbody.addEventListener(evt, cancelLongPressWatch, true);
   });
 
   function startLongPressWatch(e: PointerEvent, row: HTMLTableRowElement, wordId: string) {

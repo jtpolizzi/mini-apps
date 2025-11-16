@@ -5,7 +5,7 @@ import { mountWordList } from './components/WordList.ts';
 import { mountWordMatch } from './components/WordMatch.ts';
 import { mountMultipleChoice } from './components/MultipleChoice.ts';
 import { State, hydrateWords, setLoaderStatus, onStateEvent } from './state.ts';
-import { loadWords, onDataEvent, getLoaderStatus } from './data/loader.ts';
+import { loadWords, onDataEvent } from './data/loader.ts';
 
 const topbar = document.getElementById('topbar');
 const view = document.getElementById('view');
@@ -65,6 +65,7 @@ const offDebugToggle = onStateEvent('uiChanged', () => {
     cleanupDebugPanel();
     cleanupDebugPanel = normalizeDestroy(mountDebugPanel());
 });
+window.addEventListener('pagehide', () => offDebugToggle());
 
 function setActiveNav(hash) {
     const links = document.querySelectorAll('.app-header nav a');

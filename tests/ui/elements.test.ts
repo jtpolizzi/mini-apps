@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { createChip, createIconChip } from '../../assets/components/ui/elements.ts';
 import { createPopover } from '../../assets/components/ui/popover.ts';
 
