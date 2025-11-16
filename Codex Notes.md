@@ -15,3 +15,7 @@ This doc is for Codex to read at the beginning of every session - for guidelines
 * If we make a lot of changes - and it seems like we are done with them, ask if we should increment the version number.  If I says yes
   * Modify the version number of the app
   * Add notes to NOTES.md of what was included in the version that we were working on
+
+## Background info that YOU SHOULD READ (under docs)
+  * NOTES.md
+  * ARCHITECTURE_PLAN.md
