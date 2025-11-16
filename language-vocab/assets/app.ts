@@ -1,11 +1,11 @@
-import { mountFlashcards } from './components/Flashcards.js';
-import { mountSettings } from './components/SettingsModal.js';
-import { mountTopBar } from './components/TopBar.js';
-import { mountWordList } from './components/WordList.js';
-import { mountWordMatch } from './components/WordMatch.js';
-import { mountMultipleChoice } from './components/MultipleChoice.js';
-import { State, hydrateWords, setLoaderStatus, onStateEvent } from './state.js';
-import { loadWords, onDataEvent, getLoaderStatus } from './data/loader.js';
+import { mountFlashcards } from './components/Flashcards.ts';
+import { mountSettings } from './components/SettingsModal.ts';
+import { mountTopBar } from './components/TopBar.ts';
+import { mountWordList } from './components/WordList.ts';
+import { mountWordMatch } from './components/WordMatch.ts';
+import { mountMultipleChoice } from './components/MultipleChoice.ts';
+import { State, hydrateWords, setLoaderStatus, onStateEvent } from './state.ts';
+import { loadWords, onDataEvent, getLoaderStatus } from './data/loader.ts';
 
 const topbar = document.getElementById('topbar');
 const view = document.getElementById('view');

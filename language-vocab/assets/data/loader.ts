@@ -1,22 +1,30 @@
-// assets/data/loader.js
+// assets/data/loader.ts
+
+type LoaderEventName = 'loading' | 'loaded' | 'error';
+interface LoaderDetail {
+  url: string;
+  text?: string;
+  error?: Error;
+}
+
 const LOADER = {
-  status: 'idle',
-  listeners: new Map(),
-  lastDetail: null
+  status: 'idle' as LoaderEventName | 'idle',
+  listeners: new Map<LoaderEventName, Set<(detail: LoaderDetail) => void>>(),
+  lastDetail: null as (LoaderDetail & { event: LoaderEventName; at: number }) | null
 };
 
-function emit(eventName, detail) {
+function emit(eventName: LoaderEventName, detail: LoaderDetail) {
   LOADER.lastDetail = { ...detail, event: eventName, at: Date.now() };
   const handlers = LOADER.listeners.get(eventName);
   if (!handlers) return;
   handlers.forEach((fn) => fn(detail));
 }
 
-export function onDataEvent(eventName, handler) {
+export function onDataEvent(eventName: LoaderEventName, handler: (detail: LoaderDetail) => void) {
   if (!LOADER.listeners.has(eventName)) {
     LOADER.listeners.set(eventName, new Set());
   }
-  const set = LOADER.listeners.get(eventName);
+  const set = LOADER.listeners.get(eventName)!;
   set.add(handler);
   return () => {
     set.delete(handler);
@@ -24,7 +32,7 @@ export function onDataEvent(eventName, handler) {
   };
 }
 
-export async function loadWords({ url = 'data/words.tsv' } = {}) {
+export async function loadWords({ url = 'data/words.tsv' } = {}): Promise<string> {
   LOADER.status = 'loading';
   emit('loading', { url });
   try {
@@ -36,7 +44,7 @@ export async function loadWords({ url = 'data/words.tsv' } = {}) {
     return text;
   } catch (error) {
     LOADER.status = 'error';
-    emit('error', { url, error });
+    emit('error', { url, error: error as Error });
     throw error;
   }
 }

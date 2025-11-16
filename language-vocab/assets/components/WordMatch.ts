@@ -1,7 +1,8 @@
+// @ts-nocheck
 // assets/components/WordMatch.js
-import { applyFilters, LS, State, onStateEvent } from '../state.js';
-import { createChip, createIconChip } from './ui/elements.js';
-import { createPopover } from './ui/popover.js';
+import { applyFilters, LS, State, onStateEvent } from '../state.ts';
+import { createChip, createIconChip } from './ui/elements.ts';
+import { createPopover } from './ui/popover.ts';
 
 const PREF_KEY = 'v24:matchPrefs';
 const DEFAULT_PREFS = { size: 10, direction: 'word-definition', collapseMatches: false };

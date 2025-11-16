@@ -1,3 +1,4 @@
+// @ts-nocheck
 // assets/components/WeightControl.js
 const COLOR_TOKENS = {
   1: 'var(--weight-1)',

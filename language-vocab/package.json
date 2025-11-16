@@ -7,7 +7,10 @@
   },
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +18,8 @@
   "description": "",
   "devDependencies": {
     "happy-dom": "^20.0.10",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2",
     "vitest": "^4.0.9"
   }
 }

@@ -1,9 +1,10 @@
+// @ts-nocheck
 // assets/components/TopBar.js
-import { applyFilters, shuffledIds, sortWords, State, sanitizeFilters, filtersEqual, onStateEvent, setFilters, setFilterSets, setSort, setOrder } from '../state.js';
-import { createChip, createIconChip } from './ui/elements.js';
-import { createPopover } from './ui/popover.js';
-import { createSparkIcon, WEIGHT_DESCRIPTIONS, WEIGHT_SHORT_LABELS } from './WeightControl.js';
-import { openSettingsModal } from './SettingsModal.js';
+import { applyFilters, shuffledIds, sortWords, State, sanitizeFilters, filtersEqual, onStateEvent, setFilters, setFilterSets, setSort, setOrder } from '../state.ts';
+import { createChip, createIconChip } from './ui/elements.ts';
+import { createPopover } from './ui/popover.ts';
+import { createSparkIcon, WEIGHT_DESCRIPTIONS, WEIGHT_SHORT_LABELS } from './WeightControl.ts';
+import { openSettingsModal } from './SettingsModal.ts';
 
 let lastSelectedFilterSetId = '';
 

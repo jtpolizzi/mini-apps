@@ -26,6 +26,18 @@
 2. Define types for `VocabEntry`, `TermKey`, `State`, `Prog`, etc., and convert existing JS files incrementally (`state.ts`, `components/*.ts`, utilities).
 3. Keep the current DOM-driven UI while benefiting from type safety and clearer module boundaries.
 
+**Step A Implementation Plan**
+- Tooling
+  - Add a `tsconfig.json` plus Vite build that emits `assets/*.js` for GitHub Pages. Keep `npm test` on Vitest (already in place) and add `npm run build` / `npm run preview` scripts.
+  - Introduce ESLint/Prettier configs tuned for TS once the build compiles.
+- Conversion order
+  1. Convert `assets/state/*` (`persistence`, `store`, `selectors`, `data`) to `.ts`, define shared interfaces (`VocabEntry`, `Filters`, `AppMeta`, etc.), and keep `hydrateWords` typed end-to-end.
+  2. Migrate utility modules (`components/ui/elements`, `components/ui/popover`, `data/loader`) to TS, updating imports/exports to ES modules via Vite.
+  3. Convert view modules incrementally (WordList → TopBar → Flashcards → Match → Choice → Settings) ensuring each returns the `{ destroy }` contract with explicit prop types.
+  4. After every conversion, run `npm test` and `npm run build` to verify TypeScript types and bundling.
+- Docs
+  - Update `NOTES.md` when Step A completes (v2.13.x) with links to the TypeScript/Vite workflow and any lint/test commands.
+
 ### Step B – Svelte Evaluation (target v2.14.x)
 1. Rebuild a single view (Word List) in Svelte using the typed stores to gauge ergonomics, bundle size, and complexity.
 2. Document findings (pros/cons vs. vanilla) to decide whether a full migration is worthwhile.

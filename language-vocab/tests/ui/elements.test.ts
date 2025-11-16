@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { createChip, createIconChip } from '../../assets/components/ui/elements.js';
-import { createPopover } from '../../assets/components/ui/popover.js';
+import { createChip, createIconChip } from '../../assets/components/ui/elements.ts';
+import { createPopover } from '../../assets/components/ui/popover.ts';
 
 describe('ui/elements helpers', () => {
   it('creates a chip with label and pressed state', () => {

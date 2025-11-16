@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { loadWords, onDataEvent } from '../../assets/data/loader.js';
+import { loadWords, onDataEvent } from '../../assets/data/loader.ts';
 
 describe('data/loader', () => {
   beforeEach(() => {

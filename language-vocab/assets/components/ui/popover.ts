@@ -1,6 +1,11 @@
-// assets/components/ui/popover.js
+// assets/components/ui/popover.ts
 
-const BASE_POPOVER_STYLE = {
+interface PopoverOptions {
+  className?: string;
+  style?: Partial<CSSStyleDeclaration>;
+}
+
+const BASE_POPOVER_STYLE: Partial<CSSStyleDeclaration> = {
   border: '1px solid var(--line)',
   borderRadius: '12px',
   padding: '16px',
@@ -12,7 +17,7 @@ const BASE_POPOVER_STYLE = {
   background: '#11172b'
 };
 
-export function createPopover({ className = 'popover', style = {} } = {}) {
+export function createPopover({ className = 'popover', style = {} }: PopoverOptions = {}): HTMLDivElement {
   const el = document.createElement('div');
   el.className = className;
   Object.assign(el.style, BASE_POPOVER_STYLE, style);

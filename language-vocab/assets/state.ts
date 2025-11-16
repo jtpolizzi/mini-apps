@@ -1,10 +1,15 @@
-// assets/state.js
+// assets/state.ts
 export {
   LS,
   sanitizeFilters,
   filtersEqual,
-  filtersKey
-} from './state/persistence.js';
+  filtersKey,
+  type Filters,
+  type FilterSet,
+  type UIState,
+  type SortState,
+  type ColumnsState
+} from './state/persistence.ts';
 
 export {
   State,
@@ -23,17 +28,21 @@ export {
   setColumns,
   setOrder,
   clearOrder,
-  setLoaderStatus
-} from './state/store.js';
+  setLoaderStatus,
+  type LoaderStatus
+} from './state/store.ts';
 
 export {
   termKey,
   stableId,
-  mapRaw
-} from './state/data.js';
+  mapRaw,
+  normalizeTagsList,
+  type VocabEntry,
+  type RawWord
+} from './state/data.ts';
 
 export {
   applyFilters,
   sortWords,
   shuffledIds
-} from './state/selectors.js';
+} from './state/selectors.ts';

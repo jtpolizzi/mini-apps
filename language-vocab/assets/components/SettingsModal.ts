@@ -1,6 +1,7 @@
+// @ts-nocheck
 // assets/components/SettingsModal.js
-import { State, resetPersistentState, setFilters, setOrder, setSort } from '../state.js';
-import { createChip } from './ui/elements.js';
+import { State, resetPersistentState, setFilters, setOrder, setSort } from '../state.ts';
+import { createChip } from './ui/elements.ts';
 
 export function openSettingsModal() {
   const overlay = document.createElement('div');

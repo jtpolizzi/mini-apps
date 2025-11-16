@@ -1,6 +1,7 @@
+// @ts-nocheck
 // assets/components/Flashcards.js
-import { applyFilters, Prog, setCurrentWordId, sortWords, State, onStateEvent } from '../state.js';
-import { createWeightControl } from './WeightControl.js';
+import { applyFilters, Prog, setCurrentWordId, sortWords, State, onStateEvent } from '../state.ts';
+import { createWeightControl } from './WeightControl.ts';
 
 export function mountFlashcards(container) {
   container.innerHTML = '';

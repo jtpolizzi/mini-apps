@@ -1,4 +1,4 @@
-// assets/state/store.js
+// assets/state/store.ts
 import {
   LS,
   sanitizeFilters,
@@ -18,9 +18,14 @@ import {
   DEFAULT_FILTERS,
   DEFAULT_SORT,
   DEFAULT_COLUMNS,
-  DEFAULT_UI
-} from './persistence.js';
-import { mapRaw } from './data.js';
+  DEFAULT_UI,
+  type Filters,
+  type FilterSet,
+  type UIState,
+  type SortState,
+  type ColumnsState
+} from './persistence.ts';
+import { mapRaw, type VocabEntry, type RawWord } from './data.ts';
 
 const KEY_EVENTS = {
   filters: 'filtersChanged',
@@ -31,31 +36,57 @@ const KEY_EVENTS = {
   ui: 'uiChanged',
   words: 'wordsChanged',
   progress: 'progressChanged'
-};
+} as const;
 
-const subscribers = new Set();
-const eventHandlers = new Map();
-const eventCounts = new Map();
+type KeyEventName = keyof typeof KEY_EVENTS;
 
-function emit(eventName, payload) {
+type Subscriber = () => void;
+type EventHandler = (payload: unknown, state: AppState) => void;
+
+interface MetaState {
+  wordsSource: string;
+  wordsLoadedAt: number;
+  loaderStatus: LoaderStatus;
+}
+
+export type LoaderStatus = 'idle' | 'loading' | 'loaded' | 'error';
+
+export interface AppState {
+  words: VocabEntry[];
+  filters: Filters;
+  filterSets: FilterSet[];
+  sort: SortState;
+  columns: ColumnsState;
+  order: string[];
+  ui: UIState;
+  meta: MetaState;
+  set: (key: string, value: unknown) => void;
+  on?: typeof on;
+}
+
+const subscribers = new Set<Subscriber>();
+const eventHandlers = new Map<string, Set<EventHandler>>();
+const eventCounts = new Map<string, number>();
+
+function emit(eventName: string, payload: unknown) {
   const handlers = eventHandlers.get(eventName);
   if (!handlers?.size) return;
   eventCounts.set(eventName, (eventCounts.get(eventName) || 0) + 1);
-  handlers.forEach(fn => fn(payload, State));
+  handlers.forEach((fn) => fn(payload, State));
 }
 
-function emitByKey(key, payload) {
-  const evt = KEY_EVENTS[key];
+function emitByKey(key: string, payload: unknown) {
+  const evt = (KEY_EVENTS as Record<string, string>)[key];
   if (evt) emit(evt, payload);
   emit('stateChanged', { key, payload });
 }
 
-function notifySubscribers(key, payload) {
-  subscribers.forEach(fn => fn());
+function notifySubscribers(key: string, payload: unknown) {
+  subscribers.forEach((fn) => fn());
   emitByKey(key, payload);
 }
 
-function shallowArrayEqual(a = [], b = []) {
+function shallowArrayEqual(a: unknown = [], b: unknown = []): boolean {
   if (a === b) return true;
   if (!Array.isArray(a) || !Array.isArray(b)) return false;
   if (a.length !== b.length) return false;
@@ -65,7 +96,7 @@ function shallowArrayEqual(a = [], b = []) {
   return true;
 }
 
-function serialize(obj) {
+function serialize(obj: unknown): string {
   try {
     return JSON.stringify(obj);
   } catch {
@@ -73,7 +104,7 @@ function serialize(obj) {
   }
 }
 
-export const State = {
+export const State: AppState = {
   words: [],
   filters: loadFilters(),
   filterSets: loadFilterSets(),
@@ -91,16 +122,16 @@ export const State = {
   }
 };
 
-export function subscribe(fn) {
+export function subscribe(fn: Subscriber) {
   subscribers.add(fn);
   return () => subscribers.delete(fn);
 }
 
-export function on(eventName, handler) {
+export function on(eventName: string, handler: EventHandler) {
   if (!eventHandlers.has(eventName)) {
     eventHandlers.set(eventName, new Set());
   }
-  const set = eventHandlers.get(eventName);
+  const set = eventHandlers.get(eventName)!;
   set.add(handler);
   return () => {
     set.delete(handler);
@@ -111,16 +142,16 @@ export function on(eventName, handler) {
 State.on = on;
 
 export function forceStateUpdate() {
-  subscribers.forEach(fn => fn());
+  subscribers.forEach((fn) => fn());
 }
 
-export function setFilters(next) { State.set('filters', next); }
-export function setFilterSets(next) { State.set('filterSets', next); }
-export function setSort(next) { State.set('sort', next); }
-export function setColumns(next) { State.set('columns', next); }
-export function setOrder(next) { State.set('order', next); }
+export function setFilters(next: Filters) { State.set('filters', next); }
+export function setFilterSets(next: FilterSet[]) { State.set('filterSets', next); }
+export function setSort(next: SortState) { State.set('sort', next); }
+export function setColumns(next: ColumnsState) { State.set('columns', next); }
+export function setOrder(next: string[]) { State.set('order', next); }
 export function clearOrder() { State.set('order', []); }
-export function setLoaderStatus(status) {
+export function setLoaderStatus(status: LoaderStatus) {
   State.meta = { ...State.meta, loaderStatus: status };
 }
 
@@ -135,29 +166,32 @@ export function resetPersistentState() {
   State.meta = { ...State.meta };
 }
 
-function updateState(key, value) {
-  switch (key) {
+type StateKey = 'filters' | 'filterSets' | 'sort' | 'columns' | 'order' | 'ui' | 'words';
+
+function updateState(key: string, value: unknown) {
+  const typedKey = key as StateKey;
+  switch (typedKey) {
     case 'filters':
-      return updateFilters(value);
+      return updateFilters(value as Filters);
     case 'filterSets':
-      return updateFilterSets(value);
+      return updateFilterSets(value as FilterSet[]);
     case 'sort':
-      return updateSort(value);
+      return updateSort(value as SortState);
     case 'columns':
-      return updateColumns(value);
+      return updateColumns(value as ColumnsState);
     case 'order':
-      return updateOrder(value);
+      return updateOrder(value as string[]);
     case 'ui':
-      return updateUI(value);
+      return updateUI(value as UIState);
     case 'words':
-      return updateWords(Array.isArray(value) ? value : []);
+      return updateWords(Array.isArray(value) ? (value as VocabEntry[]) : []);
     default:
-      State[key] = value;
+      (State as Record<string, unknown>)[key] = value;
       notifySubscribers(key, { value });
   }
 }
 
-function updateFilters(nextFilters) {
+function updateFilters(nextFilters?: Filters) {
   const merged = sanitizeFilters(nextFilters || {});
   if (filtersEqual(State.filters, merged)) return;
   State.filters = merged;
@@ -166,7 +200,7 @@ function updateFilters(nextFilters) {
   setCurrentWordId('');
 }
 
-function updateFilterSets(nextSets) {
+function updateFilterSets(nextSets?: FilterSet[]) {
   const sanitized = sanitizeFilterSets(nextSets || []);
   if (serialize(State.filterSets) === serialize(sanitized)) return;
   State.filterSets = sanitized;
@@ -174,7 +208,7 @@ function updateFilterSets(nextSets) {
   notifySubscribers('filterSets', sanitized);
 }
 
-function updateSort(nextSort) {
+function updateSort(nextSort?: SortState) {
   const clean = sanitizeSort(nextSort);
   if (State.sort.key === clean.key && State.sort.dir === clean.dir) return;
   State.sort = clean;
@@ -182,7 +216,7 @@ function updateSort(nextSort) {
   notifySubscribers('sort', clean);
 }
 
-function updateColumns(nextColumns) {
+function updateColumns(nextColumns?: ColumnsState) {
   const clean = sanitizeColumns(nextColumns);
   if (serialize(State.columns) === serialize(clean)) return;
   State.columns = clean;
@@ -190,15 +224,15 @@ function updateColumns(nextColumns) {
   notifySubscribers('columns', clean);
 }
 
-function updateOrder(nextOrder) {
-  const list = Array.isArray(nextOrder) ? nextOrder.filter(id => typeof id === 'string') : [];
+function updateOrder(nextOrder?: string[]) {
+  const list = Array.isArray(nextOrder) ? nextOrder.filter((id): id is string => typeof id === 'string') : [];
   if (shallowArrayEqual(State.order, list)) return;
   State.order = list;
   LS.set('order', list);
   notifySubscribers('order', list);
 }
 
-function updateUI(nextUi) {
+function updateUI(nextUi?: UIState) {
   const clean = sanitizeUI(nextUi || {});
   if (serialize(State.ui) === serialize(clean)) return;
   State.ui = clean;
@@ -206,13 +240,13 @@ function updateUI(nextUi) {
   notifySubscribers('ui', clean);
 }
 
-function updateWords(list, meta) {
+function updateWords(list: VocabEntry[], meta?: unknown) {
   State.words = list;
   notifySubscribers('words', meta || { count: list.length });
 }
 
-export function hydrateWords(raw, meta = {}) {
-  const mapped = mapRaw(raw || []);
+export function hydrateWords(raw: unknown[], meta: { source?: string; loadedAt?: number; loaderStatus?: LoaderStatus } = {}) {
+  const mapped = mapRaw(raw as RawWord[]);
   State.meta = {
     ...State.meta,
     wordsSource: typeof meta.source === 'string' ? meta.source : (meta.source ?? ''),
@@ -223,21 +257,21 @@ export function hydrateWords(raw, meta = {}) {
 }
 
 export const Prog = {
-  star(key) {
-    return LS.get('star:' + key, false);
+  star(key: string) {
+    return LS.get<boolean>('star:' + key, false);
   },
-  setStar(key, v) {
-    LS.set('star:' + key, !!v);
-    notifySubscribers('progress', { type: 'star', key, value: !!v });
+  setStar(key: string, value: boolean) {
+    LS.set('star:' + key, !!value);
+    notifySubscribers('progress', { type: 'star', key, value: !!value });
   },
-  weight(key) {
-    const raw = LS.get('wt:' + key, null);
+  weight(key: string) {
+    const raw = LS.get<unknown>('wt:' + key, null);
     if (raw == null) return 3;
     const converted = toNewWeight(raw);
     return converted == null ? 3 : converted;
   },
-  setWeight(key, v, options = {}) {
-    const num = Number(v);
+  setWeight(key: string, value: unknown, options: { silent?: boolean } = {}) {
+    const num = Number(value);
     const safe = Number.isFinite(num) ? num : 3;
     const clamped = Math.min(5, Math.max(1, safe));
     LS.set('wt:' + key, clamped);
@@ -247,29 +281,39 @@ export const Prog = {
   }
 };
 
-export function setCurrentWordId(wordId) {
+export function setCurrentWordId(wordId: unknown) {
   const next = typeof wordId === 'string' ? wordId : '';
   if ((State.ui.currentWordId || '') === next) return;
   updateUI({ ...State.ui, currentWordId: next });
 }
 
-export function setRowSelectionMode(enabled) {
+export function setRowSelectionMode(enabled: boolean) {
   const want = !!enabled;
   if (!!State.ui?.rowSelectionMode === want) return;
   updateUI({ ...State.ui, rowSelectionMode: want });
 }
 
-export function isRowSelectionModeEnabled() {
+export function isRowSelectionModeEnabled(): boolean {
   return !!State.ui?.rowSelectionMode;
 }
 
-// Debug helper
+declare global {
+  interface Window {
+    __LV_DEBUG__?: {
+      State: AppState;
+      Prog: typeof Prog;
+      on: typeof on;
+      eventCounts: Map<string, number>;
+    };
+  }
+}
+
 const DEBUG_HOOK_KEY = '__LV_DEBUG__';
 if (typeof window !== 'undefined' && !window[DEBUG_HOOK_KEY]) {
   window[DEBUG_HOOK_KEY] = {
     State,
     Prog,
-    on: State.on,
+    on: State.on!,
     get eventCounts() {
       return new Map(eventCounts);
     }

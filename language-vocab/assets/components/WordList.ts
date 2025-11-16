@@ -1,6 +1,7 @@
+// @ts-nocheck
 // assets/components/WordList.js
-import { applyFilters, Prog, setCurrentWordId, setRowSelectionMode, isRowSelectionModeEnabled, sortWords, State, onStateEvent, clearOrder, setSort } from '../state.js';
-import { createWeightControl, createSparkIcon } from './WeightControl.js';
+import { applyFilters, Prog, setCurrentWordId, setRowSelectionMode, isRowSelectionModeEnabled, sortWords, State, onStateEvent, clearOrder, setSort } from '../state.ts';
+import { createWeightControl, createSparkIcon } from './WeightControl.ts';
 
 function syncSelectionIfEnabled(wordId) {
   if (!wordId) return;

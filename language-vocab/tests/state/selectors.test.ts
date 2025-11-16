@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { applyFilters, sortWords, shuffledIds } from '../../assets/state/selectors.js';
-import { State, Prog } from '../../assets/state/store.js';
+import { applyFilters, sortWords, shuffledIds } from '../../assets/state/selectors.ts';
+import { State, Prog } from '../../assets/state/store.ts';
 
 const baseWords = [
   { id: '1', termKey: 'hola|noun', word: 'Hola', definition: 'Hello', pos: 'noun', cefr: 'A1', tags: 'greeting' },
