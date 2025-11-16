@@ -64,11 +64,11 @@
 - v2.12.4: Finished the Phase 3 refactors—state actions + event map, shared chip/popover helpers, TSV loader events with a toggleable debug panel, and a Vitest + happy-dom harness covering data, selectors, loader, and UI utilities.
 - Architectural/code review complete; see `ARCHITECTURE_PLAN.md` for the modernization roadmap (TypeScript build → Svelte evaluation → potential migration).
 
-### Step A (v2.13.0 🚧 In Progress)
+### Step A (v2.13.0 ✅ Completed)
 - Vite + TypeScript build added (`npm run dev` / `npm run build`) with app code converted to `.ts` modules and shared interfaces for state/data/utilities.
-- Vitest suites now run against the TypeScript sources; loader events + UI helpers have direct coverage.
-- GitHub Pages workflow added to build and deploy from `dist/`. Repo root now matches the deployed app (no nested `language-vocab/`).
-- TODO: remove `@ts-nocheck` from components, introduce ESLint/Prettier, expand component tests.
+- Vitest suites run across state/data plus every UI view (Word List, Flashcards, Word Match, Multiple Choice, TopBar, Settings); linting/formatting handled via ESLint + Prettier.
+- GitHub Pages workflow builds/deploys from `dist/`. Repo root matches the deployed app so local paths map 1:1 to production.
+- All components now run typed (no `@ts-nocheck`) and the tooling is in place for future migrations/tests. Next up is Step B (Svelte prototype) to evaluate a framework migration.
 
 ## Next Targets / Ideas
 1. Progress export/import (JSON) for stars + weights.

@@ -6,10 +6,10 @@
 - GitHub Pages workflow (`.github/workflows/pages.yml`) builds with Node 22 and deploys the `dist/` output. Pages URL: https://jtpolizzi.github.io/language-vocab/ (formerly `/mini-apps/language-vocab`).
 - Public assets (e.g., `public/data/words.tsv`) are copied automatically by Vite and included in the build.
 
-## Outstanding Step A Items
-1. **TypeScript strictness** – remove `// @ts-nocheck` from component files and add explicit props/types. Suggested order: WordList → TopBar → Flashcards → Match → Choice → Settings → WeightControl.
-2. **Tooling polish** – add ESLint + Prettier configs once the TypeScript conversions settle.
-3. **Docs/testing** – continue expanding Vitest coverage (components/event helpers) and keep NOTES/ARCHITECTURE in sync when Step A completes.
+## Upcoming Step B Items
+1. **Svelte prototype** – rebuild the Word List view in Svelte using the existing typed store to evaluate DX/perf.
+2. **Docs** – capture findings from the prototype in NOTES/ARCHITECTURE to decide on a broader migration.
+3. **Follow-up tooling** – if Svelte sticks, plan how ESLint/Prettier/Vitest configs extend into the hybrid setup; otherwise continue iterative vanilla cleanups.
 
 ## Deployment Checklist
 1. `npm install`
@@ -17,4 +17,4 @@
 3. Commit/push to `main` – the “Deploy static site” workflow builds/tests and publishes to GitHub Pages automatically.
 
 ## Next Session
-Focus on Step A conversions (typed components) and introduce linting. Once components are typed and tests cover the critical flows, mark Step A complete in NOTES/ARCHITECTURE and plan Step B (Svelte eval).
+Kick off Step B by scaffolding the Svelte Word List prototype, wiring it to the existing state store, and documenting initial impressions.

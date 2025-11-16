@@ -22,23 +22,16 @@
 
 ## 2. Near-Term Modernization
 
-### Step A – TypeScript + ES Modules (target v2.13.x)
+### Step A – TypeScript + ES Modules (v2.13.x ✅)
 1. Introduce a lightweight build (Vite + TypeScript) that outputs the same static assets for GitHub Pages.
 2. Define types for `VocabEntry`, `TermKey`, `State`, `Prog`, etc., and convert existing JS files incrementally (`state.ts`, `components/*.ts`, utilities).
 3. Keep the current DOM-driven UI while benefiting from type safety and clearer module boundaries.
 
-**Status (v2.13.0 in progress)**
-- Vite + TypeScript tooling is in place (`npm run dev`, `npm run build`, `npm run preview`). All state modules, shared UI helpers, loader, and tests now compile as `.ts` with shared interfaces.
-- Repo root == app root, and the GitHub Actions workflow builds/deploys `dist/` to Pages automatically.
-- Remaining work: convert the view modules from `// @ts-nocheck` to typed components, add ESLint/Prettier, and expand Vitest coverage.
+**Status**
+- Tooling + repo structure are settled (`npm run dev`, `npm run test`, `npm run lint`, `npm run build`).
+- All components have strict typings and Vitest coverage; ESLint/Prettier keep formatting consistent and the GH Pages workflow deploys `dist/` automatically.
 
-**Implementation Plan (remaining work)**
-- Conversion order
-  1. Tighten typings for `assets/components/ui/*`, `data/loader`, and `state/*` (done).
-  2. Convert view modules incrementally (WordList → TopBar → Flashcards → Match → Choice → Settings), replacing `@ts-nocheck` with typed props/events.
-  3. Add ESLint/Prettier configs once TypeScript settles.
-- Testing/Docs
-  - Continue running `npm test` + `npm run build` after each conversion. Update `NOTES.md` once Step A fully lands.
+Step A is complete; proceed to Step B work below.
 
 ### Step B – Svelte Evaluation (target v2.14.x)
 1. Rebuild a single view (Word List) in Svelte using the typed stores to gauge ergonomics, bundle size, and complexity.

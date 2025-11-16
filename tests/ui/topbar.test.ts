@@ -29,6 +29,7 @@ describe('TopBar component', () => {
   afterEach(() => {
     document.body.innerHTML = '';
     resetState();
+    vi.unstubAllGlobals();
   });
 
   it('triggers shuffle and clears sort', () => {
