@@ -25,9 +25,30 @@ jobs:
           cache: 'npm'
       - run: npm install
       - run: npm run build
+      - name: Prepare deploy directory
+        run: |
+          mkdir deploy
+          rsync -av \
+            --exclude 'node_modules' \
+            --exclude 'dist' \
+            --exclude 'deploy' \
+            --exclude 'src' \
+            --exclude 'public' \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '.gitignore' \
+            --exclude 'package-lock.json' \
+            --exclude 'package.json' \
+            --exclude 'tsconfig.json' \
+            --exclude 'vite.config.js' \
+            --exclude 'README.md' \
+            ./ deploy
+          rm -rf deploy/language-vocab
+          mkdir -p deploy/language-vocab
+          cp -R dist/. deploy/language-vocab/
       - uses: actions/upload-pages-artifact@v2
         with:
-          path: dist
+          path: deploy
 
   deploy:
     needs: build
