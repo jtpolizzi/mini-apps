@@ -107,6 +107,8 @@ function parseTSV(text) {
     return out;
 }
 
+const WORDS_URL = `${import.meta.env.BASE_URL}data/words.tsv`;
+
 async function loadData() {
     const offLoading = onDataEvent('loading', () => {
         setLoaderStatus('loading');
@@ -128,7 +130,7 @@ async function loadData() {
     });
 
     try {
-        await loadWords({ url: '/data/words.tsv' });
+        await loadWords({ url: WORDS_URL });
     } finally {
         offLoading();
         offLoaded();
