@@ -11,6 +11,6 @@
     "allowSyntheticDefaultImports": true,
     "types": ["vite/client"]
   },
-  "include": ["assets/**/*.ts", "assets/**/*.tsx", "assets/**/*.d.ts", "tests/**/*.ts"],
+  "include": ["assets/**/*.ts", "assets/**/*.tsx", "assets/**/*.d.ts", "src/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
