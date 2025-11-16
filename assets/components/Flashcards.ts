@@ -1,9 +1,24 @@
-// @ts-nocheck
-// assets/components/Flashcards.js
-import { applyFilters, Prog, setCurrentWordId, sortWords, State, onStateEvent } from '../state.ts';
+// assets/components/Flashcards.ts
+import { applyFilters, Prog, setCurrentWordId, sortWords, State, onStateEvent, type VocabEntry } from '../state.ts';
 import { createWeightControl } from './WeightControl.ts';
 
-export function mountFlashcards(container) {
+type Destroyable = { destroy: () => void };
+
+interface PointerGesture {
+  id: number;
+  x: number;
+  y: number;
+  t: number;
+}
+
+interface TouchInfo {
+  x: number;
+  y: number;
+  t: number;
+  insideTop: boolean;
+}
+
+export function mountFlashcards(container: HTMLElement): Destroyable {
   container.innerHTML = '';
   const card = document.createElement('div');
   card.className = 'card';
@@ -51,23 +66,25 @@ export function mountFlashcards(container) {
 
   let showFront = true;
   let index = 0;
-  let view = [];
-  let currentWord = null;
+  let view: VocabEntry[] = [];
+  let currentWord: VocabEntry | null = null;
   let suppressNextCardClick = false;  // <-- hard guard
-  let pointerGesture = null;
+  let pointerGesture: PointerGesture | null = null;
   let isSliderDrag = false;
-  let pendingWordId = null;
+  let pendingWordId: string | null = null;
   const supportsPointerEvents = typeof window !== 'undefined' && window.PointerEvent !== undefined;
+  let touchInfo: TouchInfo | null = null;
 
   function computeView() {
     const filtered = applyFilters(State.words);
     const sorted = sortWords(filtered);
 
-    if (State.order && State.order.length) {
-      const byId = new Map(sorted.map(w => [w.id, w]));
-      const ordered = [];
-      const seen = new Set();
-      State.order.forEach(id => {
+    const { order } = State;
+    if (order.length) {
+      const byId = new Map<string, VocabEntry>(sorted.map((w) => [w.id, w]));
+      const ordered: VocabEntry[] = [];
+      const seen = new Set<string>();
+      order.forEach((id) => {
         if (seen.has(id)) return;
         const hit = byId.get(id);
         if (hit) {
@@ -77,7 +94,7 @@ export function mountFlashcards(container) {
       });
       if (ordered.length) {
         if (ordered.length < sorted.length) {
-          sorted.forEach(w => {
+          sorted.forEach((w) => {
             if (seen.has(w.id)) return;
             ordered.push(w);
           });
@@ -89,11 +106,11 @@ export function mountFlashcards(container) {
     return sorted;
   }
 
-  function fmtTagsComma(s) {
+  function fmtTagsComma(s?: string) {
     if (!s) return '';
     return String(s)
       .split(/[|,;]+/g)
-      .map(t => t.trim())
+      .map((t) => t.trim())
       .filter(Boolean)
       .join(', ');
   }
@@ -109,7 +126,7 @@ export function mountFlashcards(container) {
     if (!desiredId && sharedId) desiredId = sharedId;
     if (!desiredId && oldId) desiredId = oldId;
     if (desiredId) {
-      const newIdx = view.findIndex(w => w.id === desiredId);
+      const newIdx = view.findIndex((w) => w.id === desiredId);
       if (newIdx !== -1) index = newIdx;
     }
     if (index >= view.length) index = Math.max(0, view.length - 1);
@@ -148,9 +165,9 @@ export function mountFlashcards(container) {
     setStar();
 
     // stop the next card click AND re-render after toggle
-    const swallow = (e) => {
-      e.preventDefault();
-      e.stopImmediatePropagation();
+    const swallow = (event: Event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
       suppressNextCardClick = true;
     };
     star.addEventListener('pointerdown', swallow);
@@ -164,13 +181,13 @@ export function mountFlashcards(container) {
 
     const weightControl = createWeightControl({
       value: Prog.weight(w.termKey),
-      onChange: (next) => {
+      onChange: (next: number) => {
         Prog.setWeight(w.termKey, next);
         render();
       },
       ariaLabel: 'Adjust weight'
-    });
-    weightControl.querySelectorAll('button').forEach(btn => btn.addEventListener('pointerdown', swallow));
+    }) as HTMLElement;
+    weightControl.querySelectorAll('button').forEach((btn) => btn.addEventListener('pointerdown', swallow));
     topr.appendChild(weightControl);
 
     // Also block stray bubbling from the topr container
@@ -190,7 +207,7 @@ export function mountFlashcards(container) {
     setCurrentWordId(w.id);
   }
 
-  function updateProgress(current, total) {
+  function updateProgress(current: number, total: number) {
     if (!total) {
       progressLabel.textContent = '0 / 0';
       progressSlider.disabled = true;
@@ -207,7 +224,7 @@ export function mountFlashcards(container) {
     progressLabel.textContent = `Card ${current} / ${total}`;
   }
 
-  function jumpToIndex(nextIndex) {
+  function jumpToIndex(nextIndex: number) {
     if (!view.length) return;
     const clamped = Math.max(0, Math.min(view.length - 1, nextIndex));
     const nextWord = view[clamped];
@@ -232,7 +249,7 @@ export function mountFlashcards(container) {
     render();
   }
 
-  function handleTapZone(clientX, clientY) {
+  function handleTapZone(clientX: number, clientY: number) {
     if (!view.length) return;
     const rect = card.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
@@ -255,16 +272,16 @@ export function mountFlashcards(container) {
     render();
   }
 
-  function setWeightForCurrent(weight) {
+  function setWeightForCurrent(weight: number) {
     if (!currentWord) return;
     Prog.setWeight(currentWord.termKey, weight);
     render();
   }
 
   // Buttons
-  prev.onclick = prevCard;
-  flip.onclick = flipCard;
-  next.onclick = nextCard;
+  prev.addEventListener('click', prevCard);
+  flip.addEventListener('click', flipCard);
+  next.addEventListener('click', nextCard);
   progressSlider.addEventListener('pointerdown', () => {
     if (progressSlider.disabled) return;
     isSliderDrag = true;
@@ -272,33 +289,33 @@ export function mountFlashcards(container) {
   const releaseSlider = () => { isSliderDrag = false; };
   progressSlider.addEventListener('pointerup', releaseSlider);
   progressSlider.addEventListener('pointercancel', releaseSlider);
-  progressSlider.addEventListener('pointerleave', (e) => {
-    if (!('buttons' in e) || e.buttons === 0) isSliderDrag = false;
+  progressSlider.addEventListener('pointerleave', (e: PointerEvent) => {
+    if (e.buttons === 0) isSliderDrag = false;
   });
   progressSlider.addEventListener('input', () => {
     if (progressSlider.disabled) return;
     const nextIndex = Number(progressSlider.value) - 1;
-    if (Number.isFinite(nextIndex)) {
+    if (!Number.isNaN(nextIndex)) {
       jumpToIndex(nextIndex);
     }
   });
 
   // Guarded card click
-  function onCardClick(e) {
+  function onCardClick(e: MouseEvent) {
     if (suppressNextCardClick) {
       suppressNextCardClick = false; // consume the suppression
       return;
     }
-    if (e.target.closest('.topright')) return;
+    if (e.target instanceof Element && e.target.closest('.topright')) return;
     handleTapZone(e.clientX, e.clientY);
   }
   card.addEventListener('click', onCardClick);
 
   // Touch support
   if (supportsPointerEvents) {
-    card.addEventListener('pointerdown', (e) => {
+    card.addEventListener('pointerdown', (e: PointerEvent) => {
       if (e.pointerType === 'mouse') return;
-      if (e.target.closest('.topright')) {
+      if (e.target instanceof Element && e.target.closest('.topright')) {
         pointerGesture = null;
         return;
       }
@@ -308,12 +325,12 @@ export function mountFlashcards(container) {
         y: e.clientY,
         t: Date.now()
       };
-      if (card.setPointerCapture) {
-        try { card.setPointerCapture(e.pointerId); } catch {}
+      try { card.setPointerCapture(e.pointerId); } catch {
+        // ignore capture issues
       }
     });
 
-    card.addEventListener('pointerup', (e) => {
+    card.addEventListener('pointerup', (e: PointerEvent) => {
       if (e.pointerType === 'mouse') return;
       if (!pointerGesture || pointerGesture.id !== e.pointerId) return;
       const dx = e.clientX - pointerGesture.x;
@@ -339,20 +356,21 @@ export function mountFlashcards(container) {
         handleTapZone(e.clientX, e.clientY);
         suppressNextCardClick = true;
       }
-      if (card.releasePointerCapture) {
-        try { card.releasePointerCapture(e.pointerId); } catch {}
+      try { card.releasePointerCapture(e.pointerId); } catch {
+        // ignore release issues
       }
     });
 
-    card.addEventListener('pointercancel', (e) => {
+    card.addEventListener('pointercancel', (e: PointerEvent) => {
       pointerGesture = null;
-      if (card.releasePointerCapture && e.pointerId != null) {
-        try { card.releasePointerCapture(e.pointerId); } catch {}
+      try {
+        card.releasePointerCapture(e.pointerId);
+      } catch {
+        // ignore release issues
       }
     });
   } else {
-    let touchInfo = null;
-    card.addEventListener('touchstart', (e) => {
+    card.addEventListener('touchstart', (e: TouchEvent) => {
       const t = e.touches[0];
       if (!t) return;
       const el = document.elementFromPoint(t.clientX, t.clientY);
@@ -365,7 +383,7 @@ export function mountFlashcards(container) {
       };
     }, { passive: true });
 
-    card.addEventListener('touchend', (e) => {
+    card.addEventListener('touchend', (e: TouchEvent) => {
       if (!touchInfo) return;
       if (touchInfo.insideTop) {
         touchInfo = null;
@@ -403,7 +421,7 @@ export function mountFlashcards(container) {
   }
 
   // Keyboard navigation (ignore when a control has focus)
-  function handleKey(e) {
+  function handleKey(e: KeyboardEvent) {
     const ae = document.activeElement;
     const tag = ae?.tagName?.toLowerCase();
     if (tag === 'input' || tag === 'textarea' || tag === 'button') return;
@@ -451,16 +469,16 @@ export function mountFlashcards(container) {
   container.appendChild(card);
   render();
   const eventUnsubs = [
-    onStateEvent('wordsChanged', render),
-    onStateEvent('filtersChanged', render),
-    onStateEvent('sortChanged', render),
-    onStateEvent('orderChanged', render),
-    onStateEvent('uiChanged', render),
-    onStateEvent('progressChanged', render)
+    onStateEvent('wordsChanged', () => render()),
+    onStateEvent('filtersChanged', () => render()),
+    onStateEvent('sortChanged', () => render()),
+    onStateEvent('orderChanged', () => render()),
+    onStateEvent('uiChanged', () => render()),
+    onStateEvent('progressChanged', () => render())
   ];
   const destroy = () => {
     cleanup();
-    eventUnsubs.forEach(unsub => unsub());
+    eventUnsubs.forEach((unsub) => unsub());
   };
 
   return { destroy };

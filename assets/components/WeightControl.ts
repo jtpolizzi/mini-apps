@@ -1,6 +1,7 @@
-// @ts-nocheck
-// assets/components/WeightControl.js
-const COLOR_TOKENS = {
+// assets/components/WeightControl.ts
+type WeightValue = 1 | 2 | 3 | 4 | 5;
+
+const COLOR_TOKENS: Record<WeightValue, string> = {
   1: 'var(--weight-1)',
   2: 'var(--weight-2)',
   3: 'var(--weight-3)',
@@ -8,7 +9,7 @@ const COLOR_TOKENS = {
   5: 'var(--weight-5)'
 };
 
-export const WEIGHT_DESCRIPTIONS = {
+export const WEIGHT_DESCRIPTIONS: Record<WeightValue, string> = {
   1: 'Hide almost completely',
   2: 'Show rarely',
   3: 'Default cadence',
@@ -16,7 +17,7 @@ export const WEIGHT_DESCRIPTIONS = {
   5: 'Show constantly'
 };
 
-export const WEIGHT_SHORT_LABELS = {
+export const WEIGHT_SHORT_LABELS: Record<WeightValue, string> = {
   1: 'Hide',
   2: 'Rare',
   3: 'Default',
@@ -52,13 +53,14 @@ function ensureSprite() {
   spriteInjected = true;
 }
 
-export function clampWeight(value) {
+export function clampWeight(value: unknown): WeightValue {
   const n = Number(value);
   if (!Number.isFinite(n)) return 3;
-  return Math.min(5, Math.max(1, n));
+  const clamped = Math.min(5, Math.max(1, Math.round(n)));
+  return Math.min(5, Math.max(1, clamped)) as WeightValue;
 }
 
-export function createSparkIcon(className = '') {
+export function createSparkIcon(className = ''): SVGSVGElement {
   ensureSprite();
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', '0 0 24 24');
@@ -72,7 +74,19 @@ export function createSparkIcon(className = '') {
   return svg;
 }
 
-export function createWeightControl({ value = 3, onChange, ariaLabel = 'Adjust weight', compact = false } = {}) {
+interface WeightControlOptions {
+  value?: number;
+  onChange?: (value: WeightValue) => void;
+  ariaLabel?: string;
+  compact?: boolean;
+}
+
+export function createWeightControl({
+  value = 3,
+  onChange,
+  ariaLabel = 'Adjust weight',
+  compact = false
+}: WeightControlOptions = {}): HTMLDivElement {
   ensureSprite();
   let current = clampWeight(value);
 
@@ -101,16 +115,16 @@ export function createWeightControl({ value = 3, onChange, ariaLabel = 'Adjust w
 
   const setColor = () => {
     root.dataset.value = String(current);
-    root.style.setProperty('--weight-spark-color', COLOR_TOKENS[current] || COLOR_TOKENS[3]);
-    core.title = WEIGHT_DESCRIPTIONS[current] || '';
+    root.style.setProperty('--weight-spark-color', COLOR_TOKENS[current]);
+    core.title = WEIGHT_DESCRIPTIONS[current];
   };
 
-  const commit = (next) => {
+  const commit = (next: number) => {
     const clamped = clampWeight(next);
     if (clamped === current) return;
     current = clamped;
     setColor();
-    if (typeof onChange === 'function') onChange(current);
+    if (onChange) onChange(current);
   };
 
   minus.addEventListener('click', (e) => {

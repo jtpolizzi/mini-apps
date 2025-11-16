@@ -1,14 +1,44 @@
-// @ts-nocheck
-// assets/components/TopBar.js
-import { applyFilters, shuffledIds, sortWords, State, sanitizeFilters, filtersEqual, onStateEvent, setFilters, setFilterSets, setSort, setOrder } from '../state.ts';
+// assets/components/TopBar.ts
+import {
+  applyFilters,
+  shuffledIds,
+  sortWords,
+  State,
+  sanitizeFilters,
+  filtersEqual,
+  onStateEvent,
+  setFilters,
+  setFilterSets,
+  setSort,
+  setOrder,
+  type FilterSet,
+  type Filters,
+  type VocabEntry
+} from '../state.ts';
 import { createChip, createIconChip } from './ui/elements.ts';
-import { createPopover } from './ui/popover.ts';
 import { createSparkIcon, WEIGHT_DESCRIPTIONS, WEIGHT_SHORT_LABELS } from './WeightControl.ts';
 import { openSettingsModal } from './SettingsModal.ts';
 
 let lastSelectedFilterSetId = '';
 
-export function mountTopBar(container) {
+type Destroyable = { destroy: () => void };
+type FilterPopoverElement = HTMLDivElement & { _unsub?: () => void };
+type SavedSetSection = { wrap: HTMLDivElement; refresh: () => void };
+type FacetKey = 'pos' | 'cefr' | 'tags';
+type FacetTitle = 'POS' | 'CEFR' | 'Tags';
+interface FacetSection {
+  wrap: HTMLDivElement;
+  refresh: () => void;
+}
+
+const ALL_WEIGHTS = [1, 2, 3, 4, 5] as const;
+const facetKeyMap: Record<FacetTitle, FacetKey> = {
+  POS: 'pos',
+  CEFR: 'cefr',
+  Tags: 'tags'
+};
+
+export function mountTopBar(container: HTMLElement): Destroyable {
   container.innerHTML = '';
 
   const panel = document.createElement('div');
@@ -19,7 +49,7 @@ export function mountTopBar(container) {
   row.className = 'row';
 
   // Shuffle (stay on current view) + clear sort indicators
-  const sh = createChip('Shuffle', {
+  const shuffleChip = createChip('Shuffle', {
     onClick: () => {
       const filtered = applyFilters(State.words);
       const sorted = sortWords(filtered);
@@ -27,21 +57,22 @@ export function mountTopBar(container) {
       setSort({ key: '', dir: 'asc' }); // ← clear sort UI after shuffle
     }
   });
-  row.appendChild(sh);
+  row.appendChild(shuffleChip);
 
   // Filters (popover)
-  const filtersChip = createChip('Filters', { pressed: hasActiveFilters(), onClick: toggleFilters });
+  const filtersChip = createChip('Filters', { pressed: hasActiveFilters(), onClick: (event) => toggleFilters(event) });
   filtersChip.id = 'filters-chip';
   row.appendChild(filtersChip);
 
   // spacer
-  const sp = document.createElement('span'); sp.className = 'spacer';
-  row.appendChild(sp);
+  const spacer = document.createElement('span');
+  spacer.className = 'spacer';
+  row.appendChild(spacer);
 
   // Results count
   const resultCount = document.createElement('span');
   resultCount.className = 'countpill';
-  Object.assign(resultCount.style, { opacity: .85, fontWeight: '700', marginRight: '8px' });
+  Object.assign(resultCount.style, { opacity: 0.85, fontWeight: '700', marginRight: '8px' });
   row.appendChild(resultCount);
 
   // Gear (Settings)
@@ -57,42 +88,46 @@ export function mountTopBar(container) {
   search.autocapitalize = 'off';
   search.autocomplete = 'off';
   search.spellcheck = false;
-
-  let t = 0;
-  search.oninput = () => {
-    clearTimeout(t);
+  let searchDebounce: number | null = null;
+  search.addEventListener('input', () => {
+    if (searchDebounce !== null) window.clearTimeout(searchDebounce);
     const val = search.value;
-    t = setTimeout(() => {
+    searchDebounce = window.setTimeout(() => {
       setFilters({ ...State.filters, search: val });
     }, 200);
-  };
+  });
   row.appendChild(search);
 
   panel.appendChild(row);
   container.appendChild(panel);
 
   // ---- Filters popover ----
-  let pop = null;
-  function toggleFilters(e) {
-    e?.stopPropagation();
-    if (pop) { closePop(); return; }
+  let pop: FilterPopoverElement | null = null;
+  function toggleFilters(event?: MouseEvent) {
+    event?.stopPropagation();
+    if (pop) {
+      closePop();
+      return;
+    }
     pop = buildFiltersPopover();
     panel.appendChild(pop);
-    setTimeout(() => window.addEventListener('click', onDocClick), 0);
+    window.setTimeout(() => window.addEventListener('click', onDocClick), 0);
   }
-  function onDocClick(ev) {
+  function onDocClick(ev: MouseEvent) {
     if (!pop) return;
-    if (pop.contains(ev.target) || ev.target === filtersChip) return;
+    const target = ev.target;
+    if (target instanceof Node && (pop.contains(target) || target === filtersChip)) return;
     closePop();
   }
   function closePop() {
     if (pop?._unsub) pop._unsub();
-    pop?.remove(); pop = null;
+    pop?.remove();
+    pop = null;
     window.removeEventListener('click', onDocClick);
   }
 
-  function buildFiltersPopover() {
-    const el = document.createElement('div');
+  function buildFiltersPopover(): FilterPopoverElement {
+    const el = document.createElement('div') as FilterPopoverElement;
     el.className = 'popover';
     Object.assign(el.style, {
       border: '1px solid var(--line)',
@@ -107,9 +142,9 @@ export function mountTopBar(container) {
     el.addEventListener('click', (e) => e.stopPropagation());
 
     const availableSets = Array.isArray(State.filterSets) ? State.filterSets : [];
-    const matchingSet = availableSets.find(s => filtersEqual(State.filters, s.filters));
+    const matchingSet = availableSets.find((s) => filtersEqual(State.filters, s.filters));
     let selectedSetId = '';
-    if (lastSelectedFilterSetId && availableSets.some(s => s.id === lastSelectedFilterSetId)) {
+    if (lastSelectedFilterSetId && availableSets.some((s) => s.id === lastSelectedFilterSetId)) {
       selectedSetId = lastSelectedFilterSetId;
     } else if (matchingSet) {
       selectedSetId = matchingSet.id;
@@ -144,8 +179,8 @@ export function mountTopBar(container) {
     quickRow.append(quickLabel, starToggle);
     el.appendChild(quickRow);
 
-    const facetSections = [];
-    const refreshFacetSections = () => facetSections.forEach(sec => sec.refresh());
+    const facetSections: FacetSection[] = [];
+    const refreshFacetSections = () => facetSections.forEach((sec) => sec.refresh());
 
     const grid = document.createElement('div');
     Object.assign(grid.style, {
@@ -156,19 +191,19 @@ export function mountTopBar(container) {
 
     const { posValues, cefrValues, tagValues } = collectFacetValues(State.words);
 
-    const posSection = sectionChecks('POS', posValues, State.filters.pos || [], next => {
+    const posSection = sectionChecks('POS', posValues, State.filters.pos || [], (next) => {
       setFilters({ ...State.filters, pos: next });
     });
     facetSections.push(posSection);
     grid.appendChild(posSection.wrap);
 
-    const cefrSection = sectionChecks('CEFR', cefrValues, State.filters.cefr || [], next => {
+    const cefrSection = sectionChecks('CEFR', cefrValues, State.filters.cefr || [], (next) => {
       setFilters({ ...State.filters, cefr: next });
     });
     facetSections.push(cefrSection);
     grid.appendChild(cefrSection.wrap);
 
-    const tagSection = sectionChecks('Tags', tagValues, State.filters.tags || [], next => {
+    const tagSection = sectionChecks('Tags', tagValues, State.filters.tags || [], (next) => {
       setFilters({ ...State.filters, tags: next });
     });
     facetSections.push(tagSection);
@@ -177,42 +212,46 @@ export function mountTopBar(container) {
     // Weight row (buttons) with live UI refresh
     const weightWrap = document.createElement('div');
     weightWrap.style.gridColumn = '1 / -1';
-    const wTitle = document.createElement('div');
-    wTitle.textContent = 'Weight';
-    Object.assign(wTitle.style, { fontWeight: '700', marginTop: '8px', marginBottom: '6px' });
-    const wRow = document.createElement('div');
-    wRow.className = 'weight-chip-row';
+    const weightTitle = document.createElement('div');
+    weightTitle.textContent = 'Weight';
+    Object.assign(weightTitle.style, { fontWeight: '700', marginTop: '8px', marginBottom: '6px' });
+    const weightRow = document.createElement('div');
+    weightRow.className = 'weight-chip-row';
 
-    const weightBtns = [];
-    const allWeights = [1, 2, 3, 4, 5];
+    const weightBtns: HTMLButtonElement[] = [];
     const refreshWeightBtns = () => {
-      const set = new Set(State.filters.weight || allWeights);
-      weightBtns.forEach(btn => {
-        const n = parseInt(btn.dataset.weight, 10);
+      const set = new Set(State.filters.weight || ALL_WEIGHTS);
+      weightBtns.forEach((btn) => {
+        const n = Number.parseInt(btn.dataset.weight || '', 10);
+        if (!Number.isFinite(n)) return;
         btn.setAttribute('aria-pressed', String(set.has(n)));
       });
     };
-    allWeights.forEach((n) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = `weight-chip weight-chip--${n}`;
-      b.dataset.weight = String(n);
-      b.setAttribute('aria-pressed', 'true');
-      b.title = WEIGHT_DESCRIPTIONS[n] || `Weight ${n}`;
+    ALL_WEIGHTS.forEach((n) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `weight-chip weight-chip--${n}`;
+      button.dataset.weight = String(n);
+      button.setAttribute('aria-pressed', 'true');
+      button.title = WEIGHT_DESCRIPTIONS[n] || `Weight ${n}`;
       const icon = createSparkIcon('weight-chip__icon');
       const label = document.createElement('span');
       label.textContent = WEIGHT_SHORT_LABELS[n] || `W${n}`;
-      b.append(icon, label);
-      b.addEventListener('click', () => {
-        const set = new Set(State.filters.weight || allWeights);
-        set.has(n) ? set.delete(n) : set.add(n);
+      button.append(icon, label);
+      button.addEventListener('click', () => {
+        const set = new Set(State.filters.weight || ALL_WEIGHTS);
+        if (set.has(n)) {
+          set.delete(n);
+        } else {
+          set.add(n);
+        }
         setFilters({ ...State.filters, weight: [...set].sort((a, b) => a - b) });
         refreshWeightBtns();
       });
-      weightBtns.push(b);
-      wRow.appendChild(b);
+      weightBtns.push(button);
+      weightRow.appendChild(button);
     });
-    weightWrap.append(wTitle, wRow);
+    weightWrap.append(weightTitle, weightRow);
 
     el.appendChild(grid);
     el.appendChild(weightWrap);
@@ -220,9 +259,9 @@ export function mountTopBar(container) {
     const footer = document.createElement('div');
     Object.assign(footer.style, { display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '12px' });
 
-    const clear = createChip('Clear', {
+    const clearBtn = createChip('Clear', {
       onClick: () => {
-        setFilters({ ...State.filters, pos: [], cefr: [], tags: [], weight: [...allWeights] });
+        setFilters({ ...State.filters, pos: [], cefr: [], tags: [], weight: [...ALL_WEIGHTS] });
         selectedSetId = '';
         lastSelectedFilterSetId = '';
         refreshWeightBtns();
@@ -231,9 +270,9 @@ export function mountTopBar(container) {
       }
     });
 
-    const close = createChip('Close', { onClick: closePop });
+    const closeBtn = createChip('Close', { onClick: () => closePop() });
 
-    footer.append(clear, close);
+    footer.append(clearBtn, closeBtn);
     el.appendChild(footer);
 
     const popUnsubs = [
@@ -244,17 +283,17 @@ export function mountTopBar(container) {
         refreshFacetSections();
       }),
       onStateEvent('filterSetsChanged', () => savedSection.refresh()),
-      onStateEvent('wordsChanged', refreshFacetSections),
-      onStateEvent('progressChanged', refreshStarToggle)
+      onStateEvent('wordsChanged', () => refreshFacetSections()),
+      onStateEvent('progressChanged', () => refreshStarToggle())
     ];
-    el._unsub = () => popUnsubs.forEach(unsub => unsub());
+    el._unsub = () => popUnsubs.forEach((unsub) => unsub());
     refreshStarToggle();
     refreshWeightBtns();
     savedSection.refresh();
     refreshFacetSections();
     return el;
 
-    function buildSavedSetsSection() {
+    function buildSavedSetsSection(): SavedSetSection {
       const wrap = document.createElement('div');
       Object.assign(wrap.style, {
         display: 'flex',
@@ -270,8 +309,8 @@ export function mountTopBar(container) {
       title.style.fontWeight = '700';
       wrap.appendChild(title);
 
-      const row = document.createElement('div');
-      Object.assign(row.style, {
+      const rowEl = document.createElement('div');
+      Object.assign(rowEl.style, {
         display: 'flex',
         gap: '6px',
         flexWrap: 'wrap',
@@ -280,58 +319,58 @@ export function mountTopBar(container) {
 
       const select = document.createElement('select');
       Object.assign(select.style, { flex: '1 1 220px', minWidth: '200px' });
-      row.appendChild(select);
+      rowEl.appendChild(select);
 
       const load = createIconChip('⇩', 'Load selected set', { disabled: true });
-      row.appendChild(load);
+      rowEl.appendChild(load);
 
       const update = createIconChip('⟳', 'Update selected set', { disabled: true });
-      row.appendChild(update);
+      rowEl.appendChild(update);
 
       const save = createIconChip('＋', 'Save current filters as new set');
-      row.appendChild(save);
+      rowEl.appendChild(save);
 
       const del = createIconChip('🗑', 'Delete selected set', { disabled: true });
-      row.appendChild(del);
+      rowEl.appendChild(del);
 
-      wrap.appendChild(row);
+      wrap.appendChild(rowEl);
 
       const status = document.createElement('div');
       status.style.fontSize = '12px';
       status.style.color = 'var(--fg-dim)';
       wrap.appendChild(status);
 
-      const getSets = () => Array.isArray(State.filterSets) ? State.filterSets : [];
+      const getSets = (): FilterSet[] => (Array.isArray(State.filterSets) ? State.filterSets : []);
 
-      select.onchange = () => {
+      select.addEventListener('change', () => {
         selectedSetId = select.value;
         lastSelectedFilterSetId = selectedSetId || '';
         refresh();
-      };
+      });
 
-      load.onclick = () => {
+      load.addEventListener('click', () => {
         if (!selectedSetId) return;
         const sets = getSets();
-        const found = sets.find(s => s.id === selectedSetId);
+        const found = sets.find((s) => s.id === selectedSetId);
         if (!found) return;
         lastSelectedFilterSetId = selectedSetId;
         setFilters(sanitizeFilters(found.filters));
         closePop();
-      };
+      });
 
-      save.onclick = () => {
+      save.addEventListener('click', () => {
         const sets = getSets();
-        const defaultName = (selectedSetId && sets.find(s => s.id === selectedSetId)?.name) || '';
+        const defaultName = (selectedSetId && sets.find((s) => s.id === selectedSetId)?.name) || '';
         const input = prompt('Save current filters as…', defaultName || 'New filter set');
         if (input == null) return;
         const name = input.trim();
         if (!name) return;
         const filters = sanitizeFilters(State.filters);
-        const existing = sets.find(s => s.name.toLowerCase() === name.toLowerCase());
+        const existing = sets.find((s) => s.name.toLowerCase() === name.toLowerCase());
         if (existing) {
           const ok = confirm(`Replace the saved set “${existing.name}”?`);
           if (!ok) return;
-          const next = sets.map(s => s.id === existing.id ? { ...s, name, filters } : s);
+          const next = sets.map((s) => (s.id === existing.id ? { ...s, name, filters } : s));
           selectedSetId = existing.id;
           lastSelectedFilterSetId = existing.id;
           setFilterSets(next);
@@ -342,37 +381,37 @@ export function mountTopBar(container) {
           setFilterSets([...sets, newSet]);
         }
         refresh();
-      };
+      });
 
-      update.onclick = () => {
+      update.addEventListener('click', () => {
         if (!selectedSetId) return;
         const sets = getSets();
-        if (!sets.some(s => s.id === selectedSetId)) return;
+        if (!sets.some((s) => s.id === selectedSetId)) return;
         const filters = sanitizeFilters(State.filters);
-        const next = sets.map(s => s.id === selectedSetId ? { ...s, filters } : s);
+        const next = sets.map((s) => (s.id === selectedSetId ? { ...s, filters } : s));
         lastSelectedFilterSetId = selectedSetId;
         setFilterSets(next);
         refresh();
-      };
+      });
 
-      del.onclick = () => {
+      del.addEventListener('click', () => {
         if (!selectedSetId) return;
         const sets = getSets();
-        const target = sets.find(s => s.id === selectedSetId);
+        const target = sets.find((s) => s.id === selectedSetId);
         if (!target) return;
         if (!confirm(`Delete the saved set “${target.name}”?`)) return;
-        const next = sets.filter(s => s.id !== selectedSetId);
+        const next = sets.filter((s) => s.id !== selectedSetId);
         if (lastSelectedFilterSetId === selectedSetId) {
           lastSelectedFilterSetId = '';
         }
         selectedSetId = '';
         setFilterSets(next);
         refresh();
-      };
+      });
 
       const refresh = () => {
         const sets = getSets();
-        if (selectedSetId && !sets.some(s => s.id === selectedSetId)) {
+        if (selectedSetId && !sets.some((s) => s.id === selectedSetId)) {
           if (lastSelectedFilterSetId === selectedSetId) {
             lastSelectedFilterSetId = '';
           }
@@ -380,10 +419,10 @@ export function mountTopBar(container) {
         }
 
         if (!selectedSetId) {
-          if (lastSelectedFilterSetId && sets.some(s => s.id === lastSelectedFilterSetId)) {
+          if (lastSelectedFilterSetId && sets.some((s) => s.id === lastSelectedFilterSetId)) {
             selectedSetId = lastSelectedFilterSetId;
           } else {
-            const match = sets.find(s => filtersEqual(State.filters, s.filters));
+            const match = sets.find((s) => filtersEqual(State.filters, s.filters));
             if (match) {
               selectedSetId = match.id;
               lastSelectedFilterSetId = match.id;
@@ -408,7 +447,7 @@ export function mountTopBar(container) {
           placeholder.textContent = 'Select a saved set…';
           placeholder.selected = !selectedSetId;
           select.appendChild(placeholder);
-          sets.forEach(set => {
+          sets.forEach((set) => {
             const opt = document.createElement('option');
             opt.value = set.id;
             opt.textContent = set.name;
@@ -423,8 +462,8 @@ export function mountTopBar(container) {
         del.disabled = !selectedSetId;
 
         const setsNow = getSets();
-        const selected = setsNow.find(s => s.id === selectedSetId);
-        const matching = setsNow.find(s => filtersEqual(State.filters, s.filters));
+        const selected = setsNow.find((s) => s.id === selectedSetId);
+        const matching = setsNow.find((s) => filtersEqual(State.filters, s.filters));
         let message = '';
         if (!setsNow.length) {
           message = 'Save the current filters to reuse them later.';
@@ -442,84 +481,104 @@ export function mountTopBar(container) {
       return { wrap, refresh };
     }
 
-  function sectionChecks(title, values = [], selected = [], onChange) {
-    const wrap = document.createElement('div');
-    const h = document.createElement('div');
-    h.textContent = title;
-    h.style.fontWeight = '700';
-    h.style.marginBottom = '6px';
-    wrap.appendChild(h);
+    function sectionChecks(title: FacetTitle, values: string[], selected: string[], onChange: (next: string[]) => void): FacetSection {
+      const wrap = document.createElement('div');
+      const heading = document.createElement('div');
+      heading.textContent = title;
+      heading.style.fontWeight = '700';
+      heading.style.marginBottom = '6px';
+      wrap.appendChild(heading);
 
-    const box = document.createElement('div');
-    Object.assign(box.style, { display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '40vh', overflow: 'auto' });
+      const box = document.createElement('div');
+      Object.assign(box.style, { display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '40vh', overflow: 'auto' });
 
-    const key = title.toLowerCase();
-    const toLower = (val) => String(val || '').toLowerCase();
-    const controls = [];
-    const selLower = new Set((selected || []).map(toLower));
+      const controls: Array<{ checkbox: HTMLInputElement; valueLower: string }> = [];
+      const selLower = new Set((selected || []).map((val) => val.toLowerCase()));
+      const filterKey = facetKeyMap[title];
 
-    (values || []).forEach(v => {
-      const lab = document.createElement('label');
-      lab.style.display = 'flex'; lab.style.alignItems = 'center'; lab.style.gap = '8px';
-      const cb = document.createElement('input');
-      cb.type = 'checkbox';
-      const valueLower = toLower(v);
-      cb.checked = selLower.has(valueLower);
-      cb.onchange = () => {
-        const set = new Set((State.filters[key] || []).map(toLower));
-        if (cb.checked) set.add(valueLower); else set.delete(valueLower);
-        onChange([...set]);
-      };
-      const span = document.createElement('span'); span.textContent = v;
-      lab.append(cb, span);
-      box.appendChild(lab);
-      controls.push({ checkbox: cb, valueLower });
-    });
-    wrap.appendChild(box);
-
-    const refresh = () => {
-      const active = new Set((State.filters[key] || []).map(toLower));
-      controls.forEach(({ checkbox, valueLower }) => {
-        const shouldCheck = active.has(valueLower);
-        if (checkbox.checked !== shouldCheck) checkbox.checked = shouldCheck;
+      values.forEach((value) => {
+        const label = document.createElement('label');
+        label.style.display = 'flex';
+        label.style.alignItems = 'center';
+        label.style.gap = '8px';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        const valueLower = value.toLowerCase();
+        checkbox.checked = selLower.has(valueLower);
+        checkbox.addEventListener('change', () => {
+          const set = new Set((State.filters[filterKey] || []).map((v) => v.toLowerCase()));
+          if (checkbox.checked) {
+            set.add(valueLower);
+          } else {
+            set.delete(valueLower);
+          }
+          onChange([...set]);
+        });
+        const span = document.createElement('span');
+        span.textContent = value;
+        label.append(checkbox, span);
+        box.appendChild(label);
+        controls.push({ checkbox, valueLower });
       });
-    };
+      wrap.appendChild(box);
 
-    return { wrap, refresh };
-  }
+      const refresh = () => {
+        const active = new Set((State.filters[filterKey] || []).map((val) => val.toLowerCase()));
+        controls.forEach(({ checkbox, valueLower }) => {
+          const shouldCheck = active.has(valueLower);
+          if (checkbox.checked !== shouldCheck) checkbox.checked = shouldCheck;
+        });
+      };
 
-    function newFilterSetId() {
+      return { wrap, refresh };
+    }
+
+    function newFilterSetId(): string {
       if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
         return crypto.randomUUID();
       }
-      return 'fs_' + Math.random().toString(36).slice(2, 10);
+      return `fs_${Math.random().toString(36).slice(2, 10)}`;
     }
   }
 
-  function collectFacetValues(words = []) {
-    const pos = new Set(), cefr = new Set(), tags = new Map();
-    const addTag = (t) => { const k = t.toLowerCase(); tags.set(k, (tags.get(k) || 0) + 1); };
+  function collectFacetValues(words: VocabEntry[] = []): { posValues: string[]; cefrValues: string[]; tagValues: string[] } {
+    const pos = new Set<string>();
+    const cefr = new Set<string>();
+    const tags = new Map<string, number>();
+    const addTag = (tag: string) => {
+      const key = tag.toLowerCase();
+      tags.set(key, (tags.get(key) || 0) + 1);
+    };
     for (const w of words) {
       if (w.pos) pos.add(w.pos);
       if (w.cefr) cefr.add(w.cefr);
       if (w.tags) {
-        String(w.tags).split(/[|,;]+|\s+/g).map(s => s.trim()).filter(Boolean).forEach(addTag);
+        String(w.tags)
+          .split(/[|,;]+|\s+/g)
+          .map((s) => s.trim())
+          .filter(Boolean)
+          .forEach(addTag);
       }
     }
-    const tagValues = [...tags.entries()].sort((a, b) => b[1] - a[1]).slice(0, 150).map(([k]) => k);
+    const tagValues = [...tags.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 150)
+      .map(([k]) => k);
     return { posValues: [...pos].sort(), cefrValues: [...cefr].sort(), tagValues };
   }
 
-  function activeFilterCount() {
-    const f = State.filters || {};
+  function activeFilterCount(): number {
+    const f: Filters = State.filters;
     return (
       (f.starred ? 1 : 0) +
-      (Array.isArray(f.weight) && f.weight.length < 5 ? 1 : 0) +
-      (f.pos?.length || 0) + (f.cefr?.length || 0) + (f.tags?.length || 0)
+      (f.weight.length < ALL_WEIGHTS.length ? 1 : 0) +
+      f.pos.length +
+      f.cefr.length +
+      f.tags.length
     );
   }
 
-  function hasActiveFilters() {
+  function hasActiveFilters(): boolean {
     return activeFilterCount() > 0;
   }
 
@@ -550,9 +609,14 @@ export function mountTopBar(container) {
       refreshFilterChip();
       refreshResultCount();
     }),
-    onStateEvent('wordsChanged', refreshResultCount),
-    onStateEvent('progressChanged', refreshResultCount)
+    onStateEvent('wordsChanged', () => refreshResultCount()),
+    onStateEvent('progressChanged', () => refreshResultCount())
   ];
 
-  return { destroy() { eventUnsubs.forEach(unsub => unsub()); } };
+  return {
+    destroy() {
+      eventUnsubs.forEach((unsub) => unsub());
+      closePop();
+    }
+  };
 }

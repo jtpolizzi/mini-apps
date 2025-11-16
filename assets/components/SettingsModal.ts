@@ -1,9 +1,10 @@
-// @ts-nocheck
-// assets/components/SettingsModal.js
-import { State, resetPersistentState, setFilters, setOrder, setSort } from '../state.ts';
+// assets/components/SettingsModal.ts
+import { State, resetPersistentState, setFilters, setOrder, setSort, type ColumnsState } from '../state.ts';
 import { createChip } from './ui/elements.ts';
 
-export function openSettingsModal() {
+type ColumnKey = keyof ColumnsState;
+
+export function openSettingsModal(): void {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   Object.assign(overlay.style, {
@@ -33,8 +34,8 @@ export function openSettingsModal() {
   const colsBox = document.createElement('div');
   Object.assign(colsBox.style, { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '8px' });
 
-  const colKeys = ['star', 'weight', 'word', 'definition', 'pos', 'cefr', 'tags'];
-  colKeys.forEach(k => {
+  const colKeys: ColumnKey[] = ['star', 'weight', 'word', 'definition', 'pos', 'cefr', 'tags'];
+  colKeys.forEach((k) => {
     const lab = document.createElement('label');
     lab.style.display = 'flex'; lab.style.alignItems = 'center'; lab.style.gap = '8px';
     const cb = document.createElement('input');
@@ -45,7 +46,7 @@ export function openSettingsModal() {
       State.set('columns', next);
     };
     const span = document.createElement('span');
-    span.textContent = k[0].toUpperCase() + k.slice(1);
+    span.textContent = k[0]?.toUpperCase() + k.slice(1);
     lab.append(cb, span);
     colsBox.appendChild(lab);
   });
@@ -129,9 +130,12 @@ export function openSettingsModal() {
 }
 
 /* Guarded route handler: only opens modal if URL hash is '#settings' */
-export function mountSettings(container) {
+export function mountSettings(container: HTMLElement | null): void {
   const isSettingsRoute = (location.hash || '').toLowerCase() === '#settings';
-  if (!isSettingsRoute) { if (container) container.innerHTML = ''; return; }
+  if (!isSettingsRoute) {
+    if (container) container.innerHTML = '';
+    return;
+  }
   openSettingsModal();
   if (container) container.innerHTML = ''; // keep route container empty behind modal
 }

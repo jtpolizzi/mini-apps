@@ -1,6 +1,5 @@
-// @ts-nocheck
-// assets/components/WordMatch.js
-import { applyFilters, LS, State, onStateEvent } from '../state.ts';
+// assets/components/WordMatch.ts
+import { applyFilters, LS, State, onStateEvent, type VocabEntry } from '../state.ts';
 import { createChip, createIconChip } from './ui/elements.ts';
 import { createPopover } from './ui/popover.ts';
 
@@ -15,9 +14,41 @@ const DIRECTIONS = [
   { key: 'word-definition', label: 'Word → Definition' },
   { key: 'definition-word', label: 'Definition → Word' },
   { key: 'random', label: 'Random' }
-];
+] as const;
 
-export function mountWordMatch(container) {
+type DirectionKey = (typeof DIRECTIONS)[number]['key'];
+
+interface MatchPrefs {
+  size: number;
+  direction: DirectionKey;
+  collapseMatches: boolean;
+}
+
+type ColumnSide = 'left' | 'right';
+type CardLang = 'word' | 'definition';
+
+interface MatchCard {
+  uid: string;
+  pairId: string;
+  lang: CardLang;
+  text: string;
+  column: ColumnSide;
+}
+
+interface SelectedCard {
+  uid: string;
+  pairId: string;
+  column: ColumnSide;
+}
+
+interface MatchColumns {
+  left: MatchCard[];
+  right: MatchCard[];
+}
+
+type Destroyable = { destroy: () => void };
+
+export function mountWordMatch(container: HTMLElement): Destroyable {
   container.innerHTML = '';
 
   document.querySelectorAll('.bottombar').forEach((el) => el.remove());
@@ -26,11 +57,11 @@ export function mountWordMatch(container) {
   const prefs = loadPrefs();
   let available = computeAvailable();
   let lastAvailableCount = available.length;
-  let boardColumns = { left: [], right: [] };
-  let selection = null;
-  let matchedPairs = new Set();
-  let clearedCards = new Set();
-  let shakingCards = new Set();
+  let boardColumns: MatchColumns = { left: [], right: [] };
+  let selection: SelectedCard | null = null;
+  let matchedPairs = new Set<string>();
+  let clearedCards = new Set<string>();
+  let shakingCards = new Set<string>();
   let interactionLocked = false;
   let remainingPairs = 0;
   let quickPlay = false;
@@ -61,14 +92,15 @@ export function mountWordMatch(container) {
   wrap.appendChild(board);
   container.appendChild(wrap);
 
-  function normalizeDirection(value) {
+  function normalizeDirection(value: unknown): DirectionKey {
     if (value === 'es-en') return 'word-definition';
     if (value === 'en-es') return 'definition-word';
-    return DIRECTIONS.some((d) => d.key === value) ? value : DEFAULT_PREFS.direction;
+    const match = DIRECTIONS.find((d) => d.key === value);
+    return match ? match.key : DEFAULT_PREFS.direction;
   }
 
-  function loadPrefs() {
-    const stored = LS.get(PREF_KEY, {});
+  function loadPrefs(): MatchPrefs {
+    const stored = LS.get<Partial<MatchPrefs>>(PREF_KEY, {});
     const dir = normalizeDirection(stored?.direction);
     return {
       size: clampSize(stored?.size ?? DEFAULT_PREFS.size),
@@ -77,16 +109,16 @@ export function mountWordMatch(container) {
     };
   }
 
-  function savePrefs(next) {
+  function savePrefs(next: MatchPrefs) {
     LS.set(PREF_KEY, next);
   }
 
-  function computeAvailable() {
+  function computeAvailable(): VocabEntry[] {
     const filtered = applyFilters(State.words || []);
     return filtered.filter((w) => (w.word || '').trim() && (w.definition || '').trim());
   }
 
-  function clampSize(value) {
+  function clampSize(value: unknown): number {
     const num = Number(value);
     if (!Number.isFinite(num)) return DEFAULT_PREFS.size;
     return Math.max(MIN_SET, Math.min(MAX_SET, Math.round(num)));
@@ -113,7 +145,7 @@ export function mountWordMatch(container) {
     const desired = clampSize(prefs.size);
     const usable = Math.min(desired, available.length);
     const pool = shuffle([...available]).slice(0, usable);
-    const nextColumns = { left: [], right: [] };
+    const nextColumns: MatchColumns = { left: [], right: [] };
 
     pool.forEach((word) => {
       const placeWordLeft =
@@ -156,12 +188,12 @@ export function mountWordMatch(container) {
     }
   }
 
-  function createCard(word, lang, column) {
+  function createCard(word: VocabEntry, lang: CardLang, column: ColumnSide): MatchCard {
     return {
       uid: `${lang}-${word.id}-${column}`,
       pairId: word.id,
       lang,
-      text: lang === 'word' ? word.word : word.definition,
+      text: (lang === 'word' ? word.word : word.definition) || '',
       column
     };
   }
@@ -183,7 +215,7 @@ export function mountWordMatch(container) {
     boardColumns.right.forEach((card) => rightCol.appendChild(buildCard(card)));
   }
 
-  function buildCard(card) {
+  function buildCard(card: MatchCard) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'match-card';
@@ -199,7 +231,31 @@ export function mountWordMatch(container) {
     return btn;
   }
 
-  function handleCardClick(card) {
+  function findTopLeftCandidate(): MatchCard | undefined {
+    return boardColumns.left.find(
+      (card) => !matchedPairs.has(card.pairId) && !clearedCards.has(card.uid)
+    );
+  }
+
+  function isTopLeftCard(card: MatchCard) {
+    const candidate = findTopLeftCandidate();
+    return !!candidate && candidate.uid === card.uid;
+  }
+
+  function autoSelectTopLeft() {
+    if (!quickPlay) return;
+    const candidate = findTopLeftCandidate();
+    if (!candidate) {
+      quickPlay = false;
+      selection = null;
+      syncAllCardStates();
+      return;
+    }
+    selection = { uid: candidate.uid, pairId: candidate.pairId, column: candidate.column };
+    syncAllCardStates();
+  }
+
+  function handleCardClick(card: MatchCard) {
     if (interactionLocked) return;
     if (matchedPairs.has(card.pairId)) return;
     if (clearedCards.has(card.uid)) return;
@@ -246,7 +302,7 @@ export function mountWordMatch(container) {
     handleMatch(card.uid, selection.uid, card.pairId);
   }
 
-  function handleMatch(uidA, uidB, pairId) {
+  function handleMatch(uidA: string, uidB: string, pairId: string) {
     matchedPairs.add(pairId);
     remainingPairs = Math.max(0, remainingPairs - 1);
     const affected = [uidA, uidB];
@@ -262,7 +318,7 @@ export function mountWordMatch(container) {
     updateStatus();
   }
 
-  function triggerMismatch(uidA, uidB) {
+  function triggerMismatch(uidA: string, uidB: string) {
     interactionLocked = true;
     shakingCards.add(uidA);
     shakingCards.add(uidB);
@@ -280,16 +336,20 @@ export function mountWordMatch(container) {
   }
 
   function syncAllCardStates() {
-    board.querySelectorAll('.match-card').forEach(syncCardState);
+    board.querySelectorAll('.match-card').forEach((node) => {
+      if (node instanceof HTMLButtonElement) {
+        syncCardState(node);
+      }
+    });
   }
 
-  function syncCardState(node) {
-    const uid = node.dataset.uid;
-    const pairId = node.dataset.pairId;
-    node.classList.toggle('is-selected', selection?.uid === uid);
-    node.classList.toggle('is-matched', matchedPairs.has(pairId));
-    node.classList.toggle('is-cleared', clearedCards.has(uid));
-    node.classList.toggle('is-shaking', shakingCards.has(uid));
+  function syncCardState(node: HTMLButtonElement) {
+    const uid = node.dataset.uid || '';
+    const pairId = node.dataset.pairId || '';
+    node.classList.toggle('is-selected', !!selection && selection.uid === uid);
+    node.classList.toggle('is-matched', !!pairId && matchedPairs.has(pairId));
+    node.classList.toggle('is-cleared', uid ? clearedCards.has(uid) : false);
+    node.classList.toggle('is-shaking', uid ? shakingCards.has(uid) : false);
   }
 
   function updateStatus() {
@@ -302,7 +362,7 @@ export function mountWordMatch(container) {
     controls.setRoundComplete(remainingPairs === 0 && boardColumns.left.length > 0);
   }
 
-  function shuffle(list) {
+  function shuffle<T>(list: T[]): T[] {
     for (let i = list.length - 1; i > 0; i--) {
       const j = (Math.random() * (i + 1)) | 0;
       [list[i], list[j]] = [list[j], list[i]];
@@ -388,7 +448,7 @@ export function mountWordMatch(container) {
     sizeHint.className = 'match-hint options-hint';
     sizeHint.hidden = true;
 
-    let popover = null;
+    let popover: HTMLDivElement | null = null;
 
     function buildOptionsPopover() {
       const pop = createPopover({ className: 'options-popover' });
@@ -448,13 +508,14 @@ export function mountWordMatch(container) {
       optionsBtn.setAttribute('aria-expanded', 'false');
     }
 
-    function handleOutside(ev) {
+    function handleOutside(ev: MouseEvent) {
       if (!popover) return;
-      if (popover.contains(ev.target) || optionsBtn.contains(ev.target)) return;
+      const target = ev.target as Node | null;
+      if (target && (popover.contains(target) || optionsBtn.contains(target))) return;
       closeOptions();
     }
 
-    function handleEscape(ev) {
+    function handleEscape(ev: KeyboardEvent) {
       if (ev.key === 'Escape') {
         ev.stopPropagation();
         closeOptions();
@@ -471,7 +532,7 @@ export function mountWordMatch(container) {
     sizeSelect.addEventListener('change', commitSize);
 
     directionSelect.addEventListener('change', () => {
-      prefs.direction = directionSelect.value;
+      prefs.direction = normalizeDirection(directionSelect.value);
       savePrefs({ ...prefs });
     });
 
@@ -498,7 +559,7 @@ export function mountWordMatch(container) {
     return {
       root,
       updateAvailabilityHint,
-      setRoundComplete(isComplete) {
+      setRoundComplete(isComplete: boolean) {
         playAgainBtn.classList.toggle('is-celebrate', !!isComplete);
         if (isComplete) {
           playAgainBtn.disabled = false;
@@ -518,36 +579,9 @@ export function mountWordMatch(container) {
   ];
 
   const destroy = () => {
-    controls.destroy?.();
-    eventUnsubs.forEach(unsub => unsub());
+    controls.destroy();
+    eventUnsubs.forEach((unsub) => unsub());
   };
 
   return { destroy };
-
-  function findTopLeftCandidate() {
-    return boardColumns.left.find(
-      (card) => !matchedPairs.has(card.pairId) && !clearedCards.has(card.uid)
-    );
-  }
-
-  function isTopLeftCard(card) {
-    const candidate = findTopLeftCandidate();
-    return !!candidate && candidate.uid === card.uid;
-  }
-
-  function autoSelectTopLeft() {
-    if (!quickPlay) return;
-    const candidate = findTopLeftCandidate();
-    if (!candidate) {
-      quickPlay = false;
-      selection = null;
-      syncAllCardStates();
-      return;
-    }
-    selection = { uid: candidate.uid, pairId: candidate.pairId, column: candidate.column };
-    syncAllCardStates();
-  }
 }
-
-
-

@@ -1,6 +1,5 @@
-// @ts-nocheck
-// assets/components/MultipleChoice.js
-import { applyFilters, LS, State, onStateEvent } from '../state.ts';
+// assets/components/MultipleChoice.ts
+import { applyFilters, LS, State, onStateEvent, type VocabEntry } from '../state.ts';
 import { createChip, createIconChip } from './ui/elements.ts';
 import { createPopover } from './ui/popover.ts';
 
@@ -18,7 +17,40 @@ const DIRECTION_OPTIONS = [
   { key: 'random', label: 'Random' }
 ];
 
-export function mountMultipleChoice(container) {
+type DirectionKey = (typeof DIRECTION_OPTIONS)[number]['key'];
+
+interface ChoicePrefs {
+  size: number;
+  direction: DirectionKey;
+  answers: number;
+}
+
+interface AnswerOption {
+  id: string;
+  text: string;
+  isCorrect: boolean;
+}
+
+interface ChoiceQuestion {
+  word: VocabEntry;
+  promptField: keyof Pick<VocabEntry, 'word' | 'definition'>;
+  answerField: keyof Pick<VocabEntry, 'word' | 'definition'>;
+  prompt: string;
+  answers: AnswerOption[];
+  correctId: string;
+  mode: DirectionKey;
+}
+
+type Destroyable = { destroy: () => void };
+
+interface ToolbarControls {
+  root: HTMLDivElement;
+  updateAvailabilityHint: () => void;
+  setRoundComplete: (isComplete: boolean) => void;
+  destroy: () => void;
+}
+
+export function mountMultipleChoice(container: HTMLElement): Destroyable {
   container.innerHTML = '';
 
   document.querySelectorAll('.bottombar').forEach((el) => el.remove());
@@ -26,12 +58,12 @@ export function mountMultipleChoice(container) {
 
   const prefs = loadPrefs();
   let available = computeAvailable();
-  let roundWords = [];
+  let roundWords: VocabEntry[] = [];
   let questionIndex = 0;
-  let currentQuestion = null;
+  let currentQuestion: ChoiceQuestion | null = null;
   let awaitingContinue = false;
   let questionLocked = false;
-  let feedbackTimer = null;
+  let feedbackTimer: number | null = null;
 
   const statusText = document.createElement('span');
   statusText.className = 'match-status-text';
@@ -98,7 +130,7 @@ export function mountMultipleChoice(container) {
     onStateEvent('wordsChanged', handleStateChange),
     onStateEvent('filtersChanged', handleStateChange)
   ];
-  const keyHandler = (e) => handleKey(e);
+  const keyHandler = (e: KeyboardEvent) => handleKey(e);
   window.addEventListener('keydown', keyHandler);
   continueBtn.addEventListener('click', () => {
     if (!awaitingContinue) return;
@@ -106,28 +138,32 @@ export function mountMultipleChoice(container) {
   });
 
   const destroy = () => {
-    eventUnsubs.forEach(unsub => unsub());
+    eventUnsubs.forEach((unsub) => unsub());
     window.removeEventListener('keydown', keyHandler);
-    clearTimeout(feedbackTimer);
-    controls.destroy?.();
+    if (feedbackTimer != null) {
+      window.clearTimeout(feedbackTimer);
+      feedbackTimer = null;
+    }
+    controls.destroy();
   };
 
   return { destroy };
 
   // ---- helpers ----
-  function normalizeDirection(value) {
+  function normalizeDirection(value: unknown): DirectionKey {
     if (value === 'es-en') return 'word-definition';
     if (value === 'en-es') return 'definition-word';
-    return DIRECTION_OPTIONS.some((d) => d.key === value) ? value : DEFAULT_PREFS.direction;
+    const match = DIRECTION_OPTIONS.find((d) => d.key === value);
+    return match ? match.key : DEFAULT_PREFS.direction;
   }
 
-  function loadPrefs() {
-    const stored = LS.get(PREF_KEY, {});
-    const direction = normalizeDirection(stored.direction);
+  function loadPrefs(): ChoicePrefs {
+    const stored = LS.get<Partial<ChoicePrefs>>(PREF_KEY, {});
+    const direction = normalizeDirection(stored?.direction);
     return {
-      size: clampSize(stored.size ?? DEFAULT_PREFS.size),
+      size: clampSize(stored?.size ?? DEFAULT_PREFS.size),
       direction,
-      answers: clampAnswers(stored.answers ?? DEFAULT_PREFS.answers)
+      answers: clampAnswers(stored?.answers ?? DEFAULT_PREFS.answers)
     };
   }
 
@@ -135,25 +171,27 @@ export function mountMultipleChoice(container) {
     LS.set(PREF_KEY, prefs);
   }
 
-  function clampSize(value) {
+  function clampSize(value: unknown): number {
     const num = Number(value);
     if (!Number.isFinite(num)) return DEFAULT_PREFS.size;
     return Math.max(MIN_SET, Math.min(MAX_SET, Math.round(num)));
   }
 
-  function clampAnswers(value) {
+  function clampAnswers(value: unknown): number {
     const num = Number(value);
     if (!Number.isFinite(num)) return DEFAULT_PREFS.answers;
     return Math.max(MIN_ANSWERS, Math.min(MAX_ANSWERS, Math.round(num)));
   }
 
-  function computeAvailable() {
+  function computeAvailable(): VocabEntry[] {
     const filtered = applyFilters(State.words || []);
-    return filtered.filter(w => (w.word || '').trim() && (w.definition || '').trim());
+    return filtered.filter((w) => (w.word || '').trim() && (w.definition || '').trim());
   }
 
   function startRound() {
-    clearTimeout(feedbackTimer);
+    if (feedbackTimer != null) {
+      window.clearTimeout(feedbackTimer);
+    }
     feedbackTimer = null;
     awaitingContinue = false;
     continueBtn.hidden = true;
@@ -217,34 +255,34 @@ export function mountMultipleChoice(container) {
     renderQuestion();
   }
 
-  function buildQuestion(word) {
+  function buildQuestion(word: VocabEntry): ChoiceQuestion | null {
     const mode = prefs.direction === 'random'
       ? (Math.random() < 0.5 ? 'word-definition' : 'definition-word')
       : prefs.direction;
-    const promptField = mode === 'word-definition' ? 'word' : 'definition';
-    const answerField = promptField === 'word' ? 'definition' : 'word';
+    const promptField: 'word' | 'definition' = mode === 'word-definition' ? 'word' : 'definition';
+    const answerField: 'word' | 'definition' = promptField === 'word' ? 'definition' : 'word';
 
     const prompt = (word[promptField] || '').trim();
     const correctText = (word[answerField] || '').trim();
     if (!prompt || !correctText) return null;
 
     const candidatePool = roundWords
-      .filter(w => w.id !== word.id)
-      .filter(w => (w[answerField] || '').trim());
+      .filter((w) => w.id !== word.id)
+      .filter((w) => (w[answerField] || '').trim());
 
     const maxAnswers = Math.max(
       MIN_ANSWERS,
       Math.min(prefs.answers, candidatePool.length + 1, MAX_ANSWERS)
     );
 
-    const answers = [{
+    const answers: AnswerOption[] = [{
       id: word.id,
       text: correctText,
       isCorrect: true
     }];
     const usedTexts = new Set([correctText.toLowerCase()]);
 
-    shuffle(candidatePool).some(candidate => {
+    shuffle(candidatePool).some((candidate) => {
       if (answers.length >= maxAnswers) return true;
       const text = (candidate[answerField] || '').trim();
       if (!text || usedTexts.has(text.toLowerCase())) return false;
@@ -307,7 +345,7 @@ export function mountMultipleChoice(container) {
     controls.setRoundComplete(true);
   }
 
-  function selectAnswer(answerId) {
+  function selectAnswer(answerId: string) {
     if (!currentQuestion) return;
     if (awaitingContinue) return;
     if (questionLocked) return;
@@ -319,7 +357,7 @@ export function mountMultipleChoice(container) {
 
     if (isCorrect) {
       feedback.textContent = 'Correct!';
-      feedbackTimer = setTimeout(() => {
+      feedbackTimer = window.setTimeout(() => {
         questionIndex++;
         nextQuestion();
       }, CORRECT_ADVANCE_DELAY);
@@ -332,9 +370,10 @@ export function mountMultipleChoice(container) {
     }
   }
 
-  function highlightAnswers(selectedId, correctId) {
+  function highlightAnswers(selectedId: string, correctId: string) {
     answersList.querySelectorAll('.choice-answer').forEach((btn) => {
-      const id = btn.dataset.id;
+      if (!(btn instanceof HTMLButtonElement)) return;
+      const id = btn.dataset.id || '';
       btn.classList.add('is-disabled');
       if (id === correctId) {
         btn.classList.add('is-correct');
@@ -371,9 +410,9 @@ export function mountMultipleChoice(container) {
     }
   }
 
-  function handleKey(e) {
+  function handleKey(e: KeyboardEvent) {
     if (currentQuestion && !awaitingContinue) {
-      const idx = parseInt(e.key, 10);
+      const idx = Number.parseInt(e.key, 10);
       if (idx >= 1 && idx <= currentQuestion.answers.length) {
         const answer = currentQuestion.answers[idx - 1];
         selectAnswer(answer.id);
@@ -386,7 +425,7 @@ export function mountMultipleChoice(container) {
     }
   }
 
-  function buildToolbar({ statusText, onPlayAgain }) {
+  function buildToolbar({ statusText, onPlayAgain }: { statusText: HTMLElement; onPlayAgain: () => void }): ToolbarControls {
     const root = document.createElement('div');
     root.className = 'match-toolbar panel match-toolbar--lean';
 
@@ -438,7 +477,8 @@ export function mountMultipleChoice(container) {
     });
     dirSelect.value = prefs.direction;
     dirSelect.addEventListener('change', () => {
-      prefs.direction = dirSelect.value;
+      prefs.direction = normalizeDirection(dirSelect.value);
+      dirSelect.value = prefs.direction;
       savePrefs();
     });
 
@@ -461,7 +501,7 @@ export function mountMultipleChoice(container) {
     sizeHint.className = 'match-hint options-hint';
     sizeHint.hidden = true;
 
-    let popover = null;
+    let popover: HTMLDivElement | null = null;
 
     function buildOptionsPopover() {
       const pop = createPopover({ className: 'options-popover' });
@@ -518,13 +558,14 @@ export function mountMultipleChoice(container) {
       optionsBtn.setAttribute('aria-expanded', 'false');
     }
 
-    function handleOutside(ev) {
+    function handleOutside(ev: MouseEvent) {
       if (!popover) return;
-      if (popover.contains(ev.target) || optionsBtn.contains(ev.target)) return;
+      const target = ev.target as Node | null;
+      if (target && (popover.contains(target) || optionsBtn.contains(target))) return;
       closeOptions();
     }
 
-    function handleEscape(ev) {
+    function handleEscape(ev: KeyboardEvent) {
       if (ev.key === 'Escape') {
         ev.stopPropagation();
         closeOptions();
@@ -556,7 +597,7 @@ export function mountMultipleChoice(container) {
     return {
       root,
       updateAvailabilityHint,
-      setRoundComplete(isComplete) {
+      setRoundComplete(isComplete: boolean) {
         playAgainBtn.classList.toggle('is-celebrate', !!isComplete);
         if (isComplete) {
           playAgainBtn.disabled = false;
@@ -566,7 +607,7 @@ export function mountMultipleChoice(container) {
     };
   }
 
-  function createSuffix(text) {
+  function createSuffix(text: string) {
     const span = document.createElement('span');
     span.className = 'match-size-suffix';
     span.textContent = text;
@@ -574,7 +615,7 @@ export function mountMultipleChoice(container) {
   }
 }
 
-function shuffle(list) {
+function shuffle<T>(list: T[]): T[] {
   for (let i = list.length - 1; i > 0; i--) {
     const j = (Math.random() * (i + 1)) | 0;
     [list[i], list[j]] = [list[j], list[i]];
