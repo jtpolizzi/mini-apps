@@ -1,4 +1,4 @@
-# Vocab Mini-App Notes (v2.14.0)
+# Vocab Mini-App Notes (v2.14.1)
 
 ## Snapshot
 - SPA written in vanilla HTML/CSS/JS; routes driven via hash (`#/list`, `#/cards`, `#/match`, `#/choice`).
@@ -70,10 +70,12 @@
 - GitHub Pages workflow builds/deploys from `dist/`. Repo root matches the deployed app so local paths map 1:1 to production.
 - All components now run typed (no `@ts-nocheck`) and the tooling is in place for future migrations/tests. Next up is Step B (Svelte prototype) to evaluate a framework migration.
 
-### Step B (v2.14.0 In Progress)
+### Step B (v2.14.1 In Progress)
 - Added `svelte` + `@sveltejs/vite-plugin-svelte` to the Vite build and exposed a compatibility bridge (`wordListStore`) so Svelte components consume the existing typed store/actions.
-- Introduced a non-destructive `#/svelte-list` route beside the vanilla list; the prototype currently renders from shared state (filtered count) while we rebuild the table UI.
-- Svelte 5 APIs are the default (using the `mount/unmount` helpers) so the evaluation reflects the latest ergonomics/perf expectations.
+- Introduced a non-destructive `#/svelte-list` route beside the vanilla list; both routes stay live so parity regressions are easy to spot.
+- Rebuilt the Word List UI in Svelte with feature/item parity (sorting, stars/weights, long-press row selection) driven by the existing store, and mirrored the vanilla styling so the two lists are visually interchangeable.
+- Svelte 5 APIs are the default (using the `mount/unmount` helpers), so the evaluation reflects the latest ergonomics/perf expectations and we avoid legacy compatibility flags.
+- Observation: colocating TS/markup/styles made small adjustments faster and easier to reason about; the store bridge kept logic de-duped, but duplicating CSS per component highlighted where we need a plan for shared tokens vs. view-specific rules.
 
 ## Next Targets / Ideas
 1. Progress export/import (JSON) for stars + weights.

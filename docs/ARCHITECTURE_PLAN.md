@@ -37,7 +37,7 @@ Step A is complete; proceed to Step B work below.
 1. Rebuild a single view (Word List) in Svelte using the typed stores to gauge ergonomics, bundle size, and complexity.
 2. Document findings (pros/cons vs. vanilla) to decide whether a full migration is worthwhile.
 
-**Status (v2.14.0)** – Svelte + plugin are wired into Vite, a dedicated `#/svelte-list` route shares the existing state through a bridge store, and the prototype currently surfaces live filter counts. Next steps are recreating the table UI and capturing DX/perf notes.
+**Status (v2.14.1)** – Svelte + plugin are wired into Vite, a dedicated `#/svelte-list` route shares the existing state through a bridge store, and the Word List UI is now fully mirrored in Svelte (sorting, star/weight controls, long-press selection, shuffle order, styling parity). Both routes remain live so the legacy list can serve as a comparison point while we capture DX/perf notes and decide how to migrate the remaining views.
 
 ### Step C – Conditional Svelte Migration (post-evaluation)
 1. If Svelte proves valuable, plan a phased component migration (TopBar, WordList, Flashcards, Match, Choice, Settings).

@@ -23,11 +23,36 @@ export interface WordListSnapshot {
   totalFiltered: number;
 }
 
+function reorderByShuffle(rows: VocabEntry[]): VocabEntry[] {
+  const order = Array.isArray(State.order) ? State.order : [];
+  if (!order.length) return rows;
+  const byId = new Map(rows.map((w) => [w.id, w]));
+  const seen = new Set<string>();
+  const ordered: VocabEntry[] = [];
+  order.forEach((id) => {
+    if (seen.has(id)) return;
+    const entry = byId.get(id);
+    if (entry) {
+      ordered.push(entry);
+      seen.add(id);
+    }
+  });
+  if (ordered.length) {
+    rows.forEach((w) => {
+      if (seen.has(w.id)) return;
+      ordered.push(w);
+    });
+    return ordered;
+  }
+  return rows;
+}
+
 function getSnapshot(): WordListSnapshot {
   const filtered = applyFilters(State.words);
   const sorted = sortWords(filtered);
+  const ordered = reorderByShuffle(sorted);
   return {
-    rows: sorted,
+    rows: ordered,
     sort: State.sort,
     columns: State.columns,
     selectionEnabled: isRowSelectionModeEnabled(),
@@ -37,7 +62,9 @@ function getSnapshot(): WordListSnapshot {
 }
 
 export const wordListStore: Readable<WordListSnapshot> = readable(getSnapshot(), (set) => {
-  const unsubscribe = subscribeToState(() => set(getSnapshot()));
+  const sync = () => set(getSnapshot());
+  sync();
+  const unsubscribe = subscribeToState(sync);
   return () => unsubscribe();
 });
 

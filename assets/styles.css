@@ -396,7 +396,8 @@ a:hover {
 }
 
 /* Word list */
-.wordlist-view {
+.wordlist-view,
+.wordlist-view--svelte {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -404,13 +405,15 @@ a:hover {
   margin-top: 4px;
 }
 
-.wordlist-scroll {
+.wordlist-scroll,
+.wordlist-view--svelte .wordlist-scroll {
   flex: 1;
   overflow: auto;
   padding: 0 0 24px;
   scroll-padding-top: 0;
 }
 
+.wordlist-view--svelte table,
 table {
   width: 100%;
   border-collapse: separate;
@@ -423,6 +426,7 @@ table {
   /* ensure thead stays above rows */
 }
 
+.wordlist-view--svelte thead th,
 thead th {
   font-weight: 700;
   color: var(--fg-dim);
@@ -484,6 +488,7 @@ tbody tr.is-current td {
   display: none !important
 }
 
+.wordlist-view--svelte .wordlist-scroll thead,
 .wordlist-scroll thead {
   position: sticky;
   top: 0;
@@ -493,6 +498,7 @@ tbody tr.is-current td {
 }
 
 /* THs act like normal table cells; keep text inline with arrow */
+.wordlist-view--svelte thead th,
 thead th {
   white-space: nowrap;
   text-align: center;

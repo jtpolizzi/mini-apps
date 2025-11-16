@@ -15,8 +15,8 @@ loaderStatus.className = 'loader-status';
 loaderStatus.textContent = 'Loading words...';
 
 const VIEW_REGISTRY = {
-    list: mountWordList,
-    'svelte-list': mountSvelteWordList,
+    list: mountSvelteWordList,
+    legacy: mountWordList,
     cards: mountFlashcards,
     match: mountWordMatch,
     choice: mountMultipleChoice
@@ -29,8 +29,10 @@ normalizeDestroy(mountTopBar(topbar));
 mountSettings();
 
 function resolveRoute(hash) {
-    const normalized = (hash || '#/list').toLowerCase();
-    if (normalized.startsWith('#/svelte-list')) return 'svelte-list';
+    const normalized = (hash || '#/svelte-list').toLowerCase();
+    if (normalized.startsWith('#/legacy')) return 'legacy';
+    if (normalized.startsWith('#/list')) return 'legacy';
+    if (normalized.startsWith('#/svelte-list')) return 'list';
     if (normalized.startsWith('#/cards')) return 'cards';
     if (normalized.startsWith('#/match')) return 'match';
     if (normalized.startsWith('#/choice')) return 'choice';
@@ -49,7 +51,7 @@ function renderRoute() {
 
     const hasWords = Array.isArray(State.words) && State.words.length > 0;
 
-    const hash = location.hash || '#/list';
+    const hash = location.hash || '#/svelte-list';
     setActiveNav(hash);
     const route = resolveRoute(hash);
     const mount = hasWords ? (VIEW_REGISTRY[route] || VIEW_REGISTRY.list) : null;
