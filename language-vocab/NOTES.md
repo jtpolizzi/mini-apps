@@ -50,17 +50,18 @@
 2. Phase 2 (v2.12.3): introduce canonical term keys (word + POS) for persisted progress, letting overlapping data files share stars/weights.
 3. Phase 3 (v2.12.4+): deep architectural/code review with targeted refactors for state management, shared utilities, and event handling.
 
-### Phase 1 (v2.12.2)
+### Phase 1 (v2.12.2 ✅ Completed)
 - Removed the one-time “weight migration” helper from Settings now that every install picked it up.
 - Swapped all `localStorage` keys to the new `lv:` prefix and aggressively purge the old `v23:` entries on load so future term-key changes start clean.
 
-### Phase 2 (v2.12.3)
+### Phase 2 (v2.12.3 ✅ Completed)
 - Added canonical `termKey`s (normalized word + POS) to every word so multiple source files recognize the same vocab entry.
 - Stars/weights now persist against the `termKey`, letting overlapping rows share user progress while table rows keep their original hashes for UI focus/shuffle.
 
-### Phase 3 (v2.12.4+)
+### Phase 3 (v2.12.4 ✅ Completed)
 - v2.12.4: finalized the store split by introducing a namespace-wide “Clear all saved data” action, dropped the JSON data fallback, and removed legacy sort/column migrations now that every device uses the modern schema.
-- Architectural/code review in progress; see `ARCHITECTURE_PLAN.md` for the modernization roadmap (TypeScript build → Svelte evaluation → potential migration).
+- v2.12.4: Finished the Phase 3 refactors—state actions + event map, shared chip/popover helpers, TSV loader events with a toggleable debug panel, and a Vitest + happy-dom harness covering data, selectors, loader, and UI utilities.
+- Architectural/code review complete; see `ARCHITECTURE_PLAN.md` for the modernization roadmap (TypeScript build → Svelte evaluation → potential migration).
 
 ## Next Targets / Ideas
 1. Progress export/import (JSON) for stars + weights.
