@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import { LS, type VocabEntry } from '../../assets/state.ts';
-  import { wordMatchStore } from './stateBridge';
+  import { filteredWordsStore } from './stateBridge';
 
   const PREF_KEY = 'v24:matchPrefs';
   const DEFAULT_PREFS = { size: 10, direction: 'word-definition', collapseMatches: false } as const;
@@ -10,7 +10,7 @@
   const MIN_PLAYABLE = 2;
   const MATCH_CLEAR_DELAY = 480;
 
-  const matchSnapshot = wordMatchStore;
+  const matchSnapshot = filteredWordsStore;
 
   type DirectionKey = 'word-definition' | 'definition-word' | 'random';
   type ColumnSide = 'left' | 'right';

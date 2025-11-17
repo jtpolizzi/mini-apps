@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { tick } from 'svelte';
 import { mountMultipleChoice } from '../../assets/components/MultipleChoice.ts';
 import { State, setFilters, setOrder, setSort } from '../../assets/state.ts';
 import { DEFAULT_FILTERS, DEFAULT_SORT } from '../../assets/state/persistence.ts';
@@ -32,11 +33,12 @@ describe('MultipleChoice component', () => {
     vi.useRealTimers();
   });
 
-  it('renders a question and accepts the correct answer', () => {
+  it('renders a question and accepts the correct answer', async () => {
     vi.useFakeTimers();
     vi.spyOn(Math, 'random').mockReturnValue(0); // keep shuffle deterministic
     const container = document.createElement('div');
     const { destroy } = mountMultipleChoice(container);
+    await tick();
 
     const questionText = container.querySelector('.choice-question-text')!;
     const promptWord = questionText.textContent || '';
@@ -49,22 +51,25 @@ describe('MultipleChoice component', () => {
     );
     expect(correctBtn).toBeTruthy();
     correctBtn!.click();
+    await tick();
     expect(feedback.textContent).toBe('Correct!');
 
     vi.runOnlyPendingTimers();
     destroy();
   });
 
-  it('shows the continue button after a wrong answer', () => {
+  it('shows the continue button after a wrong answer', async () => {
     vi.spyOn(Math, 'random').mockReturnValue(0);
     const container = document.createElement('div');
     const { destroy } = mountMultipleChoice(container);
+    await tick();
 
     const wrongBtn = Array.from(container.querySelectorAll<HTMLButtonElement>('.choice-answer')).find(
       (btn) => !btn.textContent?.includes('one')
     );
     expect(wrongBtn).toBeTruthy();
     wrongBtn!.click();
+    await tick();
 
     const feedback = container.querySelector('.choice-feedback')!;
     expect(feedback.textContent).toContain('Not quite');

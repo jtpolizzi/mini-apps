@@ -1,0 +1,585 @@
+<script lang="ts">
+  import { onDestroy, onMount } from 'svelte';
+  import { LS, type VocabEntry } from '../../assets/state.ts';
+  import { filteredWordsStore } from './stateBridge';
+
+  const PREF_KEY = 'v24:choicePrefs';
+  const DEFAULT_PREFS = { size: 10, direction: 'word-definition', answers: 4 } as const;
+  const MIN_SET = 4;
+  const MAX_SET = 15;
+  const MIN_PLAYABLE = 2;
+  const MIN_ANSWERS = 2;
+  const MAX_ANSWERS = 6;
+  const CORRECT_ADVANCE_DELAY = 1000;
+
+  type DirectionKey = 'word-definition' | 'definition-word' | 'random';
+  type PromptField = 'word' | 'definition';
+
+  interface ChoicePrefs {
+    size: number;
+    direction: DirectionKey;
+    answers: number;
+  }
+
+  interface AnswerOption {
+    id: string;
+    text: string;
+    isCorrect: boolean;
+  }
+
+  interface ChoiceQuestion {
+    word: VocabEntry;
+    promptField: PromptField;
+    answerField: PromptField;
+    prompt: string;
+    answers: AnswerOption[];
+    correctId: string;
+    mode: DirectionKey;
+  }
+
+  const filteredWords = filteredWordsStore;
+
+let prefs = loadPrefs();
+let sizeSelectValue = prefs.size;
+let directionValue: DirectionKey = prefs.direction;
+let answersSelectValue = prefs.answers;
+
+let available: VocabEntry[] = [];
+let availableKey = '';
+let initialized = false;
+  let roundWords: VocabEntry[] = [];
+  let questionIndex = 0;
+  let currentQuestion: ChoiceQuestion | null = null;
+  let awaitingContinue = false;
+  let questionLocked = false;
+  let feedbackText = '';
+  let showContinue = false;
+  let continueDisabled = true;
+  let continueLabel = 'Continue';
+  let statusText = 'Loading...';
+  let sizeHint = '';
+  let playAgainDisabled = true;
+  let progressLabel = '';
+  let progressPercent = 0;
+  let promptVisible = true;
+  let answerStates = new Map<string, 'correct' | 'wrong'>();
+  let timers = new Set<number>();
+  let windowKeyHandler: ((event: KeyboardEvent) => void) | null = null;
+  let showOptions = false;
+  let optionsAnchor: HTMLDivElement | null = null;
+
+  $: {
+    const words = $filteredWords?.words || [];
+    const next = computeAvailable(words);
+    const nextKey = next.map((w) => w.id).join('|');
+    if (nextKey !== availableKey) {
+      const prevCount = available.length;
+      available = next;
+      availableKey = nextKey;
+      handleAvailableChange(prevCount);
+    } else {
+      available = next;
+    }
+    updateAvailabilityHint();
+    updateStatusText();
+    if (!initialized) {
+      initialized = true;
+      startRound();
+    }
+  }
+
+  $: sizeSelectValue = prefs.size;
+  $: directionValue = prefs.direction;
+  $: answersSelectValue = prefs.answers;
+
+  onMount(() => {
+    const handler = (event: KeyboardEvent) => handleKey(event);
+    window.addEventListener('keydown', handler);
+    windowKeyHandler = handler;
+    return () => {
+      window.removeEventListener('keydown', handler);
+    };
+  });
+
+  onDestroy(() => {
+    timers.forEach((id) => window.clearTimeout(id));
+    timers.clear();
+    if (windowKeyHandler) {
+      window.removeEventListener('keydown', windowKeyHandler);
+      windowKeyHandler = null;
+    }
+  });
+
+  function loadPrefs(): ChoicePrefs {
+    const stored = LS.get<Partial<ChoicePrefs>>(PREF_KEY, {});
+    const direction = normalizeDirection(stored?.direction);
+    return {
+      size: clampSize(stored?.size ?? DEFAULT_PREFS.size),
+      direction,
+      answers: clampAnswers(stored?.answers ?? DEFAULT_PREFS.answers)
+    };
+  }
+
+  function savePrefs(next: ChoicePrefs) {
+    LS.set(PREF_KEY, next);
+  }
+
+  function normalizeDirection(value: unknown): DirectionKey {
+    if (value === 'es-en') return 'word-definition';
+    if (value === 'en-es') return 'definition-word';
+    if (value === 'word-definition' || value === 'definition-word' || value === 'random') {
+      return value;
+    }
+    return DEFAULT_PREFS.direction;
+  }
+
+  function clampSize(value: unknown): number {
+    const num = Number(value);
+    if (!Number.isFinite(num)) return DEFAULT_PREFS.size;
+    return Math.max(MIN_SET, Math.min(MAX_SET, Math.round(num)));
+  }
+
+  function clampAnswers(value: unknown): number {
+    const num = Number(value);
+    if (!Number.isFinite(num)) return DEFAULT_PREFS.answers;
+    return Math.max(MIN_ANSWERS, Math.min(MAX_ANSWERS, Math.round(num)));
+  }
+
+  function shuffle<T>(list: T[]): T[] {
+    const copy = [...list];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = (Math.random() * (i + 1)) | 0;
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function computeAvailable(words: VocabEntry[]): VocabEntry[] {
+    return words.filter((w) => (w.word || '').trim() && (w.definition || '').trim());
+  }
+
+  function handleAvailableChange(prevCount: number) {
+    const couldPlayBefore = prevCount >= MIN_PLAYABLE;
+    const canPlayNow = available.length >= MIN_PLAYABLE;
+    if (!canPlayNow) {
+      roundWords = [];
+      currentQuestion = null;
+      questionIndex = 0;
+      showUnavailableState();
+      return;
+    }
+    if (!couldPlayBefore && canPlayNow && roundWords.length === 0) {
+      startRound();
+      return;
+    }
+    updateStatusText();
+  }
+
+  function resetTimers() {
+    timers.forEach((id) => window.clearTimeout(id));
+    timers.clear();
+  }
+
+  function startRound() {
+    resetTimers();
+    awaitingContinue = false;
+    questionLocked = false;
+    feedbackText = '';
+    showContinue = false;
+    continueDisabled = true;
+    answerStates = new Map();
+
+    if (available.length < MIN_PLAYABLE) {
+      showUnavailableState();
+      return;
+    }
+
+    const desired = clampSize(prefs.size);
+    const usable = Math.min(desired, available.length);
+    roundWords = shuffle([...available]).slice(0, usable);
+    questionIndex = 0;
+    nextQuestion();
+    updateStatusText();
+  }
+
+  function showUnavailableState() {
+    progressLabel = 'Not enough words';
+    progressPercent = 0;
+    promptVisible = false;
+    currentQuestion = null;
+    questionIndex = 0;
+    roundWords = [];
+    feedbackText = '';
+    showContinue = false;
+    continueDisabled = true;
+  }
+
+  function nextQuestion() {
+    resetTimers();
+    awaitingContinue = false;
+    questionLocked = false;
+    feedbackText = '';
+    showContinue = false;
+    continueDisabled = true;
+    answerStates = new Map();
+    promptVisible = true;
+
+    if (!roundWords.length) {
+      showUnavailableState();
+      return;
+    }
+
+    if (questionIndex >= roundWords.length) {
+      renderRoundComplete();
+      return;
+    }
+
+    const word = roundWords[questionIndex];
+    const question = buildQuestion(word);
+    if (!question) {
+      questionIndex++;
+      nextQuestion();
+      return;
+    }
+    currentQuestion = question;
+    renderQuestion();
+  }
+
+  function buildQuestion(word: VocabEntry): ChoiceQuestion | null {
+    const mode: DirectionKey =
+      prefs.direction === 'random'
+        ? Math.random() < 0.5
+          ? 'word-definition'
+          : 'definition-word'
+        : prefs.direction;
+    const promptField: PromptField = mode === 'word-definition' ? 'word' : 'definition';
+    const answerField: PromptField = promptField === 'word' ? 'definition' : 'word';
+
+    const prompt = (word[promptField] || '').trim();
+    const correctText = (word[answerField] || '').trim();
+    if (!prompt || !correctText) return null;
+
+    const candidatePool = roundWords
+      .filter((entry) => entry.id !== word.id)
+      .filter((entry) => (entry[answerField] || '').trim());
+
+    const maxAnswers = Math.max(
+      MIN_ANSWERS,
+      Math.min(prefs.answers, candidatePool.length + 1, MAX_ANSWERS)
+    );
+
+    const answers: AnswerOption[] = [
+      { id: word.id, text: correctText, isCorrect: true }
+    ];
+    const usedTexts = new Set([correctText.toLowerCase()]);
+
+    shuffle(candidatePool).some((candidate) => {
+      if (answers.length >= maxAnswers) return true;
+      const text = (candidate[answerField] || '').trim();
+      if (!text || usedTexts.has(text.toLowerCase())) return false;
+      answers.push({ id: candidate.id, text, isCorrect: false });
+      usedTexts.add(text.toLowerCase());
+      return false;
+    });
+
+    if (answers.length < MIN_ANSWERS) return null;
+
+    return {
+      word,
+      promptField,
+      answerField,
+      prompt,
+      answers: shuffle(answers),
+      correctId: word.id,
+      mode
+    };
+  }
+
+  function renderQuestion() {
+    if (!currentQuestion) return;
+    const total = roundWords.length || 1;
+    progressLabel = `Question ${Math.min(questionIndex + 1, total)} / ${total}`;
+    progressPercent = Math.floor((questionIndex / total) * 100);
+  }
+
+  function renderRoundComplete() {
+    currentQuestion = null;
+    progressLabel = `Complete • ${roundWords.length} / ${roundWords.length}`;
+    progressPercent = 100;
+    feedbackText = '';
+    promptVisible = false;
+    showContinue = false;
+    continueDisabled = true;
+  }
+
+  function selectAnswer(answerId: string) {
+    if (!currentQuestion || awaitingContinue || questionLocked) return;
+    questionLocked = true;
+    const isCorrect = answerId === currentQuestion.correctId;
+    highlightAnswers(answerId, currentQuestion.correctId);
+
+    if (isCorrect) {
+      feedbackText = 'Correct!';
+      const timer = window.setTimeout(() => {
+        questionIndex++;
+        nextQuestion();
+        timers.delete(timer);
+      }, CORRECT_ADVANCE_DELAY);
+      timers.add(timer);
+    } else {
+      feedbackText = 'Not quite, review the correct answer.';
+      awaitingContinue = true;
+      showContinue = true;
+      continueDisabled = false;
+      continueLabel = questionIndex + 1 >= roundWords.length ? 'Finish' : 'Continue';
+    }
+  }
+
+  function highlightAnswers(selectedId: string, correctId: string) {
+    const next = new Map<string, 'correct' | 'wrong'>(answerStates);
+    next.set(correctId, 'correct');
+    if (selectedId !== correctId) {
+      next.set(selectedId, 'wrong');
+    }
+    answerStates = next;
+  }
+
+  function advanceQuestion() {
+    if (!awaitingContinue) return;
+    awaitingContinue = false;
+    showContinue = false;
+    continueDisabled = true;
+    questionIndex++;
+    nextQuestion();
+  }
+
+  function handleKey(event: KeyboardEvent) {
+    if (currentQuestion && !awaitingContinue) {
+      if (/^[1-6]$/.test(event.key)) {
+        const idx = Number(event.key);
+        const answer = currentQuestion.answers[idx - 1];
+        if (answer) {
+          selectAnswer(answer.id);
+          return;
+        }
+      }
+    }
+    if (awaitingContinue && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      advanceQuestion();
+    }
+  }
+
+  function updateStatusText() {
+    if (available.length < MIN_PLAYABLE) {
+      statusText = 'Need at least two filtered words.';
+      playAgainDisabled = true;
+      return;
+    }
+    const usable = Math.min(prefs.size, available.length);
+    statusText = `${usable} question${usable === 1 ? '' : 's'} • Using ${available.length} filtered words`;
+    playAgainDisabled = false;
+  }
+
+  function updateAvailabilityHint() {
+    if (available.length < MIN_PLAYABLE) {
+      sizeHint = 'Need at least two filtered words.';
+      playAgainDisabled = true;
+      return;
+    }
+    const usable = Math.min(prefs.size, available.length);
+    sizeHint = usable < prefs.size ? `Only ${available.length} available; using ${usable}.` : '';
+  }
+
+  function handleOptionsToggle(event: MouseEvent) {
+    event.stopPropagation();
+    if (showOptions) {
+      closeOptions();
+    } else {
+      openOptions();
+    }
+  }
+
+  function openOptions() {
+    showOptions = true;
+    document.addEventListener('click', handleOutside, true);
+    window.addEventListener('keydown', handleEscape);
+  }
+
+  function closeOptions() {
+    showOptions = false;
+    document.removeEventListener('click', handleOutside, true);
+    window.removeEventListener('keydown', handleEscape);
+  }
+
+  function handleOutside(event: MouseEvent) {
+    const target = event.target as Node | null;
+    if (!target) return;
+    if (optionsAnchor?.contains(target)) return;
+    closeOptions();
+  }
+
+  function handleEscape(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      event.stopPropagation();
+      closeOptions();
+    }
+  }
+
+  function commitSize(value: number | string) {
+    prefs = { ...prefs, size: clampSize(value) };
+    savePrefs(prefs);
+    updateAvailabilityHint();
+    updateStatusText();
+  }
+
+  function commitDirection(value: DirectionKey) {
+    prefs = { ...prefs, direction: value };
+    savePrefs(prefs);
+  }
+
+  function commitAnswers(value: number | string) {
+    prefs = { ...prefs, answers: clampAnswers(value) };
+    savePrefs(prefs);
+  }
+</script>
+
+<section class="choice-wrap">
+  <div class="match-toolbar panel match-toolbar--lean">
+    <div class="match-toolbar-item match-status-wrap">
+      <span class="match-status-text">{statusText}</span>
+    </div>
+    <div class="match-toolbar-actions">
+      <button
+        type="button"
+        class="chip match-play-again"
+        class:is-celebrate={currentQuestion === null && roundWords.length > 0}
+        on:click={startRound}
+        disabled={playAgainDisabled}
+      >
+        Play Again
+      </button>
+      <div class="options-anchor" bind:this={optionsAnchor}>
+        <button
+          type="button"
+          class="chip chip--icon match-options-btn"
+          aria-label="Choice options"
+          aria-expanded={showOptions}
+          on:click={handleOptionsToggle}
+        >
+          ⚙︎
+        </button>
+        {#if showOptions}
+          <div
+            class="options-popover"
+            role="dialog"
+            aria-label="Choice options"
+            tabindex="-1"
+          >
+            <div class="options-popover-title">Choice options</div>
+            <div class="options-row">
+              <span>Set size</span>
+              <div class="options-value">
+                <select
+                  class="match-select"
+                  bind:value={sizeSelectValue}
+                  on:change={() => commitSize(sizeSelectValue)}
+                >
+                  {#each Array.from({ length: MAX_SET - MIN_SET + 1 }, (_, idx) => idx + MIN_SET) as sizeOption}
+                    <option value={sizeOption}>{sizeOption}</option>
+                  {/each}
+                </select>
+                <span class="match-size-suffix">words</span>
+              </div>
+            </div>
+            <div class="options-row">
+              <span>Direction</span>
+              <div class="options-value">
+                <select
+                  class="match-select"
+                  bind:value={directionValue}
+                  on:change={() => commitDirection(directionValue)}
+                >
+                  <option value="word-definition">Word → Definition</option>
+                  <option value="definition-word">Definition → Word</option>
+                  <option value="random">Random</option>
+                </select>
+              </div>
+            </div>
+            <div class="options-row">
+              <span># answers</span>
+              <div class="options-value">
+                <select
+                  class="match-select"
+                  bind:value={answersSelectValue}
+                  on:change={() => commitAnswers(answersSelectValue)}
+                >
+                  {#each Array.from({ length: MAX_ANSWERS - MIN_ANSWERS + 1 }, (_, idx) => idx + MIN_ANSWERS) as option}
+                    <option value={option}>{option}</option>
+                  {/each}
+                </select>
+              </div>
+            </div>
+            {#if sizeHint}
+              <div class="match-hint options-hint">{sizeHint}</div>
+            {/if}
+          </div>
+        {/if}
+      </div>
+    </div>
+  </div>
+
+  <div class="choice-board panel">
+    <div class="choice-progress">
+      <span class="choice-progress-label">{progressLabel}</span>
+      <div class="choice-progress-bar">
+        <div class="choice-progress-fill" style={`width: ${progressPercent}%`}></div>
+      </div>
+    </div>
+
+    {#if currentQuestion}
+      <div class="choice-question">
+        <span class="choice-question-lang">
+          {currentQuestion.promptField === 'word' ? 'Word' : 'Definition'}
+        </span>
+        <div class="choice-question-text">{currentQuestion.prompt}</div>
+      </div>
+      <div class="choice-subtitle" style:visibility={promptVisible ? 'visible' : 'hidden'}>
+        Choose the answer
+      </div>
+      <div class="choice-answers">
+        {#each currentQuestion.answers as answer, idx (answer.id)}
+          <button
+            type="button"
+            class="choice-answer"
+            class:is-disabled={questionLocked}
+            class:is-correct={answerStates.get(answer.id) === 'correct'}
+            class:is-wrong={answerStates.get(answer.id) === 'wrong'}
+            data-id={answer.id}
+            data-index={idx + 1}
+            on:click={() => selectAnswer(answer.id)}
+          >
+            <span class="choice-answer-index">{idx + 1}</span>
+            <span class="choice-answer-text">{answer.text || '—'}</span>
+          </button>
+        {/each}
+      </div>
+    {:else}
+      <div class="choice-question">
+        <div class="choice-question-text">{available.length < MIN_PLAYABLE ? 'Need at least two entries with both word and definition to play.' : 'Nice work! Hit Play Again to load a new set.'}</div>
+      </div>
+      <div class="choice-answers"></div>
+    {/if}
+
+    <div class="choice-feedback">{feedbackText}</div>
+    <button
+      type="button"
+      class="choice-continue"
+      hidden={!showContinue}
+      disabled={continueDisabled}
+      on:click={advanceQuestion}
+    >
+      {continueLabel}
+    </button>
+  </div>
+</section>

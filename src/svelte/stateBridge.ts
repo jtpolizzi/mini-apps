@@ -175,19 +175,19 @@ export const flashcardsActions = {
   setCurrentWordId
 };
 
-export interface WordMatchSnapshot {
+export interface FilteredWordsSnapshot {
   words: VocabEntry[];
 }
 
-function getWordMatchSnapshot(): WordMatchSnapshot {
+function getFilteredWordsSnapshot(): FilteredWordsSnapshot {
   const filtered = applyFilters(State.words);
   return {
     words: filtered
   };
 }
 
-export const wordMatchStore: Readable<WordMatchSnapshot> = readable(getWordMatchSnapshot(), (set) => {
-  const sync = () => set(getWordMatchSnapshot());
+export const filteredWordsStore: Readable<FilteredWordsSnapshot> = readable(getFilteredWordsSnapshot(), (set) => {
+  const sync = () => set(getFilteredWordsSnapshot());
   sync();
   const unsubscribe = subscribeToState(sync);
   return () => unsubscribe();
