@@ -13,6 +13,7 @@
   } from '../../assets/state.ts';
   import { openSettingsModal } from '../../assets/components/SettingsModal.ts';
   import { WEIGHT_DESCRIPTIONS, WEIGHT_SHORT_LABELS } from '../../assets/components/WeightControl.ts';
+  import ChipButton from './ui/ChipButton.svelte';
 
   const ALL_WEIGHTS = [1, 2, 3, 4, 5] as const;
   const SPARK_PATH =
@@ -320,36 +321,25 @@
 
 <section class="panel panel--topbar topbar--svelte">
   <div class="row">
-    <button class="chip" type="button" on:click={handleShuffle}>
+    <ChipButton type="button" on:click={handleShuffle}>
       Shuffle
-    </button>
-    <button
+    </ChipButton>
+    <ChipButton
       id="filters-chip"
-      class="chip"
-      type="button"
-      aria-pressed={filterCount > 0}
+      pressed={filterCount > 0}
       aria-expanded={showFilters}
-      bind:this={filtersChipEl}
+      bind:el={filtersChipEl}
       on:click={toggleFilters}
     >
       {filterCount ? `Filters (${filterCount})` : 'Filters'}
-    </button>
+    </ChipButton>
     <span class="spacer" aria-hidden="true"></span>
-    <span
-      class="countpill"
-      style="opacity: 0.85; font-weight: 700; margin-right: 8px;"
-    >
+    <span class="countpill topbar-countpill">
       {resultLabel}
     </span>
-    <button
-      class="chip chip--icon"
-      type="button"
-      aria-label="Settings"
-      title="Settings"
-      on:click={() => openSettingsModal()}
-    >
+    <ChipButton icon aria-label="Settings" title="Settings" on:click={() => openSettingsModal()}>
       <span aria-hidden="true">⚙︎</span>
-    </button>
+    </ChipButton>
     <input
       class="search"
       type="search"
@@ -369,41 +359,12 @@
   </div>
 
   {#if showFilters}
-    <div
-      class="popover"
-      bind:this={popoverEl}
-      style="
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 16px;
-        box-shadow: 0 8px 24px rgba(0,0,0,.35);
-        margin-top: 12px;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-      "
-    >
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          margin-bottom: 16px;
-          padding-bottom: 12px;
-          border-bottom: 1px solid var(--line);
-        "
-      >
-        <div style="font-weight: 700;">Saved filter sets</div>
-        <div
-          style="
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            align-items: center;
-          "
-        >
+    <div class="popover filters-popover" bind:this={popoverEl}>
+      <div class="filters-popover-header">
+        <div class="filters-heading">Saved filter sets</div>
+        <div class="saved-sets-row">
           <select
-            style="flex: 1 1 220px; min-width: 200px;"
+            class="saved-sets-select"
             bind:value={selectedSetId}
             on:change={handleSelectChange}
             disabled={!filterSets.length}
@@ -417,93 +378,62 @@
               </option>
             {/each}
           </select>
-          <button
-            class="chip chip--icon"
-            type="button"
+          <ChipButton
+            icon
             aria-label="Load selected set"
             title="Load selected set"
             disabled={!hasSelection()}
             on:click={handleLoadSet}
           >
             <span aria-hidden="true">⇩</span>
-          </button>
-          <button
-            class="chip chip--icon"
-            type="button"
+          </ChipButton>
+          <ChipButton
+            icon
             aria-label="Update selected set"
             title="Update selected set"
             disabled={!hasSelection()}
             on:click={handleUpdateSet}
           >
             <span aria-hidden="true">⟳</span>
-          </button>
-          <button
-            class="chip chip--icon"
-            type="button"
+          </ChipButton>
+          <ChipButton
+            icon
             aria-label="Save current filters as new set"
             title="Save current filters as new set"
             on:click={handleSaveSet}
           >
             <span aria-hidden="true">＋</span>
-          </button>
-          <button
-            class="chip chip--icon"
-            type="button"
+          </ChipButton>
+          <ChipButton
+            icon
             aria-label="Delete selected set"
             title="Delete selected set"
             disabled={!hasSelection()}
             on:click={handleDeleteSet}
           >
             <span aria-hidden="true">🗑</span>
-          </button>
+          </ChipButton>
         </div>
         {#if statusMessage}
-          <div style="font-size: 12px; color: var(--fg-dim);">
+          <div class="saved-status">
             {statusMessage}
           </div>
         {/if}
       </div>
 
-      <div
-        style="
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 12px;
-          margin-bottom: 12px;
-        "
-      >
-        <div style="font-weight: 700;">Quick filters</div>
-        <button
-          class="chip"
-          type="button"
-          aria-pressed={filters.starred}
-          on:click={toggleStarred}
-        >
+      <div class="quick-filters-header">
+        <div class="quick-filters-title">Quick filters</div>
+        <ChipButton pressed={filters.starred} on:click={toggleStarred}>
           Only ★
-        </button>
+        </ChipButton>
       </div>
 
-      <div
-        style="
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-          gap: 12px;
-        "
-      >
-        <div>
-          <div style="font-weight: 700; margin-bottom: 6px;">POS</div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 6px;
-              max-height: 40vh;
-              overflow: auto;
-            "
-          >
+      <div class="facet-columns">
+        <div class="facet-column">
+          <div class="facet-column-title">POS</div>
+          <div class="facet-options">
             {#each posValues as value}
-              <label style="display: flex; align-items: center; gap: 8px;">
+              <label class="facet-option">
                 <input
                   type="checkbox"
                   checked={isFacetChecked('pos', value)}
@@ -515,19 +445,11 @@
           </div>
         </div>
 
-        <div>
-          <div style="font-weight: 700; margin-bottom: 6px;">CEFR</div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 6px;
-              max-height: 40vh;
-              overflow: auto;
-            "
-          >
+        <div class="facet-column">
+          <div class="facet-column-title">CEFR</div>
+          <div class="facet-options">
             {#each cefrValues as value}
-              <label style="display: flex; align-items: center; gap: 8px;">
+              <label class="facet-option">
                 <input
                   type="checkbox"
                   checked={isFacetChecked('cefr', value)}
@@ -539,22 +461,14 @@
           </div>
         </div>
 
-        <div>
-          <div style="font-weight: 700; margin-bottom: 6px;">Tags</div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 6px;
-              max-height: 40vh;
-              overflow: auto;
-            "
-          >
+        <div class="facet-column">
+          <div class="facet-column-title">Tags</div>
+          <div class="facet-options">
             {#if tagValues.length === 0}
-              <span style="color: var(--fg-dim); font-size: 12px;">No tags detected yet.</span>
+              <span class="facet-empty">No tags detected yet.</span>
             {:else}
               {#each tagValues as value}
-                <label style="display: flex; align-items: center; gap: 8px;">
+                <label class="facet-option">
                   <input
                     type="checkbox"
                     checked={isFacetChecked('tags', value)}
@@ -568,8 +482,8 @@
         </div>
       </div>
 
-      <div style="grid-column: 1 / -1; margin-top: 12px;">
-        <div style="font-weight: 700; margin-bottom: 6px;">Weight</div>
+      <div class="weight-section">
+        <div class="facet-column-title">Weight</div>
         <div class="weight-chip-row">
           {#each ALL_WEIGHTS as weight}
             <button
@@ -588,21 +502,214 @@
         </div>
       </div>
 
-      <div
-        style="
-          display: flex;
-          gap: 8px;
-          justify-content: flex-end;
-          margin-top: 12px;
-        "
-      >
-        <button class="chip" type="button" on:click={handleClearFilters}>
+      <div class="filters-footer">
+        <ChipButton on:click={handleClearFilters}>
           Clear
-        </button>
-        <button class="chip" type="button" on:click={() => (showFilters = false)}>
+        </ChipButton>
+        <ChipButton on:click={() => (showFilters = false)}>
           Close
-        </button>
+        </ChipButton>
       </div>
     </div>
   {/if}
 </section>
+
+<style>
+  .topbar-countpill {
+    opacity: 0.85;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  .panel--topbar {
+    margin: 8px 0 0;
+    padding: 8px 16px 10px;
+  }
+
+  .popover {
+    background: #151a31;
+    color: var(--fg);
+  }
+
+  .popover label {
+    color: var(--fg);
+  }
+
+  .popover input[type='checkbox'] {
+    accent-color: var(--accent);
+  }
+
+  .popover select {
+    background: #1a1f38;
+    color: var(--fg);
+    border: 1px solid #4a5470;
+    border-radius: 10px;
+    padding: 6px 10px;
+    font: inherit;
+    min-height: 32px;
+  }
+
+  .popover select:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .filters-popover {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    margin-top: 12px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .filters-popover-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .filters-heading {
+    font-weight: 700;
+  }
+
+  .saved-sets-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .saved-sets-select {
+    flex: 1 1 220px;
+    min-width: 200px;
+  }
+
+  .saved-status {
+    font-size: 12px;
+    color: var(--fg-dim);
+  }
+
+  .quick-filters-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .quick-filters-title {
+    font-weight: 700;
+  }
+
+  .facet-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .facet-column {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .facet-column-title {
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .facet-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 40vh;
+    overflow: auto;
+  }
+
+  .facet-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .facet-empty {
+    color: var(--fg-dim);
+    font-size: 12px;
+  }
+
+  .weight-section {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+  }
+
+  .filters-footer {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+
+  .weight-chip-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .weight-chip {
+    border: 1px solid #3e4564;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: var(--fg);
+    font-weight: 600;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+
+  .weight-chip__icon {
+    width: 18px;
+    height: 18px;
+    filter: drop-shadow(0 0 6px currentColor);
+    color: currentColor;
+  }
+
+  .weight-chip[aria-pressed='true'] {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: currentColor;
+  }
+
+  .weight-chip[aria-pressed='false'] {
+    opacity: 0.45;
+  }
+
+  .weight-chip--1 {
+    color: var(--weight-1);
+  }
+
+  .weight-chip--2 {
+    color: var(--weight-2);
+  }
+
+  .weight-chip--3 {
+    color: var(--weight-3);
+  }
+
+  .weight-chip--4 {
+    color: var(--weight-4);
+  }
+
+  .weight-chip--5 {
+    color: var(--weight-5);
+  }
+</style>

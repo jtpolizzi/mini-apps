@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Prog, type ColumnsState } from '../../assets/state.ts';
   import { wordListStore, wordListActions } from './stateBridge';
+  import WeightSparkControl from './ui/WeightSparkControl.svelte';
   import { tick } from 'svelte';
 
   const wordState = wordListStore;
@@ -164,12 +165,6 @@
     Prog.setWeight(termKey, next);
   }
 
-  function handleWheelWeight(event: WheelEvent, termKey: string) {
-    event.preventDefault();
-    const delta = event.deltaY > 0 ? 1 : -1;
-    changeWeight(termKey, delta);
-  }
-
   let lastVisibleId = '';
   let lastKnownRows: string[] = [];
 
@@ -288,51 +283,13 @@
                 </button>
               </td>
               <td class:hide={!$wordState.columns.weight}>
-                <div
-                  class="weight-spark weight-spark--compact"
-                  role="group"
-                  aria-label="Adjust weight"
-                  style={`--weight-spark-color: ${WEIGHT_COLORS[weightValue]};`}
-                  on:wheel={(event) => handleWheelWeight(event, row.termKey)}
-                >
-                  <button
-                    type="button"
-                    class="weight-spark__btn"
-                    aria-label="See less often"
-                    on:click={(event) => {
-                      event.stopPropagation();
-                      changeWeight(row.termKey, -1);
-                    }}
-                    on:pointerdown={(event) => event.stopPropagation()}
-                  >
-                    −
-                  </button>
-                  <div
-                    class="weight-spark__core"
-                    title={WEIGHT_DESCRIPTIONS[weightValue]}
-                  >
-                    <svg class="weight-spark__icon" viewBox="0 0 24 24" aria-hidden="true">
-                      <path
-                        d="M9 4.5c.335 0 .629.222.721.544l.813 2.846c.356 1.246 1.33 2.219 2.576 2.575l2.846.814c.322.092.544.386.544.721s-.222.629-.544.721l-2.846.813c-1.246.356-2.22 1.33-2.576 2.576l-.813 2.846c-.092.322-.386.544-.721.544s-.629-.222-.721-.544l-.813-2.846c-.356-1.246-1.33-2.22-2.576-2.576l-2.846-.813C2.222 12.629 2 12.335 2 12s.222-.629.544-.721l2.846-.814c1.246-.356 2.22-1.33 2.576-2.575l.813-2.846C8.371 4.722 8.665 4.5 9 4.5Zm9-3c.344 0 .644.234.728.568l.259 1.035c.235.94.97 1.675 1.91 1.91l1.035.259c.334.083.568.383.568.728s-.234.644-.568.727l-1.035.259c-.94.235-1.675.97-1.91 1.91l-.259 1.035A.75.75 0 0 1 18 10.5a.75.75 0 0 1-.728-.568l-.259-1.035c-.235-.94-.97-1.675-1.91-1.91l-1.035-.259A.75.75 0 0 1 13.5 6c0-.345.234-.645.568-.728l1.035-.259c.94-.235 1.675-.97 1.91-1.91l.259-1.035A.75.75 0 0 1 18 1.5Zm-1.5 13.5c.323 0 .61.206.712.513l.394 1.183c.149.448.501.8.949.949l1.183.394c.306.102.512.389.512.712s-.206.61-.512.712l-1.183.394a1.5 1.5 0 0 0-.949.949l-.394 1.183a.75.75 0 0 1-1.424 0l-.394-1.183a1.5 1.5 0 0 0-.949-.949l-1.183-.394A.75.75 0 0 1 12.75 18c0-.323.206-.61.512-.712l1.183-.394a1.5 1.5 0 0 0 .949-.949l.394-1.183a.75.75 0 0 1 .712-.513Z"
-                        fill="currentColor"
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <button
-                    type="button"
-                    class="weight-spark__btn"
-                    aria-label="See more often"
-                    on:click={(event) => {
-                      event.stopPropagation();
-                      changeWeight(row.termKey, 1);
-                    }}
-                    on:pointerdown={(event) => event.stopPropagation()}
-                  >
-                    +
-                  </button>
-                </div>
+                <WeightSparkControl
+                  compact
+                  value={weightValue}
+                  color={WEIGHT_COLORS[weightValue]}
+                  title={WEIGHT_DESCRIPTIONS[weightValue]}
+                  on:change={(event) => changeWeight(row.termKey, event.detail.delta)}
+                />
               </td>
               <td class:hide={!$wordState.columns.word}>{row.word}</td>
               <td class:hide={!$wordState.columns.definition}>{row.definition}</td>
@@ -348,9 +305,39 @@
 </section>
 
 <style>
-  /* TODO: once the vanilla Word List is retired, delete the duplicated styles in assets/styles.css */
+  :global(body.wordlist-lock) {
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(body.wordlist-lock main#app),
+  :global(body.wordlist-lock #view) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .wordlist-view,
+  .wordlist-view--svelte {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-top: 4px;
+  }
+
   .wordlist-view--svelte {
     padding: 0;
+  }
+
+  .wordlist-scroll {
+    flex: 1;
+    overflow: auto;
+    padding: 0 0 24px;
+    scroll-padding-top: 0;
   }
 
   .wordlist-view--svelte table {
@@ -359,6 +346,59 @@
     border-spacing: 0 6px;
     position: relative;
     z-index: 1;
+  }
+
+  .wordlist-view--svelte thead th {
+    font-weight: 700;
+    color: var(--fg-dim);
+    text-align: left;
+    padding: 8px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .wordlist-view--svelte thead th .sort-arrow {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    opacity: 0.95;
+    vertical-align: middle;
+  }
+
+  .wordlist-view--svelte thead th.sorted {
+    color: var(--fg);
+  }
+
+  .wordlist-view--svelte thead th[data-key='cefr'] {
+    min-width: 84px;
+  }
+
+  .wordlist-view--svelte thead th[data-key='pos'] {
+    min-width: 72px;
+  }
+
+  .wordlist-view--svelte thead th[data-key='tags'] {
+    min-width: 120px;
+  }
+
+  .wordlist-view--svelte .wordlist-scroll thead {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    background: #121631;
+    box-shadow: 0 1px 0 0 var(--line) inset;
+  }
+
+  .wordlist-view--svelte tbody td {
+    background: #1b2137;
+    padding: 10px;
+    border-top: 1px solid #2a345a;
+    border-bottom: 1px solid #2a345a;
+  }
+
+  .wordlist-view--svelte tbody tr {
+    cursor: pointer;
   }
 
   .wordlist-view--svelte tbody tr td:first-child {
@@ -373,8 +413,15 @@
     border-bottom-right-radius: 12px;
   }
 
-  .wordlist-view--svelte tbody tr.is-current {
+  .wordlist-view--svelte tbody tr:focus-visible td {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .wordlist-view--svelte tbody tr.is-current td {
     background: #252d4b;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px rgba(138, 164, 255, 0.35);
   }
 
   .wordlist-view--svelte .iconbtn {
@@ -393,66 +440,6 @@
     height: 18px;
     color: var(--weight-3);
     filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
-  }
-
-  .wordlist-view--svelte .weight-spark {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .wordlist-view--svelte .weight-spark__btn {
-    width: 24px;
-    height: 24px;
-    border-radius: 8px;
-    border: 1px solid #3e4564;
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--fg);
-    font-size: 15px;
-    line-height: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-  }
-
-  .wordlist-view--svelte .weight-spark__core {
-    width: 24px;
-    height: 24px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.04);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45);
-  }
-
-  .wordlist-view--svelte .weight-spark__icon {
-    width: 18px;
-    height: 18px;
-    filter: drop-shadow(0 0 6px currentColor);
-  }
-
-  .wordlist-view--svelte .weight-spark--compact {
-    gap: 2px;
-  }
-
-  .wordlist-view--svelte .weight-spark--compact .weight-spark__btn {
-    width: 22px;
-    height: 22px;
-    font-size: 14px;
-  }
-
-  .wordlist-view--svelte .weight-spark--compact .weight-spark__core {
-    width: 22px;
-    height: 22px;
-  }
-
-  .wordlist-view--svelte .weight-spark--compact .weight-spark__icon {
-    width: 16px;
-    height: 16px;
   }
 
   .wordlist-view--svelte .hide {

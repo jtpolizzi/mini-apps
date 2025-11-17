@@ -2,6 +2,7 @@
   import { onDestroy } from 'svelte';
   import { LS, type VocabEntry } from '../../assets/state.ts';
   import { filteredWordsStore } from './stateBridge';
+  import ChipButton from './ui/ChipButton.svelte';
 
   const PREF_KEY = 'v24:matchPrefs';
   const DEFAULT_PREFS = { size: 10, direction: 'word-definition', collapseMatches: false } as const;
@@ -401,25 +402,24 @@
       <span class="match-status-text">{statusText}</span>
     </div>
     <div class="match-toolbar-actions">
-      <button
-        type="button"
-        class="chip match-play-again"
-        class:is-celebrate={celebrateWin}
+      <ChipButton
+        class="match-play-again"
+        data-celebrate={celebrateWin ? 'true' : null}
         on:click={startRound}
         disabled={playAgainDisabled}
       >
         Play Again
-      </button>
+      </ChipButton>
       <div class="options-anchor" bind:this={optionsAnchor}>
-        <button
-          type="button"
-          class="chip chip--icon match-options-btn"
+        <ChipButton
+          class="match-options-btn"
+          icon
           aria-label="Match options"
           aria-expanded={showOptions}
           on:click={toggleOptions}
         >
           ⚙︎
-        </button>
+        </ChipButton>
         {#if showOptions}
           <div
             class="options-popover"
@@ -568,16 +568,16 @@
     font-weight: 600;
   }
 
-  .match-play-again {
+  :global(.match-play-again) {
     min-width: 140px;
   }
 
-  .match-play-again:disabled {
+  :global(.match-play-again:disabled) {
     opacity: 0.5;
     cursor: default;
   }
 
-  .match-play-again.is-celebrate {
+  :global(.match-play-again[data-celebrate='true']) {
     animation: pulse 1.4s infinite;
   }
 

@@ -8,6 +8,8 @@ This doc is for Codex to read at the beginning of every session - for guidelines
 
 * This is a single developer / single user app. I am the only developer and the only user. It is only deployed on MY devices.
 
+* So, there is no need to worry about waiting till all users... or, rollout / deployment issues, other than whatever I need it to do, for me.
+
 ## Rules
 
 * Assume that I want to DISCUSS things with you before you just go off an start coding. I like to be part of the planning, design, etc.

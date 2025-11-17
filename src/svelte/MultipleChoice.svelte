@@ -2,6 +2,7 @@
   import { onDestroy, onMount } from 'svelte';
   import { LS, type VocabEntry } from '../../assets/state.ts';
   import { filteredWordsStore } from './stateBridge';
+  import ChipButton from './ui/ChipButton.svelte';
 
   const PREF_KEY = 'v24:choicePrefs';
   const DEFAULT_PREFS = { size: 10, direction: 'word-definition', answers: 4 } as const;
@@ -445,30 +446,29 @@ let initialized = false;
 </script>
 
 <section class="choice-wrap">
-  <div class="match-toolbar panel match-toolbar--lean">
-    <div class="match-toolbar-item match-status-wrap">
-      <span class="match-status-text">{statusText}</span>
+  <div class="choice-toolbar panel choice-toolbar--lean">
+    <div class="choice-toolbar-item choice-status">
+      <span class="choice-status-text">{statusText}</span>
     </div>
-    <div class="match-toolbar-actions">
-      <button
-        type="button"
-        class="chip match-play-again"
-        class:is-celebrate={currentQuestion === null && roundWords.length > 0}
+    <div class="choice-toolbar-actions">
+      <ChipButton
+        class="choice-play-again"
+        data-celebrate={currentQuestion === null && roundWords.length > 0 ? 'true' : null}
         on:click={startRound}
         disabled={playAgainDisabled}
       >
         Play Again
-      </button>
+      </ChipButton>
       <div class="options-anchor" bind:this={optionsAnchor}>
-        <button
-          type="button"
-          class="chip chip--icon match-options-btn"
+        <ChipButton
+          class="choice-options-btn"
+          icon
           aria-label="Choice options"
           aria-expanded={showOptions}
           on:click={handleOptionsToggle}
         >
           ⚙︎
-        </button>
+        </ChipButton>
         {#if showOptions}
           <div
             class="options-popover"
@@ -481,7 +481,7 @@ let initialized = false;
               <span>Set size</span>
               <div class="options-value">
                 <select
-                  class="match-select"
+                  class="choice-select"
                   bind:value={sizeSelectValue}
                   on:change={() => commitSize(sizeSelectValue)}
                 >
@@ -489,14 +489,14 @@ let initialized = false;
                     <option value={sizeOption}>{sizeOption}</option>
                   {/each}
                 </select>
-                <span class="match-size-suffix">words</span>
+                <span class="choice-size-suffix">words</span>
               </div>
             </div>
             <div class="options-row">
               <span>Direction</span>
               <div class="options-value">
                 <select
-                  class="match-select"
+                  class="choice-select"
                   bind:value={directionValue}
                   on:change={() => commitDirection(directionValue)}
                 >
@@ -510,7 +510,7 @@ let initialized = false;
               <span># answers</span>
               <div class="options-value">
                 <select
-                  class="match-select"
+                  class="choice-select"
                   bind:value={answersSelectValue}
                   on:change={() => commitAnswers(answersSelectValue)}
                 >
@@ -521,7 +521,7 @@ let initialized = false;
               </div>
             </div>
             {#if sizeHint}
-              <div class="match-hint options-hint">{sizeHint}</div>
+              <div class="choice-hint options-hint">{sizeHint}</div>
             {/if}
           </div>
         {/if}
@@ -598,7 +598,7 @@ let initialized = false;
     gap: 16px;
   }
 
-  .match-toolbar {
+  .choice-toolbar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -607,14 +607,14 @@ let initialized = false;
     padding: 10px 16px;
   }
 
-  .match-toolbar-item {
+  .choice-toolbar-item {
     display: flex;
     align-items: center;
     gap: 6px;
     font-size: 13px;
   }
 
-  .match-toolbar-actions {
+  .choice-toolbar-actions {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -664,7 +664,7 @@ let initialized = false;
     color: var(--accent);
   }
 
-  .match-select {
+  .choice-select {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 10px;
@@ -672,6 +672,15 @@ let initialized = false;
     padding: 4px 8px;
     font: inherit;
     min-width: 80px;
+  }
+
+  .choice-size-suffix {
+    color: var(--fg-dim);
+    font-size: 12px;
+  }
+
+  .choice-hint {
+    margin-top: 4px;
   }
 
   .choice-progress {

@@ -8,6 +8,7 @@
     setSort,
     type ColumnsState
   } from '../../assets/state.ts';
+  import ChipButton from './ui/ChipButton.svelte';
 
   type ColumnKey = keyof ColumnsState;
   const columnKeys: ColumnKey[] = ['star', 'weight', 'word', 'definition', 'pos', 'cefr', 'tags'];
@@ -108,13 +109,13 @@
 
     <section>
       <div class="reset-actions">
-        <button type="button" class="chip" on:click={resetFiltersAndOrder}>Reset filters &amp; order</button>
-        <button type="button" class="chip chip--danger" on:click={clearAllData}>Clear all saved data</button>
+        <ChipButton on:click={resetFiltersAndOrder}>Reset filters &amp; order</ChipButton>
+        <ChipButton variant="danger" on:click={clearAllData}>Clear all saved data</ChipButton>
       </div>
     </section>
 
     <div class="modal-footer">
-      <button type="button" class="chip" on:click={close}>Close</button>
+      <ChipButton on:click={close}>Close</ChipButton>
     </div>
   </div>
 </div>
@@ -180,21 +181,4 @@
     margin-top: 16px;
   }
 
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 14px;
-    border-radius: 16px;
-    border: 1px solid var(--line);
-    background: rgba(255, 255, 255, 0.07);
-    color: var(--fg);
-    cursor: pointer;
-  }
-
-  .chip--danger {
-    background: #6b192c;
-    border-color: #ff4d7d;
-    color: #fff;
-  }
 </style>

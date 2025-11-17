@@ -1,22 +1,22 @@
-# Handover Notes – v2.14.8
+# Handover Notes – v2.14.9
 
 ## Current Status
 - Repository renamed to `language-vocab` and the app now lives at the repo root.
 - Build tooling: `npm run dev` (Vite dev server), `npm run test` (Vitest + happy-dom), `npm run build` (Vite production bundle).
 - GitHub Pages workflow (`.github/workflows/pages.yml`) builds with Node 22 and deploys the `dist/` output. Pages URL: https://jtpolizzi.github.io/language-vocab/ (formerly `/mini-apps/language-vocab`).
 - Public assets (e.g., `public/data/words.tsv`) are copied automatically by Vite and included in the build.
-- Step B kicked off: Svelte (+ plugin) is now in the toolchain with a state-bridged Word List prototype that shares the existing store/actions.
+- v2.14 Svelte migration is underway: Svelte (+ plugin) is now part of the Vite toolchain and every surface consumes the shared store/actions via the bridge helpers.
 - The Svelte Word List is now the sole implementation (`#/list` nav item); the legacy view has been retired.
-- The shared Top Bar now ships as a Svelte component (shuffle, search, filters popover, saved sets, weight/facet toggles, settings modal) while every route still runs on the legacy logic.
+- The shared Top Bar ships as a Svelte component (shuffle, search, filters popover, saved sets, weight/facet toggles, settings modal).
 - Flashcards run through Svelte too—the centered card layout, sticky star/weight controls, fixed bottom nav, progress slider, tap zones, swipe gestures, keyboard shortcuts, and `setCurrentWordId` sync all mirror the legacy experience.
 - Word Match moved to Svelte; prefs (set size/direction/collapse), quick-play automation, and match/mismatch animations now live in the component while sharing the same filtered word pool as other routes.
 - Multiple Choice is now Svelte-based: progress UI, answer feedback, keyboard shortcuts, and the LS-backed size/direction/answers prefs all ride through the shared store/actions.
 - Settings modal and overlays (debug toggle, column selection, reset/clear actions) now run through Svelte, keeping the `#settings` route + Top Bar trigger intact while sharing the same component logic.
 
-## Upcoming Step B Items
-1. **Migrate remaining views** – continue the Svelte rollout with Settings/overlays next, then CSS colocation once every view is native.
-2. **Document findings** – record DX/perf learnings from the migrations in NOTES/ARCHITECTURE to guide the go/no-go decision.
-3. **Tooling follow-ups** – extend ESLint/Prettier/Vitest coverage for `.svelte` files once all migrations land, then trim any legacy helpers.
+## Upcoming v2.14 Tasks
+1. **Legacy helper cleanup** – finish wiring the Svelte `WeightSparkControl` everywhere and retire the old `assets/components/WeightControl.ts` helper/tests so only the new component is authoritative.
+2. **Global CSS audit** – review what’s left in `assets/styles.css` (modal overlay, icon buttons, app shell) and decide which pieces become shared Svelte primitives versus permanent tokens/utilities.
+3. **Tooling follow-ups** – extend ESLint/Prettier/Vitest coverage for `.svelte` files, then trim any remaining vanilla DOM helpers once the shared components are in place.
 
 ## Deployment Checklist
 1. `npm install`
@@ -24,11 +24,11 @@
 3. Commit/push to `main` – the “Deploy static site” workflow builds/tests and publishes to GitHub Pages automatically.
 
 ## Next Session
-- Prep a parity checklist + work plan for the next Svelte migration target (Word Match is the most bespoke view with custom layout, animations, and prefs). Checklist should cover layout, typography, board spacing, compact mode, quick-play toggles, keyboard/touch selection, and edge cases.
-- Agree on the store contract and persistence strategy the new Svelte view will consume/emit (filtered pool, shuffle order, size/direction/collapse prefs, quick play flag) and decide which shared styles remain global vs. move into the component.
-- Once the plan is approved, implement the component in deliberate batches (data/prefs bridge → board rendering → interactions/animations) and only then retire the duplicate CSS when the legacy view goes away.
+- Remove the unused `assets/components/WeightControl.ts` + tests after verifying every view uses the Svelte `WeightSparkControl`.
+- Audit the remaining global selectors (modal overlay, icon buttons, layout helpers) and propose which should convert into shared Svelte components.
+- Outline the lint/test/tooling updates needed once the CSS audit lands (ESLint plugin for Svelte, Prettier config, Vitest component harness + component tests).
 
-### Svelte Flashcards – Parity Checklist & Store Contract
+### Svelte Flashcards – Parity Checklist & Store Contract (reference)
 **Layout / visual**
 - Preserve the centered card stack (`width: min(100%, 720px)`), bottom nav counter, and the persistent overlays in the top-right corner. Respect current spacing tokens so cards sit flush under the header/top bar.
 - Typography: keep the card word/definition sizes, the nav counter font (16 px bold), and the overlay chip sizes. Translation line still uses the muted style that toggles via settings.
@@ -52,7 +52,7 @@
 - Keep design tokens (colors, spacing, typography) in `assets/styles.css`; move card-specific layout into the `.svelte` file so we can remove the legacy CSS once Flashcards migrates.
 - Reuse shared chip/overlay styles where possible so the Svelte and legacy views stay visually interchangeable until the legacy code is deleted; once the legacy view is gone, lift those Flashcards rules out of `assets/styles.css` and colocate them inside `Flashcards.svelte` so the component is fully self-contained.
 
-### Svelte Word Match – Parity Checklist & Store Contract
+### Svelte Word Match – Parity Checklist & Store Contract (reference)
 **Layout / visual**
 - Preserve the current toolbar stack (status pill, quick play toggle, size slider, direction selector, collapse toggle) plus the two-column board with consistent spacing, divider line, and the compact-matches class that collapses cleared rows.
 - Maintain the empty state (“Adjust your filters to load words.”), the match/mismatch animations, and the cleared-card collapse so the board doesn’t jitter when pairs disappear.

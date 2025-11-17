@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { flashcardsStore, flashcardsActions } from './stateBridge';
   import { Prog, type VocabEntry } from '../../assets/state.ts';
+  import WeightSparkControl from './ui/WeightSparkControl.svelte';
 
   interface PointerGesture {
     id: number;
@@ -266,13 +267,6 @@
     updateCurrentWord();
   }
 
-  function handleWeightWheel(event: WheelEvent) {
-    event.preventDefault();
-    const delta = event.deltaY > 0 ? 1 : -1;
-    changeWeight(delta);
-    suppressNextCardClick = true;
-  }
-
   function handleSliderInput(event: Event) {
     if (sliderDisabled) return;
     const target = event.currentTarget as HTMLInputElement;
@@ -306,9 +300,6 @@
       .filter(Boolean)
       .join(', ');
   }
-
-  const SPARK_PATH =
-    'M9 4.5c.335 0 .629.222.721.544l.813 2.846c.356 1.246 1.33 2.219 2.576 2.575l2.846.814c.322.092.544.386.544.721s-.222.629-.544.721l-2.846.813c-1.246.356-2.22 1.33-2.576 2.576l-.813 2.846c-.092.322-.386.544-.721.544s-.629-.222-.721-.544l-.813-2.846c-.356-1.246-1.33-2.22-2.576-2.576l-2.846-.813C2.222 12.629 2 12.335 2 12s.222-.629.544-.721l2.846-.814c1.246-.356 2.22-1.33 2.576-2.575l.813-2.846C8.371 4.722 8.665 4.5 9 4.5Zm9-3c.344 0 .644.234.728.568l.259 1.035c.235.94.97 1.675 1.91 1.91l1.035.259c.334.083.568.383.568.728s-.234.644-.568.727l-1.035.259c-.94.235-1.675.97-1.91 1.91l-.259 1.035A.75.75 0 0 1 18 10.5a.75.75 0 0 1-.728-.568l-.259-1.035c-.235-.94-.97-1.675-1.91-1.91l-1.035-.259A.75.75 0 0 1 13.5 6c0-.345.234-.645.568-.728l1.035-.259c.94-.235 1.675-.97 1.91-1.91l.259-1.035A.75.75 0 0 1 18 1.5Zm-1.5 13.5c.323 0 .61.206.712.513l.394 1.183c.149.448.501.8.949.949l1.183.394c.306.102.512.389.512.712s-.206.61-.512.712l-1.183.394a1.5 1.5 0 0 0-.949.949l-.394 1.183a.75.75 0 0 1-1.424 0l-.394-1.183a1.5 1.5 0 0 0-.949-.949l-1.183-.394A.75.75 0 0 1 12.75 18c0-.323.206-.61.512-.712l1.183-.394a1.5 1.5 0 0 0 .949-.949l.394-1.183a.75.75 0 0 1 .712-.513Z';
 
   $: weightValue = clampWeight(currentWord ? Prog.weight(currentWord.termKey) : 3);
   $: starActive = currentWord ? !!Prog.star(currentWord.termKey) : false;
@@ -356,38 +347,19 @@
         >
           {starActive ? '★' : '☆'}
         </button>
-        <div
-          class="weight-spark"
-          role="group"
-          aria-label="Adjust weight"
-          style={`--weight-spark-color: ${WEIGHT_COLORS[weightValue]};`}
-          data-value={weightValue}
-          on:wheel={handleWeightWheel}
-        >
-          <button
-            type="button"
-            class="weight-spark__btn"
-            aria-label="See less often"
-            on:pointerdown={handleTopControlPointerDown}
-            on:click={() => changeWeight(-1)}
-          >
-            −
-          </button>
-          <div class="weight-spark__core" title={WEIGHT_DESCRIPTIONS[weightValue]}>
-            <svg class="weight-spark__icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d={SPARK_PATH} fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
-            </svg>
-          </div>
-          <button
-            type="button"
-            class="weight-spark__btn"
-            aria-label="See more often"
-            on:pointerdown={handleTopControlPointerDown}
-            on:click={() => changeWeight(1)}
-          >
-            +
-          </button>
-        </div>
+        <WeightSparkControl
+          value={weightValue}
+          color={WEIGHT_COLORS[weightValue]}
+          title={WEIGHT_DESCRIPTIONS[weightValue]}
+          stopPointerEvents={false}
+          on:pointerdown={handleTopControlPointerDown}
+          on:change={(event) => {
+            changeWeight(event.detail.delta);
+            if (event.detail.source === 'wheel') {
+              suppressNextCardClick = true;
+            }
+          }}
+        />
       </div>
 
       <div class="card-content">
@@ -433,6 +405,10 @@
 </section>
 
 <style>
+  :global(body.pad-bottom) {
+    padding-bottom: 72px;
+  }
+
   .card {
     position: relative;
     max-width: 720px;
