@@ -68,3 +68,10 @@
 **Shared styling**
 - Keep toolbar + popover + chip styles in `assets/styles.css`; move board/tile-specific layout and animations into the `.svelte` file (or colocated CSS) so the legacy selectors can be removed once the migration is complete.
 - Reuse palette tokens (`--line`, accent, background gradients) so the board looks identical during the overlap period.
+
+## Sequenced Roadmap
+1. **v2.14.5 – Word Match migration**: Move the match board + toolbar into Svelte using the existing store/prefs, then delete the legacy view once parity is confirmed.
+2. **v2.14.6 – Multiple Choice migration**: Rebuild the quiz view in Svelte, reusing the filtered pool + shared actions, and retire the vanilla implementation.
+3. **v2.14.7 – Settings + overlays**: Port the settings modal (and always-mounted helpers like the debug panel/body locks) into Svelte so every surface uses the same stack.
+4. **v2.14.8 – CSS colocation**: After every view is Svelte-native, move view-specific styles from `assets/styles.css` into their `.svelte` files, leaving only tokens/global resets globally.
+5. **v2.14.9 – Tooling/tests polish**: Expand ESLint/Vitest coverage for the Svelte files (component tests, lint rules) and tidy any remaining automation gaps.
