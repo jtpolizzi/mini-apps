@@ -431,3 +431,139 @@
     </button>
   </div>
 </section>
+
+<style>
+  .card {
+    position: relative;
+    max-width: 720px;
+    width: min(100%, 720px);
+    margin: 40px auto;
+    background: #1b2137;
+    border-radius: 20px;
+    padding: 40px 32px;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 44px;
+    line-height: 1.2;
+    transition: all 0.2s ease-in-out;
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .card:hover {
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+
+  .topright {
+    position: absolute;
+    right: 20px;
+    top: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .footmeta {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 40px;
+    text-align: center;
+    color: var(--fg-dim);
+    font: 500 14px system-ui;
+  }
+
+  .meta-line {
+    margin-bottom: 6px;
+  }
+
+  .translation {
+    font-size: 20px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  .bottombar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 18, 32, 0.9);
+    backdrop-filter: saturate(1.2) blur(8px);
+    border-top: 1px solid var(--line);
+    padding: 10px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    z-index: 999;
+  }
+
+  .bigbtn {
+    flex: 1 1 110px;
+    min-width: 110px;
+    max-width: 160px;
+    padding: 14px 22px;
+    border-radius: 14px;
+    border: 1px solid #56608a;
+    background: #1f2440;
+    color: var(--fg);
+    font: 600 17px system-ui;
+    cursor: pointer;
+  }
+
+  .flash-progress {
+    max-width: 520px;
+    margin: 0 auto 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .choice-progress-label {
+    text-align: center;
+    font-size: 14px;
+    color: var(--fg-dim);
+  }
+
+  .flash-progress-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    border-radius: 999px;
+    background: #1c1f30;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .flash-progress-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid #050814;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  }
+
+  .flash-progress-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid #050814;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  }
+
+  .flash-progress-slider:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+</style>

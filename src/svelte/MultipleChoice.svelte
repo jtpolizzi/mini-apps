@@ -583,3 +583,230 @@ let initialized = false;
     </button>
   </div>
 </section>
+
+<style>
+  .choice-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .choice-board {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .match-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 16px;
+  }
+
+  .match-toolbar-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .match-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .options-anchor {
+    position: relative;
+    display: flex;
+  }
+
+  .options-popover {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: min(320px, 80vw);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px;
+    background: #151a31;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+    z-index: 40;
+  }
+
+  .options-popover-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .options-row {
+    display: grid;
+    grid-template-columns: minmax(120px, auto) minmax(0, 1fr);
+    gap: 12px;
+    font-size: 13px;
+    margin-bottom: 10px;
+    align-items: center;
+  }
+
+  .options-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .options-hint {
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  .match-select {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: var(--fg);
+    padding: 4px 8px;
+    font: inherit;
+    min-width: 80px;
+  }
+
+  .choice-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .choice-progress-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--fg-dim);
+  }
+
+  .choice-progress-bar {
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+
+  .choice-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.2s ease;
+  }
+
+  .choice-question {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .choice-question-lang {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .choice-question-text {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .choice-subtitle {
+    font-size: 14px;
+    color: var(--fg-dim);
+  }
+
+  .choice-answers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .choice-answer {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+
+  .choice-answer:hover:not(.is-disabled) {
+    border-color: var(--accent);
+    transform: translateX(2px);
+  }
+
+  .choice-answer-index {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--fg-dim);
+    width: 28px;
+    text-align: center;
+  }
+
+  .choice-answer-text {
+    flex: 1 1 auto;
+  }
+
+  .choice-answer.is-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .choice-answer.is-correct {
+    border-color: var(--weight-4);
+    background: rgba(100, 255, 150, 0.1);
+  }
+
+  .choice-answer.is-wrong {
+    border-color: #ea5f6b;
+    background: rgba(234, 95, 107, 0.1);
+  }
+
+  .choice-feedback {
+    font-size: 16px;
+    font-weight: 600;
+    min-height: 24px;
+  }
+
+  .choice-continue {
+    align-self: flex-end;
+    min-width: 140px;
+    padding: 10px 18px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--fg);
+    cursor: pointer;
+  }
+
+  .choice-continue:disabled,
+  .choice-continue[hidden] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media (max-width: 640px) {
+    .choice-question-text {
+      font-size: 22px;
+    }
+
+    .choice-board {
+      padding: 16px;
+    }
+  }
+</style>

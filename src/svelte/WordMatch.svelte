@@ -519,3 +519,242 @@
     {/if}
   </div>
 </section>
+
+<style>
+  .match-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .match-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px;
+  }
+
+  .match-toolbar.panel {
+    margin: 4px 0;
+  }
+
+  .match-toolbar--lean {
+    padding: 10px 16px;
+  }
+
+  .match-toolbar-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .match-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .options-anchor {
+    position: relative;
+    display: flex;
+  }
+
+  .match-status-text {
+    font-weight: 600;
+  }
+
+  .match-play-again {
+    min-width: 140px;
+  }
+
+  .match-play-again:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .match-play-again.is-celebrate {
+    animation: pulse 1.4s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.35);
+    }
+    70% {
+      box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+  }
+
+  .match-select {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: var(--fg);
+    padding: 4px 8px;
+    font: inherit;
+    min-width: 80px;
+  }
+
+  .match-size-suffix {
+    margin-left: 6px;
+    color: var(--fg-dim);
+    font-size: 13px;
+  }
+
+  .match-hint {
+    font-size: 13px;
+    color: var(--fg-dim);
+    margin-top: 6px;
+  }
+
+  .options-popover {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: min(320px, 80vw);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px;
+    background: #151a31;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+    z-index: 40;
+  }
+
+  .options-popover-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .options-row {
+    display: grid;
+    grid-template-columns: minmax(120px, auto) minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .options-value {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .match-board {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 12px;
+    min-height: 200px;
+  }
+
+  .match-board.panel {
+    margin: 0;
+  }
+
+  .match-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .match-card {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--fg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .match-card-text {
+    flex: 1 1 auto;
+    text-align: left;
+  }
+
+  .match-card-lang {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--fg-dim);
+  }
+
+  .match-card.is-selected {
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .match-card.is-matched {
+    border-color: var(--weight-4);
+    background: rgba(100, 255, 150, 0.08);
+  }
+
+  .match-card.is-cleared {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.96);
+  }
+
+  .match-board.compact-matches .match-card.is-cleared {
+    display: none;
+  }
+
+  .match-card.is-shaking {
+    animation: shake 0.5s;
+  }
+
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-6px);
+    }
+    50% {
+      transform: translateX(6px);
+    }
+    75% {
+      transform: translateX(-6px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .match-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 32px 0;
+    color: var(--fg-dim);
+  }
+
+  @media (max-width: 600px) {
+    .match-toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .match-toolbar-actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .match-board {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
