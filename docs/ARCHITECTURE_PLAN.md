@@ -1,5 +1,7 @@
 # Architecture & Modernization Plan
 
+> **Purpose & scope** – canonical reference for how the app is built: modernization phases, technical decisions, component conventions, and tooling/test strategies. Product snapshots and release history live in `docs/NOTES.md` and `CHANGELOG.md`.
+
 ## 1. Current Modernization Status
 - ✅ **TypeScript/Vite build (v2.13.x)** – repo lives at the root, strict typings + Vitest coverage are in place, and GitHub Pages deploys the Vite `dist/` output automatically (`npm run dev/test/build`).
 - ✅ **Phase 3 review work** – state split, shared UI helpers, loader instrumentation, and the debug overlay are all landed.

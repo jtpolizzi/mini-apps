@@ -1,5 +1,7 @@
 # Handover Notes – v2.14.9
 
+> **Purpose & scope** – quick-start briefing for whoever picks up the repo next: latest release status, deployment steps, and the immediate priorities for the next session. Technical details live in `ARCHITECTURE_PLAN.md`; full history lives in `CHANGELOG.md`.
+
 ## Current Status
 - Repository renamed to `language-vocab` and the app now lives at the repo root.
 - Build tooling: `npm run dev` (Vite dev server), `npm run test` (Vitest + happy-dom), `npm run build` (Vite production bundle).
