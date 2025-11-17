@@ -9,9 +9,14 @@ import {
   setCurrentWordId,
   setRowSelectionMode,
   isRowSelectionModeEnabled,
+  setFilters,
+  setFilterSets,
+  setOrder,
   type VocabEntry,
   type SortState,
-  type ColumnsState
+  type ColumnsState,
+  type Filters,
+  type FilterSet
 } from '../../assets/state.ts';
 
 export interface WordListSnapshot {
@@ -73,4 +78,71 @@ export const wordListActions = {
   clearOrder,
   setCurrentWordId,
   setRowSelectionMode
+};
+
+export interface TopBarSnapshot {
+  filters: Filters;
+  filterSets: FilterSet[];
+  resultCount: number;
+  posValues: string[];
+  cefrValues: string[];
+  tagValues: string[];
+}
+
+function collectFacetValues(words: VocabEntry[] = []) {
+  const pos = new Set<string>();
+  const cefr = new Set<string>();
+  const tags = new Map<string, number>();
+  const addTag = (tag: string) => {
+    const key = tag.toLowerCase();
+    tags.set(key, (tags.get(key) || 0) + 1);
+  };
+  for (const w of words) {
+    if (w.pos) pos.add(w.pos);
+    if (w.cefr) cefr.add(w.cefr);
+    if (w.tags) {
+      String(w.tags)
+        .split(/[|,;]+|\s+/g)
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .forEach(addTag);
+    }
+  }
+  const tagValues = [...tags.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 150)
+    .map(([key]) => key);
+  return {
+    posValues: [...pos].sort(),
+    cefrValues: [...cefr].sort(),
+    tagValues
+  };
+}
+
+function getTopBarSnapshot(): TopBarSnapshot {
+  const filters = State.filters;
+  const { posValues, cefrValues, tagValues } = collectFacetValues(State.words);
+  const filtered = applyFilters(State.words);
+  return {
+    filters,
+    filterSets: Array.isArray(State.filterSets) ? [...State.filterSets] : [],
+    resultCount: filtered.length,
+    posValues,
+    cefrValues,
+    tagValues
+  };
+}
+
+export const topBarStore: Readable<TopBarSnapshot> = readable(getTopBarSnapshot(), (set) => {
+  const sync = () => set(getTopBarSnapshot());
+  sync();
+  const unsubscribe = subscribeToState(sync);
+  return () => unsubscribe();
+});
+
+export const topBarActions = {
+  setFilters,
+  setFilterSets,
+  setSort,
+  setOrder
 };

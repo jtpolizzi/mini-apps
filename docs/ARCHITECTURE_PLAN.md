@@ -3,7 +3,7 @@
 ## 1. Current Modernization Status
 - ✅ **TypeScript/Vite build (v2.13.x)** – repo lives at the root, strict typings + Vitest coverage are in place, and GitHub Pages deploys the Vite `dist/` output automatically (`npm run dev/test/build`).
 - ✅ **Phase 3 review work** – state split, shared UI helpers, loader instrumentation, and the debug overlay are all landed.
-- ✅ **Step B kickoff (v2.14.1)** – Svelte 5 + plugin integrated into Vite, the Word List has full Svelte parity (sorting, star/weight controls, long-press selection, shuffle order, styling), and the Svelte route is now the default while the vanilla list remains under “Word List (Legacy)” for comparisons.
+- ✅ **Step B kickoff (v2.14.2)** – Svelte 5 + plugin integrated into Vite, the Word List has full Svelte parity (sorting, star/weight controls, long-press selection, shuffle order, styling), and the Svelte route is now the default while the vanilla list remains under “Word List (Legacy)” for comparisons.
 
 ## 2. Step B – Svelte Evaluation (in progress)
 1. Rebuild representative views in Svelte using the existing typed store/actions to gauge DX/perf and bundle impact.
@@ -16,6 +16,7 @@
 - Before each new view migration, align on a parity checklist (layout, typography, interactions, keyboard/touch, edge cases) and a store contract to minimize back-and-forth.
 - Word List prototype showed parity without perf regressions; the Svelte rows reuse the existing store data, long-press + weight controls stay in sync with legacy logic, and per-row handlers trimmed the manual event plumbing.
 - Remaining gaps: shared styling story (table styles live in both `assets/styles.css` + `.svelte`), lint/test coverage for `.svelte` files, and a standardized approach for scroll-lock + layout utilities once additional views migrate.
+- Top Bar now runs through Svelte as well (shuffle/search/filter popover/saved sets/settings), so every view consumes the same bridge; next migrations can reuse that pattern while we decide when to extract shared chip/popover styles from the legacy CSS.
 
 ## 3. Step C – Conditional Svelte Migration (future)
 If Svelte continues to prove out:

@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { tick } from 'svelte';
 import { mountTopBar } from '../../assets/components/TopBar.ts';
 import { State, setFilters, setOrder, setSort, setFilterSets } from '../../assets/state.ts';
 import { DEFAULT_FILTERS, DEFAULT_SORT } from '../../assets/state/persistence.ts';
@@ -43,18 +44,21 @@ describe('TopBar component', () => {
     expect(State.order.length).toBe(State.words.length);
   });
 
-  it('saves and loads filter sets', () => {
+  it('saves and loads filter sets', async () => {
     const container = document.createElement('div');
     const { destroy } = mountTopBar(container);
 
     // open popover
     const filtersChip = container.querySelector<HTMLButtonElement>('#filters-chip')!;
-    const toggleFilters = () => filtersChip.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    toggleFilters();
+    const toggleFilters = async () => {
+      filtersChip.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      await tick();
+    };
+    await toggleFilters();
 
     let popover = container.querySelector('.popover');
     if (!popover) {
-      toggleFilters();
+      await toggleFilters();
       popover = container.querySelector('.popover');
     }
     expect(popover).toBeTruthy();
@@ -65,6 +69,7 @@ describe('TopBar component', () => {
     vi.stubGlobal('prompt', () => 'Test set');
     setFilters({ ...State.filters, starred: true });
     saveButton.click();
+    await tick();
     const select = popover.querySelector('select')!;
     const options = Array.from(select.querySelectorAll('option')).filter((opt) => opt.value);
     expect(options.length).toBeGreaterThan(0);
