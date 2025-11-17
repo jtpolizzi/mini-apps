@@ -3,7 +3,7 @@
 ## 1. Current Modernization Status
 - ✅ **TypeScript/Vite build (v2.13.x)** – repo lives at the root, strict typings + Vitest coverage are in place, and GitHub Pages deploys the Vite `dist/` output automatically (`npm run dev/test/build`).
 - ✅ **Phase 3 review work** – state split, shared UI helpers, loader instrumentation, and the debug overlay are all landed.
-- ✅ **Step B kickoff (v2.14.3)** – Svelte 5 + plugin integrated into Vite, the Word List has full Svelte parity (sorting, star/weight controls, long-press selection, shuffle order, styling), the shared Top Bar is now Svelte-driven, and the Flashcards view mirrors the legacy layout/interactions while feeding the same store/actions.
+- ✅ **Step B kickoff (v2.14.4)** – Svelte 5 + plugin integrated into Vite, the Word List has full Svelte parity (sorting, star/weight controls, long-press selection, shuffle order, styling), the shared Top Bar is now Svelte-driven, and the Flashcards view mirrors the legacy layout/interactions while feeding the same store/actions.
 
 ## 2. Step B – Svelte Evaluation (in progress)
 1. Rebuild representative views in Svelte using the existing typed store/actions to gauge DX/perf and bundle impact.
@@ -17,6 +17,7 @@
 - Word List prototype showed parity without perf regressions; the Svelte rows reuse the existing store data, long-press + weight controls stay in sync with legacy logic, and per-row handlers trimmed the manual event plumbing.
 - Remaining gaps: shared styling story (table styles live in both `assets/styles.css` + `.svelte`), lint/test coverage for `.svelte` files, and a standardized approach for scroll-lock + layout utilities once additional views migrate.
 - Top Bar now runs through Svelte as well (shuffle/search/filter popover/saved sets/settings), so every view consumes the same bridge; next migrations can reuse that pattern while we decide when to extract shared chip/popover styles from the legacy CSS.
+- Once a view is migrated and the legacy counterpart is gone, move its CSS out of `assets/styles.css` and into the `.svelte` file so each component becomes self-contained (Flashcards is first in line once Word List CSS is retired).
 
 ## 3. Step C – Conditional Svelte Migration (future)
 If Svelte continues to prove out:

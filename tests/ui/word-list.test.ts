@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { tick } from 'svelte';
 import { mountWordList } from '../../assets/components/WordList.ts';
 import { State, setFilters, setOrder, setSort } from '../../assets/state.ts';
 import { DEFAULT_FILTERS, DEFAULT_SORT } from '../../assets/state/persistence.ts';
@@ -29,18 +30,20 @@ describe('WordList component', () => {
     resetState();
   });
 
-  it('sorts when clicking header', () => {
+  it('sorts when clicking header', async () => {
     const container = document.createElement('div');
     mountWordList(container);
+    await tick();
     const weightHeader = container.querySelector('th[data-key="word"]')!;
     weightHeader.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(State.sort.key).toBe('word');
     expect(State.sort.dir).toBe('desc');
   });
 
-  it('enters selection mode after pointer interaction', () => {
+  it('enters selection mode after pointer interaction', async () => {
     const container = document.createElement('div');
     const { destroy } = mountWordList(container);
+    await tick();
     const firstRow = container.querySelector<HTMLTableRowElement>('tbody tr')!;
     vi.useFakeTimers();
     firstRow.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, pointerId: 1 }));

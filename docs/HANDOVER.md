@@ -1,4 +1,4 @@
-# Handover Notes – v2.14.3
+# Handover Notes – v2.14.4
 
 ## Current Status
 - Repository renamed to `language-vocab` and the app now lives at the repo root.
@@ -6,7 +6,7 @@
 - GitHub Pages workflow (`.github/workflows/pages.yml`) builds with Node 22 and deploys the `dist/` output. Pages URL: https://jtpolizzi.github.io/language-vocab/ (formerly `/mini-apps/language-vocab`).
 - Public assets (e.g., `public/data/words.tsv`) are copied automatically by Vite and included in the build.
 - Step B kicked off: Svelte (+ plugin) is now in the toolchain with a `#/svelte-list` route and a state-bridged Word List prototype that shares the existing store/actions.
-- The Svelte Word List is now the default route (`#/svelte-list` / “Word List” nav item) while the legacy view lives under “Word List (Legacy)” for side-by-side comparisons.
+- The Svelte Word List is now the sole implementation (`#/svelte-list` / “Word List” nav item); the legacy view has been retired.
 - The shared Top Bar now ships as a Svelte component (shuffle, search, filters popover, saved sets, weight/facet toggles, settings modal) while every route still runs on the legacy logic.
 - Flashcards run through Svelte too—the centered card layout, sticky star/weight controls, fixed bottom nav, progress slider, tap zones, swipe gestures, keyboard shortcuts, and `setCurrentWordId` sync all mirror the legacy experience.
 
@@ -47,7 +47,7 @@
 
 **Shared styling**
 - Keep design tokens (colors, spacing, typography) in `assets/styles.css`; move card-specific layout into the `.svelte` file so we can remove the legacy CSS once Flashcards migrates.
-- Reuse shared chip/overlay styles where possible so the Svelte and legacy views stay visually interchangeable until the legacy code is deleted.
+- Reuse shared chip/overlay styles where possible so the Svelte and legacy views stay visually interchangeable until the legacy code is deleted; once the legacy view is gone, lift those Flashcards rules out of `assets/styles.css` and colocate them inside `Flashcards.svelte` so the component is fully self-contained.
 
 ### Svelte Word Match – Parity Checklist & Store Contract
 **Layout / visual**
