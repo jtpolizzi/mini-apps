@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { tick } from 'svelte';
 import { mountFlashcards } from '../../assets/components/Flashcards.ts';
 import { State, setFilters, setOrder, setSort } from '../../assets/state.ts';
 import { DEFAULT_FILTERS, DEFAULT_SORT } from '../../assets/state/persistence.ts';
@@ -30,38 +31,45 @@ describe('Flashcards component', () => {
     vi.restoreAllMocks();
   });
 
-  it('advances via keyboard shortcuts', () => {
+  it('advances via keyboard shortcuts', async () => {
     const container = document.createElement('div');
     const { destroy } = mountFlashcards(container);
+    await tick();
 
     const progressLabel = container.querySelector('.choice-progress-label')!;
     expect(progressLabel.textContent).toContain('Card 1');
     window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+    await tick();
     expect(progressLabel.textContent).toContain('Card 2');
     window.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' })); // flip
+    await tick();
     const card = container.querySelector('.card')!;
     expect(card.textContent?.trim().length).toBeGreaterThan(0);
 
     destroy();
   });
 
-  it('adjusts progress slider and weight', () => {
+  it('adjusts progress slider and weight', async () => {
     const container = document.createElement('div');
     const { destroy } = mountFlashcards(container);
+    await tick();
     const slider = container.querySelector<HTMLInputElement>('.flash-progress-slider')!;
     slider.value = '2';
     slider.dispatchEvent(new Event('input', { bubbles: true }));
+    await tick();
     const progressLabel = container.querySelector('.choice-progress-label')!;
     expect(progressLabel.textContent).toContain('Card 2');
 
     const firstButton = container.querySelector<HTMLButtonElement>('.topright button.iconbtn');
     expect(firstButton).toBeTruthy();
     firstButton!.click();
+    await tick();
 
     const weightControl = container.querySelector('.topright .weight-spark')!;
     const plus = weightControl.querySelectorAll<HTMLButtonElement>('button')[1];
     plus.click();
     plus.click();
+    await tick();
     expect(weightControl.dataset.value).toBe('5');
 
     destroy();

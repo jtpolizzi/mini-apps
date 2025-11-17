@@ -1,0 +1,433 @@
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import { flashcardsStore, flashcardsActions } from './stateBridge';
+  import { Prog, type VocabEntry } from '../../assets/state.ts';
+
+  interface PointerGesture {
+    id: number;
+    x: number;
+    y: number;
+    t: number;
+  }
+
+  type WeightValue = 1 | 2 | 3 | 4 | 5;
+
+  const WEIGHT_COLORS: Record<WeightValue, string> = {
+    1: 'var(--weight-1)',
+    2: 'var(--weight-2)',
+    3: 'var(--weight-3)',
+    4: 'var(--weight-4)',
+    5: 'var(--weight-5)'
+  };
+
+  const WEIGHT_DESCRIPTIONS: Record<WeightValue, string> = {
+    1: 'Hide almost completely',
+    2: 'Show rarely',
+    3: 'Default cadence',
+    4: 'Show more often',
+    5: 'Show constantly'
+  };
+
+  const flashcards = flashcardsStore;
+  const { setCurrentWordId } = flashcardsActions;
+
+  let cards: VocabEntry[] = [];
+  let showTranslation = false;
+  let sharedCurrentId = '';
+
+  let showFront = true;
+  let index = 0;
+  let pendingWordId: string | null = null;
+  let currentWord: VocabEntry | null = null;
+  let suppressNextCardClick = false;
+  let pointerGesture: PointerGesture | null = null;
+  let isSliderDrag = false;
+  let sliderValue = '0';
+  let sliderMin = '0';
+  let sliderMax = '0';
+  let sliderDisabled = true;
+  let progressLabel = '0 / 0';
+  let cardElement: HTMLDivElement | null = null;
+
+  $: cards = $flashcards.cards;
+  $: sharedCurrentId = $flashcards.currentWordId || '';
+  $: showTranslation = $flashcards.showTranslation;
+  $: {
+    cards;
+    sharedCurrentId;
+    updateCurrentWord();
+  }
+
+  onMount(() => {
+    document.body.classList.add('pad-bottom');
+    const handleKey = (event: KeyboardEvent) => {
+      const active = document.activeElement;
+      const tag = active?.tagName?.toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'button') return;
+      if (active && active.closest('.topright')) return;
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        prevCard();
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        nextCard();
+      } else if (event.key === ' ' || event.key === 'Enter' || event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        flipCard();
+      } else if (event.key === 's' || event.key === 'S') {
+        event.preventDefault();
+        toggleStarForCurrent();
+      } else if (/^[1-5]$/.test(event.key)) {
+        event.preventDefault();
+        setWeightForCurrent(Number(event.key) as WeightValue);
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      document.body.classList.remove('pad-bottom');
+    };
+  });
+
+  function updateCurrentWord() {
+    const previousId = currentWord?.id || '';
+    let desiredId = pendingWordId;
+    pendingWordId = null;
+    if (!desiredId && sharedCurrentId) desiredId = sharedCurrentId;
+    if (!desiredId && previousId) desiredId = previousId;
+    if (desiredId) {
+      const foundIndex = cards.findIndex((word) => word.id === desiredId);
+      if (foundIndex !== -1) {
+        index = foundIndex;
+      }
+    }
+    if (index >= cards.length) index = Math.max(0, cards.length - 1);
+    currentWord = cards[index] ?? null;
+    if (!currentWord) {
+      if (previousId) setCurrentWordId('');
+    } else if (currentWord.id !== previousId) {
+      setCurrentWordId(currentWord.id);
+    }
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = cards.length;
+    if (!total) {
+      progressLabel = '0 / 0';
+      sliderDisabled = true;
+      sliderValue = '0';
+      sliderMin = '0';
+      sliderMax = '0';
+      return;
+    }
+    sliderDisabled = false;
+    sliderMin = '1';
+    sliderMax = String(total);
+    if (!isSliderDrag) {
+      sliderValue = String(index + 1);
+    }
+    progressLabel = `Card ${index + 1} / ${total}`;
+  }
+
+  function jumpToIndex(nextIndex: number) {
+    if (!cards.length) return;
+    const clamped = Math.max(0, Math.min(cards.length - 1, nextIndex));
+    index = clamped;
+    pendingWordId = cards[clamped]?.id ?? null;
+    showFront = true;
+    updateCurrentWord();
+  }
+
+  function prevCard() {
+    if (index > 0) {
+      jumpToIndex(index - 1);
+    }
+  }
+
+  function nextCard() {
+    if (index < cards.length - 1) {
+      jumpToIndex(index + 1);
+    }
+  }
+
+  function flipCard() {
+    if (!cards.length) return;
+    showFront = !showFront;
+  }
+
+  function handleTapZone(clientX: number, clientY: number) {
+    if (!cardElement || !cards.length) return;
+    const rect = cardElement.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const relX = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+    const relY = Math.min(1, Math.max(0, (clientY - rect.top) / rect.height));
+    if (relY >= 0.75) {
+      if (relX < 0.5) {
+        prevCard();
+      } else {
+        nextCard();
+      }
+    } else {
+      flipCard();
+    }
+  }
+
+  function handlePointerDown(event: PointerEvent) {
+    if ((event.target as Element | null)?.closest('.topright')) {
+      pointerGesture = null;
+      return;
+    }
+    pointerGesture = {
+      id: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      t: Date.now()
+    };
+    try {
+      cardElement?.setPointerCapture(event.pointerId);
+    } catch {
+      // ignore capture issues
+    }
+  }
+
+  function handlePointerUp(event: PointerEvent) {
+    if (!pointerGesture || pointerGesture.id !== event.pointerId) return;
+    const dx = event.clientX - pointerGesture.x;
+    const dy = event.clientY - pointerGesture.y;
+    const adx = Math.abs(dx);
+    const ady = Math.abs(dy);
+    const dt = Date.now() - pointerGesture.t;
+    pointerGesture = null;
+
+    const swipeThreshold = 60;
+    if (adx > ady && adx >= swipeThreshold) {
+      if (dx > 0) {
+        prevCard();
+      } else {
+        nextCard();
+      }
+      try {
+        cardElement?.releasePointerCapture(event.pointerId);
+      } catch {
+        // ignore release issues
+      }
+      return;
+    }
+
+    const tapMove = 35;
+    const tapTime = 450;
+    if (adx <= tapMove && ady <= tapMove && dt <= tapTime) {
+      if (!suppressNextCardClick) {
+        handleTapZone(event.clientX, event.clientY);
+      }
+    }
+    suppressNextCardClick = false;
+    try {
+      cardElement?.releasePointerCapture(event.pointerId);
+    } catch {
+      // ignore release issues
+    }
+  }
+
+  function handlePointerCancel(event: PointerEvent) {
+    pointerGesture = null;
+    try {
+      cardElement?.releasePointerCapture(event.pointerId);
+    } catch {
+      // ignore release issues
+    }
+  }
+
+  function toggleStarForCurrent() {
+    if (!currentWord) return;
+    Prog.setStar(currentWord.termKey, !Prog.star(currentWord.termKey));
+    updateCurrentWord();
+  }
+
+  function setWeightForCurrent(weight: WeightValue) {
+    if (!currentWord) return;
+    Prog.setWeight(currentWord.termKey, weight);
+    updateCurrentWord();
+  }
+
+  function clampWeight(value: number): WeightValue {
+    const clamped = Math.min(5, Math.max(1, Math.round(value)));
+    return clamped as WeightValue;
+  }
+
+  function changeWeight(delta: number) {
+    if (!currentWord) return;
+    const current = clampWeight(Prog.weight(currentWord.termKey));
+    const next = clampWeight(current + delta);
+    if (next === current) return;
+    Prog.setWeight(currentWord.termKey, next);
+    updateCurrentWord();
+  }
+
+  function handleWeightWheel(event: WheelEvent) {
+    event.preventDefault();
+    const delta = event.deltaY > 0 ? 1 : -1;
+    changeWeight(delta);
+    suppressNextCardClick = true;
+  }
+
+  function handleSliderInput(event: Event) {
+    if (sliderDisabled) return;
+    const target = event.currentTarget as HTMLInputElement;
+    const nextIndex = Number(target.value) - 1;
+    if (!Number.isNaN(nextIndex)) {
+      jumpToIndex(nextIndex);
+    }
+  }
+
+  function handleSliderPointerDown() {
+    if (sliderDisabled) return;
+    isSliderDrag = true;
+  }
+
+  function handleSliderPointerUp() {
+    isSliderDrag = false;
+    updateProgress();
+  }
+
+  function handleTopControlPointerDown(event: PointerEvent | MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    suppressNextCardClick = true;
+  }
+
+  function fmtTagsComma(tags?: string) {
+    if (!tags) return '';
+    return String(tags)
+      .split(/[|,;]+/g)
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .join(', ');
+  }
+
+  const SPARK_PATH =
+    'M9 4.5c.335 0 .629.222.721.544l.813 2.846c.356 1.246 1.33 2.219 2.576 2.575l2.846.814c.322.092.544.386.544.721s-.222.629-.544.721l-2.846.813c-1.246.356-2.22 1.33-2.576 2.576l-.813 2.846c-.092.322-.386.544-.721.544s-.629-.222-.721-.544l-.813-2.846c-.356-1.246-1.33-2.22-2.576-2.576l-2.846-.813C2.222 12.629 2 12.335 2 12s.222-.629.544-.721l2.846-.814c1.246-.356 2.22-1.33 2.576-2.575l.813-2.846C8.371 4.722 8.665 4.5 9 4.5Zm9-3c.344 0 .644.234.728.568l.259 1.035c.235.94.97 1.675 1.91 1.91l1.035.259c.334.083.568.383.568.728s-.234.644-.568.727l-1.035.259c-.94.235-1.675.97-1.91 1.91l-.259 1.035A.75.75 0 0 1 18 10.5a.75.75 0 0 1-.728-.568l-.259-1.035c-.235-.94-.97-1.675-1.91-1.91l-1.035-.259A.75.75 0 0 1 13.5 6c0-.345.234-.645.568-.728l1.035-.259c.94-.235 1.675-.97 1.91-1.91l.259-1.035A.75.75 0 0 1 18 1.5Zm-1.5 13.5c.323 0 .61.206.712.513l.394 1.183c.149.448.501.8.949.949l1.183.394c.306.102.512.389.512.712s-.206.61-.512.712l-1.183.394a1.5 1.5 0 0 0-.949.949l-.394 1.183a.75.75 0 0 1-1.424 0l-.394-1.183a1.5 1.5 0 0 0-.949-.949l-1.183-.394A.75.75 0 0 1 12.75 18c0-.323.206-.61.512-.712l1.183-.394a1.5 1.5 0 0 0 .949-.949l.394-1.183a.75.75 0 0 1 .712-.513Z';
+
+  $: weightValue = clampWeight(currentWord ? Prog.weight(currentWord.termKey) : 3);
+  $: starActive = currentWord ? !!Prog.star(currentWord.termKey) : false;
+</script>
+
+<section class="flashcards-view">
+  <div class="choice-progress flash-progress">
+    <span class="choice-progress-label">{progressLabel}</span>
+    <input
+      class="flash-progress-slider"
+      type="range"
+      min={sliderMin}
+      max={sliderMax}
+      bind:value={sliderValue}
+      disabled={sliderDisabled}
+      aria-label="Card position"
+      on:input={handleSliderInput}
+      on:pointerdown={handleSliderPointerDown}
+      on:pointerup={handleSliderPointerUp}
+      on:pointercancel={handleSliderPointerUp}
+      on:pointerleave={(event) => {
+        if (event.buttons === 0) handleSliderPointerUp();
+      }}
+    />
+  </div>
+
+  <div
+    class="card"
+    bind:this={cardElement}
+    on:pointerdown={handlePointerDown}
+    on:pointerup={handlePointerUp}
+    on:pointercancel={handlePointerCancel}
+  >
+    {#if currentWord}
+      <div class="topright">
+        <button
+          class="iconbtn"
+          aria-pressed={starActive}
+          title="Star"
+          style={`font-size:22px; line-height:1; padding:4px 8px; color:${starActive ? 'var(--accent)' : 'var(--fg-dim)'}; border-color:${starActive ? 'var(--accent)' : '#4a5470'};`}
+          on:pointerdown={handleTopControlPointerDown}
+          on:click={() => {
+            toggleStarForCurrent();
+          }}
+        >
+          {starActive ? '★' : '☆'}
+        </button>
+        <div
+          class="weight-spark"
+          role="group"
+          aria-label="Adjust weight"
+          style={`--weight-spark-color: ${WEIGHT_COLORS[weightValue]};`}
+          data-value={weightValue}
+          on:wheel={handleWeightWheel}
+        >
+          <button
+            type="button"
+            class="weight-spark__btn"
+            aria-label="See less often"
+            on:pointerdown={handleTopControlPointerDown}
+            on:click={() => changeWeight(-1)}
+          >
+            −
+          </button>
+          <div class="weight-spark__core" title={WEIGHT_DESCRIPTIONS[weightValue]}>
+            <svg class="weight-spark__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d={SPARK_PATH} fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <button
+            type="button"
+            class="weight-spark__btn"
+            aria-label="See more often"
+            on:pointerdown={handleTopControlPointerDown}
+            on:click={() => changeWeight(1)}
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="card-content">
+        {showFront ? currentWord.word : currentWord.definition}
+      </div>
+
+      <div class="footmeta">
+        <div class="meta-line">
+          {[currentWord.pos, currentWord.cefr, fmtTagsComma(currentWord.tags)].filter(Boolean).join(' • ')}
+        </div>
+        {#if showTranslation}
+          <div class="translation">{currentWord.definition}</div>
+        {/if}
+      </div>
+    {:else}
+      <div>No cards match your filters.</div>
+    {/if}
+  </div>
+
+  <div class="bottombar">
+    <button
+      class="bigbtn"
+      type="button"
+      on:click={prevCard}
+      disabled={index <= 0 || !cards.length}
+      title="Previous card"
+    >
+      ←
+    </button>
+    <button class="bigbtn" type="button" on:click={flipCard} disabled={!cards.length} title="Flip card">
+      Flip
+    </button>
+    <button
+      class="bigbtn"
+      type="button"
+      on:click={nextCard}
+      disabled={index >= cards.length - 1 || !cards.length}
+      title="Next card"
+    >
+      →
+    </button>
+  </div>
+</section>

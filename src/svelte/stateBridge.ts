@@ -146,3 +146,31 @@ export const topBarActions = {
   setSort,
   setOrder
 };
+
+export interface FlashcardsSnapshot {
+  cards: VocabEntry[];
+  currentWordId: string;
+  showTranslation: boolean;
+}
+
+function getFlashcardsSnapshot(): FlashcardsSnapshot {
+  const filtered = applyFilters(State.words);
+  const sorted = sortWords(filtered);
+  const ordered = reorderByShuffle(sorted);
+  return {
+    cards: ordered,
+    currentWordId: State.ui?.currentWordId || '',
+    showTranslation: !!State.ui?.showTranslation
+  };
+}
+
+export const flashcardsStore: Readable<FlashcardsSnapshot> = readable(getFlashcardsSnapshot(), (set) => {
+  const sync = () => set(getFlashcardsSnapshot());
+  sync();
+  const unsubscribe = subscribeToState(sync);
+  return () => unsubscribe();
+});
+
+export const flashcardsActions = {
+  setCurrentWordId
+};
