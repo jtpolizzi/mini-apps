@@ -14,6 +14,9 @@
     icon?: boolean;
   }
 
+  type SelectionSource = 'pointer' | 'keyboard' | 'programmatic';
+  let lastSelectionSource: SelectionSource = 'programmatic';
+
   const columns: ColumnConfig[] = [
     { key: 'star', label: '★' },
     { key: 'weight', label: '', icon: true },
@@ -54,13 +57,15 @@ const LONG_PRESS_DELAY = 350;
     wordListActions.setSort({ key: column, dir: nextDir });
   }
 
-  function syncSelection(wordId: string) {
+  function syncSelection(wordId: string, source: SelectionSource = 'programmatic') {
+    lastSelectionSource = source;
     if (!$wordState.selectionEnabled) return;
     wordListActions.setCurrentWordId(wordId);
   }
 
   function toggleSelectionMode(wordId: string) {
     if (!$wordState.selectionEnabled) {
+      lastSelectionSource = 'pointer';
       wordListActions.setRowSelectionMode(true);
       wordListActions.setCurrentWordId(wordId);
       return;
@@ -70,11 +75,13 @@ const LONG_PRESS_DELAY = 350;
       wordListActions.setCurrentWordId('');
       return;
     }
+    lastSelectionSource = 'pointer';
     wordListActions.setCurrentWordId(wordId);
   }
 
   function beginLongPress(event: PointerEvent, wordId: string) {
     if (event.button !== 0) return;
+    lastSelectionSource = 'pointer';
     cancelLongPress(event);
     longPressTimer = window.setTimeout(() => {
       longPressTimer = null;
@@ -116,7 +123,7 @@ const LONG_PRESS_DELAY = 350;
       const next = event.key === 'ArrowDown' ? row?.nextElementSibling : row?.previousElementSibling;
       if (next instanceof HTMLTableRowElement) {
         next.focus();
-        syncSelection(next.dataset.wordId || '');
+        syncSelection(next.dataset.wordId || '', 'keyboard');
         next.scrollIntoView({ block: 'nearest' });
       }
       return;
@@ -125,18 +132,18 @@ const LONG_PRESS_DELAY = 350;
       event.preventDefault();
       if (!termKey) return;
       Prog.setStar(termKey, !Prog.star(termKey));
-      syncSelection(wordId);
+      syncSelection(wordId, 'keyboard');
       return;
     }
     if (/^[1-5]$/.test(event.key)) {
       event.preventDefault();
       Prog.setWeight(termKey, Number(event.key));
-      syncSelection(wordId);
+      syncSelection(wordId, 'keyboard');
       return;
     }
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      syncSelection(wordId);
+      syncSelection(wordId, 'keyboard');
     }
   }
 
@@ -170,11 +177,14 @@ const LONG_PRESS_DELAY = 350;
 
   async function scrollRowIntoView(wordId: string) {
     if (!wordId) return;
+    if (lastSelectionSource === 'pointer') return;
     await tick();
     const selector = `.wordlist-view tbody tr[data-word-id="${escapeSelectorValue(wordId)}"]`;
     const row = document.querySelector<HTMLTableRowElement>(selector);
     if (row) {
-      row.scrollIntoView({ block: 'center', behavior: 'auto' });
+      const behavior = lastSelectionSource === 'keyboard' ? 'smooth' : 'auto';
+      const block = lastSelectionSource === 'keyboard' ? 'center' : 'nearest';
+      row.scrollIntoView({ block, behavior });
     }
   }
 
@@ -256,8 +266,7 @@ const LONG_PRESS_DELAY = 350;
               data-word-id={row.id}
               data-term-key={row.termKey}
               class:is-current={$wordState.selectionEnabled && $wordState.currentWordId === row.id}
-              on:click={() => syncSelection(row.id)}
-              on:focus={() => syncSelection(row.id)}
+              on:click={() => syncSelection(row.id, 'pointer')}
               on:keydown={(event) => handleRowKeydown(event, row.id, row.termKey)}
               on:pointerdown={(event) => beginLongPress(event, row.id)}
               on:pointerup={cancelLongPress}

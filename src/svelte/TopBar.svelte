@@ -524,6 +524,11 @@
   .panel--topbar {
     margin: 8px 0 0;
     padding: 8px 16px 10px;
+    position: sticky;
+    top: var(--topbar-stick-offset);
+    z-index: 15;
+    background: #1b2137;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .popover {

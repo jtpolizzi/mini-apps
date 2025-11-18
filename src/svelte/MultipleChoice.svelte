@@ -629,6 +629,18 @@ let initialized = false;
     display: flex;
   }
 
+  :global(.choice-play-again) {
+    min-width: 160px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 24px;
+    justify-content: center;
+    background: var(--accent);
+    color: #050814;
+    border: none;
+    box-shadow: 0 6px 18px rgba(138, 164, 255, 0.35);
+  }
+
   .options-popover {
     position: absolute;
     top: calc(100% + 8px);
@@ -823,19 +835,22 @@ let initialized = false;
 
   .choice-continue {
     align-self: flex-end;
-    min-width: 140px;
-    padding: 10px 18px;
+    min-width: 160px;
+    padding: 10px 24px;
     border-radius: 16px;
-    border: 1px solid var(--line);
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--fg);
+    border: none;
+    background: var(--accent);
+    color: #050814;
     cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(138, 164, 255, 0.35);
   }
 
   .choice-continue:disabled,
   .choice-continue[hidden] {
     opacity: 0.5;
     pointer-events: none;
+    box-shadow: none;
   }
 
   @media (max-width: 640px) {

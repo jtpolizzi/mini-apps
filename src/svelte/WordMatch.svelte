@@ -557,7 +557,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    justify-content: center;
+    justify-content: flex-end;
     flex: 1;
     flex-wrap: wrap;
   }
@@ -565,7 +565,6 @@
   .options-anchor {
     position: relative;
     display: flex;
-    margin-left: auto;
   }
 
   .match-status-text {
