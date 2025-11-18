@@ -3,7 +3,8 @@
 All notable changes to this project are documented here. Older entries were consolidated from the historical notes so `docs/NOTES.md` can stay focused on the current product snapshot.
 
 ## v2.15.1
-- Incremental fixes.
+- Incremental fixes and layout polish (sticky stack, button alignment).
+- Lessons learned: keep stack-specific CSS inside the owning component (Word List, Flashcards, Word Match) and route all new shared UI through `src/svelte/ui` to avoid slipping back into DOM helpers.
 
 ## v2.15.0
 - Replaced the legacy DOM router with `src/App.svelte`, so hash navigation, loader state, and the settings modal now live entirely in Svelte.

@@ -1,40 +1,32 @@
-# Architecture & Modernization Plan
+# Architecture Blueprint
 
-> **Purpose & scope** – canonical reference for how the app is built: modernization phases, technical decisions, component conventions, and tooling/test strategies. Product snapshots and release history live in `docs/NOTES.md` and `CHANGELOG.md`.
+> Canonical guide for how the app is built today and how we should extend it tomorrow. Release notes live in `CHANGELOG.md`; day-to-day work lives in `docs/NOTES.md`.
 
-## 1. Current Modernization Status
-- ✅ **TypeScript/Vite build (v2.13.x)** – repo lives at the root, strict typings + Vitest coverage are in place, and GitHub Pages deploys the Vite `dist/` output automatically (`npm run dev/test/build`).
-- ✅ **Phase 3 review work** – state split, shared UI helpers, loader instrumentation, and the debug overlay are all landed.
-- 🚧 **v2.14 – Svelte migration** – Svelte 5 + plugin integrated into Vite, every user-facing route now runs through a Svelte component backed by the shared store/actions, and the remaining work targets CSS colocation + tooling/tests so the legacy DOM/CSS can be retired cleanly.
+## Core Stack & Build
+- Svelte 5 single-page app served by Vite/TypeScript. Every route (Word List, Flashcards, Word Match, Multiple Choice, Settings) mounts through `src/App.svelte`.
+- `src/state` owns the singleton store (filters, deck order, UI prefs) plus derived readable stores (`wordListStore`, `flashcardsStore`, etc.). All new features should either extend the store or build their own derived readable to avoid ad-hoc globals.
+- Static data loader lives in `src/data/words.ts` and hydrates from `public/data/words.tsv`. Future data sources should slot into that module so App stays dumb.
+- Build commands (`npm run dev/test/build`) and GitHub Pages deployment stay unchanged; keep the bundle static until a PWA/export story justifies SvelteKit.
 
-## 2. v2.14 – Svelte Migration (in progress)
-1. Finish migrating every route (Word List, Top Bar, Flashcards, Word Match, Multiple Choice, Settings) onto Svelte while keeping the shared store contract intact. ✅
-2. Pull view-specific CSS (`wordlist`, `topbar`, `chip`, `popover`, cards, match board, etc.) out of `assets/styles.css` and colocate it with the owning `.svelte` file while leaving tokens/utilities global. ✅ (global stylesheet now holds only tokens/app chrome/shared primitives.)
-3. Expand lint/test/tooling coverage for `.svelte` files so the new stack is first-class (ESLint/Prettier rules, Vitest + `@testing-library/svelte` harness).
-4. Capture migration lessons (perf, DX, bundle impact) inside NOTES/HANDOVER to guide future enhancements.
+## UI & Layout Conventions
+- Each `.svelte` file owns its markup + styles. `assets/styles.css` only houses tokens (colors, spacing, typography) and truly shared shell rules (app header, body scroll locks).
+- When designing new layouts, respect the sticky stack: App header at the top, then Top Bar (`panel--topbar`), then the scrollable view. Use `--stack-stick-offset` for any additional sticky elements so the stacking order stays predictable.
+- Components intended for reuse (chips, weight control, popovers) live under `src/svelte/ui`. Build new shared primitives there instead of reverting to DOM helpers.
+- Accessibility defaults: keyboard navigation, focus-visible styles, and high-contrast feedback states are required. New widgets should expose ARIA labels and avoid color-only signaling.
 
-**Key observations**
-- Colocating TS/markup/styles drastically reduced iteration time; the shared store exports avoided logic duplication.
-- Duplicated CSS used to be the main pain point; now that view-specific rules live beside their components we can keep `assets/styles.css` limited to design tokens, layout chrome, and shared primitives.
-- Before each new view migration, align on a parity checklist (layout, typography, interactions, keyboard/touch, edge cases) and a store contract to minimize back-and-forth.
-- The Svelte Word List showed parity without perf regressions; the rows reuse the existing store data, long-press + weight controls stay in sync with legacy logic, and per-row handlers trimmed the manual event plumbing.
-- Remaining gaps: shared styling story (table styles live in both `assets/styles.css` + `.svelte`), lint/test coverage for `.svelte` files, and a standardized approach for scroll-lock + layout utilities once additional views migrate.
-- Top Bar now runs through Svelte as well (shuffle/search/filter popover/saved sets/settings), so every view consumes the same store helpers; CSS/shared styles are the only legacy pieces left.
-- Once a view is migrated and the legacy counterpart is gone, move its CSS out of `assets/styles.css` and into the `.svelte` file so each component becomes self-contained (Flashcards + Match board CSS are next to extract).
+## Data & State Patterns
+- Keep all state mutations inside `src/state/store.ts`; components call action helpers (e.g., `setFilters`, `setRowSelectionMode`). Type additions should extend `WritableState`.
+- Derived stores (`wordListStore`, `topBarStore`, etc.) are the entry point for components. When adding a feature that needs a fresh slice of state, build a new readable in `src/state/stores.ts` instead of subscribing directly to `State`.
+- For async data (TSV or future APIs), surface loader updates via the provided helper (`startWordsLoader`) so app chrome can keep a single status indicator.
 
-## 3. Post-migration polish (future)
-1. Trim any leftover legacy helpers once CSS colocation lands (scroll locks, DOM-specific utilities, dead component mounts).
-2. Layer ESLint/Vitest enforcement for `.svelte` files into CI and add representative component tests (Top Bar, Flashcards interactions, etc.).
-3. Keep the final build as a static Vite bundle (no SvelteKit adapter needed yet) but revisit once we have PWA/export work in scope.
+## Tooling & Tests
+- Run `npm run check:svelte` and `npm test` before merging. Add component-level Vitest suites for any complex interaction (Top Bar filters, Word Match board, etc.).
+- ESLint/Prettier already cover `.svelte` and `.ts`; new lint rules should land in `eslint.config.mjs`.
+- Prefer Testing Library (`@testing-library/svelte`) for UI tests rather than DOM helpers; it mirrors user interactions and keeps tests resilient.
 
-## 4. Active Cleanup Items
-- Add linting/formatting coverage for the new Svelte files.
-- Define/testing strategy for Svelte components (Vitest + `@testing-library/svelte` or similar).
-- Remove the duplicated Word List CSS from `assets/styles.css` once the legacy view is retired.
+## Active Focus / Future Work
+- **Formatting polish** – The migration left some layout/sticky refinements (Word List headers, button alignments). Any new work should continue to consolidate formatting inside the owning component.
+- **Component tests** – Add interaction tests for Top Bar, Flashcards gestures, Match and Multiple Choice option menus.
+- **Export/import & TTS** – Next feature families (progress sync, speech) should hook into the shared store and data loader modules rather than bypassing them.
 
-## 5. Svelte Component Conventions
-- **Local styles first** – every `.svelte` file owns the layout/visual rules for the DOM it renders. Keep styles inside the component’s `<style>` block (except for shared tokens/utilities) so markup + CSS travel together.
-- **Semantic class names** – even though Svelte scopes selectors, pick names that match the component (`.choice-toolbar`, `.filters-grid`) and avoid references to other views (no “match” prefixes inside Multiple Choice, etc.).
-- **Minimal inline styles** – reserve inline `style=""` attributes for true one-offs; anything multi-line or reused should become a class defined in the `<style>` block.
-- **Global CSS = shared primitives** – `assets/styles.css` keeps only tokens, app chrome, and intentionally shared helpers (chips, weight spark, modal overlay) until those primitives are encapsulated as components.
-- **Shared primitives graduate to components** – when multiple views share markup + behavior (chips, weight spark), wrap them in a dedicated Svelte component so both the HTML and CSS stay DRY and easy to evolve.
+Use this doc as the design baseline; add new sections when we introduce non-obvious architecture decisions so future work stays cohesive.
