@@ -2,7 +2,7 @@
   import { Prog, type ColumnsState } from '../state';
   import { wordListStore, wordListActions } from '../state/stores';
   import WeightSparkControl from './ui/WeightSparkControl.svelte';
-  import { tick } from 'svelte';
+  import { tick, onMount } from 'svelte';
   import { type WeightValue, WEIGHT_DESCRIPTIONS } from '../constants/weights.ts';
 
   const wordState = wordListStore;
@@ -177,16 +177,20 @@ const LONG_PRESS_DELAY = 350;
 
   async function scrollRowIntoView(wordId: string) {
     if (!wordId) return;
-    if (lastSelectionSource === 'pointer') return;
     await tick();
     const selector = `.wordlist-view tbody tr[data-word-id="${escapeSelectorValue(wordId)}"]`;
     const row = document.querySelector<HTMLTableRowElement>(selector);
     if (row) {
-      const behavior = lastSelectionSource === 'keyboard' ? 'smooth' : 'auto';
-      const block = lastSelectionSource === 'keyboard' ? 'center' : 'nearest';
+      const isPointer = lastSelectionSource === 'pointer';
+      const behavior: ScrollBehavior = isPointer ? 'auto' : 'smooth';
+      const block: ScrollLogicalPosition = isPointer ? 'nearest' : 'center';
       row.scrollIntoView({ block, behavior });
     }
   }
+
+  onMount(() => {
+    lastSelectionSource = 'programmatic';
+  });
 
   $: lastKnownRows = $wordState.rows.map((row) => row.id);
 

@@ -456,21 +456,25 @@
   .topright :global(.weight-spark) {
     align-items: center;
     height: 36px;
-    padding: 0 8px;
-    border: 1px solid #4a5470;
+    padding: 0 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.06);
-    gap: 6px;
+    background: rgba(16, 20, 34, 0.65);
+    gap: 8px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.35);
   }
 
   .topright :global(.weight-spark__btn) {
     height: 28px;
     width: 28px;
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
   .topright :global(.weight-spark__core) {
     height: 28px;
     width: 28px;
+    border: none;
+    background: transparent;
   }
 
   .footmeta {

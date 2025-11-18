@@ -457,6 +457,7 @@ let initialized = false;
         data-celebrate={currentQuestion === null && roundWords.length > 0 ? 'true' : null}
         on:click={startRound}
         disabled={playAgainDisabled}
+        style="background: var(--accent); color: #050814; border: none; box-shadow: 0 6px 18px rgba(138, 164, 255, 0.35);"
       >
         Play Again
       </ChipButton>
@@ -580,6 +581,7 @@ let initialized = false;
       class="choice-continue"
       hidden={!showContinue}
       disabled={continueDisabled}
+      style="background: var(--accent); color: #050814; border: none; box-shadow: 0 6px 18px rgba(138, 164, 255, 0.35);"
       on:click={advanceQuestion}
     >
       {continueLabel}

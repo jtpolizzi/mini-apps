@@ -525,9 +525,9 @@
     margin: 8px 0 0;
     padding: 8px 16px 10px;
     position: sticky;
-    top: var(--topbar-stick-offset);
+    top: var(--stack-stick-offset);
     z-index: 15;
-    background: #1b2137;
+    background: linear-gradient(180deg, #1b2137 0%, rgba(27, 33, 55, 0.95) 100%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
