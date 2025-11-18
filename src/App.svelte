@@ -22,12 +22,18 @@
   let offDebugToggle: (() => void) | null = null;
   let offStateSubscription: (() => void) | null = null;
   let pagehideHandler: (() => void) | null = null;
+  let headerObserver: ResizeObserver | null = null;
+  let headerElement: HTMLElement | null = null;
+  let lastStackOffset = 0;
 
   $: syncActiveNav(currentHash);
   $: syncWordListBody(route);
 
   onMount(() => {
     if (typeof window === 'undefined') return;
+
+    headerElement = document.querySelector<HTMLElement>('.app-header');
+    syncStackOffset();
 
     offStateSubscription = subscribe(() => {
       hasWords = Array.isArray(State.words) && State.words.length > 0;
@@ -52,6 +58,11 @@
       offDebugToggle = null;
     };
     window.addEventListener('pagehide', pagehideHandler);
+    window.addEventListener('resize', syncStackOffset);
+    if (typeof ResizeObserver !== 'undefined' && headerElement) {
+      headerObserver = new ResizeObserver(() => syncStackOffset());
+      headerObserver.observe(headerElement);
+    }
   });
 
   onDestroy(() => {
@@ -67,6 +78,10 @@
     offDebugToggle?.();
     offDebugToggle = null;
     document.body.classList.remove('wordlist-lock');
+    window.removeEventListener('resize', syncStackOffset);
+    headerObserver?.disconnect();
+    headerObserver = null;
+    headerElement = null;
   });
 
   function handleHashChange() {
@@ -153,6 +168,18 @@
       clearInterval(interval);
       panel.remove();
     };
+  }
+
+  function syncStackOffset() {
+    if (typeof document === 'undefined') return;
+    if (!headerElement) {
+      headerElement = document.querySelector<HTMLElement>('.app-header');
+    }
+    const height = headerElement?.getBoundingClientRect().height ?? 0;
+    const rounded = Math.round(height);
+    if (!rounded || rounded === lastStackOffset) return;
+    lastStackOffset = rounded;
+    document.documentElement.style.setProperty('--stack-stick-offset', `${rounded}px`);
   }
 
 </script>

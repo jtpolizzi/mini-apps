@@ -29,12 +29,16 @@ body {
   background: var(--bg);
   color: var(--fg);
   font: 500 15px/1.5 system-ui, Segoe UI, Roboto, Arial;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 main#app {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 0;
 }
 
 #view {

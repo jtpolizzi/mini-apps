@@ -436,4 +436,9 @@ const LONG_PRESS_DELAY = 350;
   .wordlist-view--svelte .hide {
     display: none;
   }
+
+  :global(body.wordlist-lock) {
+    overflow: hidden;
+    height: 100vh;
+  }
 </style>

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project are documented here. Older entries were consolidated from the historical notes so `docs/NOTES.md` can stay focused on the current product snapshot.
+All notable changes to and lessons learned from this project are documented here. Older entries were consolidated from the historical notes so `docs/NOTES.md` can stay focused on the current product snapshot.
 
 ## v2.15.1
 - Incremental fixes and layout polish (sticky stack, button alignment).

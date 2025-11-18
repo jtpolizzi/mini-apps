@@ -566,11 +566,13 @@ let initialized = false;
           </button>
         {/each}
       </div>
-    {:else}
+    {:else if available.length < MIN_PLAYABLE}
       <div class="choice-question">
-        <div class="choice-question-text">{available.length < MIN_PLAYABLE ? 'Need at least two entries with both word and definition to play.' : 'Nice work! Hit Play Again to load a new set.'}</div>
+        <div class="choice-question-text">Need at least two entries with both word and definition to play.</div>
       </div>
       <div class="choice-answers"></div>
+    {:else}
+      <div class="choice-finished-spacer"></div>
     {/if}
 
     <div class={`choice-feedback${feedbackTone !== 'neutral' ? ` choice-feedback--${feedbackTone}` : ''}`}>
@@ -643,6 +645,22 @@ let initialized = false;
     box-shadow: 0 6px 18px rgba(138, 164, 255, 0.35);
   }
 
+  :global(.choice-play-again[data-celebrate='true']) {
+    animation: celebratePulse 1.4s infinite;
+  }
+
+  @keyframes celebratePulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.35);
+    }
+    70% {
+      box-shadow: 0 0 0 18px rgba(255, 255, 255, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+  }
+
   .options-popover {
     position: absolute;
     top: calc(100% + 8px);
@@ -685,6 +703,10 @@ let initialized = false;
     font: inherit;
     min-width: 80px;
     color-scheme: dark;
+  }
+
+  .choice-finished-spacer {
+    min-height: 64px;
   }
 
   .choice-select option {

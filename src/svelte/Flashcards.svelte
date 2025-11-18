@@ -328,9 +328,9 @@
       <div class="topright">
         <button
           class="iconbtn flashcards-star"
+          class:starred={starActive}
           aria-pressed={starActive}
           title="Star"
-          style={`font-size:22px; line-height:1; color:${starActive ? 'var(--accent)' : 'var(--fg-dim)'}; border-color:${starActive ? 'var(--accent)' : '#4a5470'};`}
           on:pointerdown={handleTopControlPointerDown}
           on:click={() => {
             toggleStarForCurrent();
@@ -431,7 +431,7 @@
     right: 20px;
     top: 16px;
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
   }
 
@@ -439,42 +439,60 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 34px;
-    width: 42px;
+    height: 38px;
+    min-width: 42px;
     padding: 0;
+    border-radius: 12px;
+    background: rgba(7, 11, 25, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.45);
   }
 
   .flashcards-star {
     width: 44px;
-    height: 36px;
+    height: 38px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--fg-dim);
+    transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .flashcards-star.starred {
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(138, 164, 255, 0.45);
   }
 
   .topright :global(.weight-spark) {
     align-items: center;
-    height: 36px;
-    padding: 0 10px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    background: rgba(16, 20, 34, 0.65);
+    min-height: 38px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(7, 11, 25, 0.6);
     gap: 8px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.35);
+    box-shadow: inset 0 6px 18px rgba(0, 0, 0, 0.45);
   }
 
   .topright :global(.weight-spark__btn) {
-    height: 28px;
-    width: 28px;
+    height: 30px;
+    width: 30px;
     border-color: rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: var(--fg);
   }
 
   .topright :global(.weight-spark__core) {
-    height: 28px;
-    width: 28px;
+    height: 30px;
+    width: 30px;
     border: none;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    box-shadow: none;
   }
 
   .footmeta {
