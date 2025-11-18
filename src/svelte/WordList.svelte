@@ -42,7 +42,7 @@
   };
 
 
-  const LONG_PRESS_DELAY = 600;
+const LONG_PRESS_DELAY = 350;
   const LONG_PRESS_TOLERANCE = 12;
   let longPressTimer: number | null = null;
   let longPressInfo: null | { pointerId: number | null; startX: number; startY: number; wordId: string } = null;
@@ -319,7 +319,7 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
-    margin-top: 4px;
+    margin-top: 0;
   }
 
   .wordlist-view--svelte {
@@ -329,7 +329,7 @@
   .wordlist-scroll {
     flex: 1;
     overflow: auto;
-    padding: 0 0 24px;
+    padding: 6px 0 24px;
     scroll-padding-top: 0;
   }
 

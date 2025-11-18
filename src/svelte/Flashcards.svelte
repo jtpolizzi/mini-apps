@@ -435,6 +435,19 @@
     align-items: center;
   }
 
+  .topright :global(.iconbtn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    width: 42px;
+    padding: 0;
+  }
+
+  .topright :global(.weight-spark) {
+    align-items: center;
+  }
+
   .footmeta {
     position: absolute;
     left: 0;

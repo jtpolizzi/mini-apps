@@ -54,6 +54,7 @@ let initialized = false;
   let awaitingContinue = false;
   let questionLocked = false;
   let feedbackText = '';
+  let feedbackTone: 'neutral' | 'success' | 'error' = 'neutral';
   let showContinue = false;
   let continueDisabled = true;
   let continueLabel = 'Continue';
@@ -571,7 +572,9 @@ let initialized = false;
       <div class="choice-answers"></div>
     {/if}
 
-    <div class="choice-feedback">{feedbackText}</div>
+    <div class={`choice-feedback${feedbackTone !== 'neutral' ? ` choice-feedback--${feedbackTone}` : ''}`}>
+      {feedbackText}
+    </div>
     <button
       type="button"
       class="choice-continue"
@@ -657,6 +660,22 @@ let initialized = false;
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+
+  .choice-select {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: var(--fg);
+    padding: 4px 8px;
+    font: inherit;
+    min-width: 80px;
+    color-scheme: dark;
+  }
+
+  .choice-select option {
+    background: #151a31;
+    color: var(--fg);
   }
 
   .options-hint {
@@ -777,19 +796,27 @@ let initialized = false;
   }
 
   .choice-answer.is-correct {
-    border-color: var(--weight-4);
-    background: rgba(100, 255, 150, 0.1);
+    border-color: var(--success);
+    background: rgba(55, 214, 177, 0.16);
   }
 
   .choice-answer.is-wrong {
-    border-color: #ea5f6b;
-    background: rgba(234, 95, 107, 0.1);
+    border-color: var(--danger);
+    background: rgba(255, 107, 120, 0.18);
   }
 
   .choice-feedback {
     font-size: 16px;
     font-weight: 600;
     min-height: 24px;
+  }
+
+  .choice-feedback--success {
+    color: var(--success);
+  }
+
+  .choice-feedback--error {
+    color: var(--danger);
   }
 
   .choice-continue {
@@ -819,3 +846,9 @@ let initialized = false;
     }
   }
 </style>
+  $: feedbackTone =
+    feedbackText.startsWith('Correct')
+      ? 'success'
+      : feedbackText
+      ? 'error'
+      : 'neutral';

@@ -555,13 +555,16 @@
   .match-toolbar-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
-    justify-content: flex-end;
+    gap: 10px;
+    justify-content: center;
+    flex: 1;
+    flex-wrap: wrap;
   }
 
   .options-anchor {
     position: relative;
     display: flex;
+    margin-left: auto;
   }
 
   .match-status-text {
@@ -569,7 +572,14 @@
   }
 
   :global(.match-play-again) {
-    min-width: 140px;
+    min-width: 160px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 24px;
+    justify-content: center;
+    background: var(--accent);
+    color: #050814;
+    border: none;
   }
 
   :global(.match-play-again:disabled) {
@@ -601,6 +611,12 @@
     padding: 4px 8px;
     font: inherit;
     min-width: 80px;
+    color-scheme: dark;
+  }
+
+  .match-select option {
+    background: #151a31;
+    color: var(--fg);
   }
 
   .match-size-suffix {
@@ -699,8 +715,8 @@
   }
 
   .match-card.is-matched {
-    border-color: var(--weight-4);
-    background: rgba(100, 255, 150, 0.08);
+    border-color: var(--success);
+    background: rgba(55, 214, 177, 0.12);
   }
 
   .match-card.is-cleared {
@@ -715,6 +731,8 @@
 
   .match-card.is-shaking {
     animation: shake 0.5s;
+    border-color: var(--danger);
+    background: rgba(255, 107, 120, 0.12);
   }
 
   @keyframes shake {
