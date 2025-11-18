@@ -20,6 +20,9 @@
     5: 'var(--weight-5)'
   };
 
+  const STAR_ICON_PATH =
+    'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.955a1 1 0 0 0 .95.69h4.157c.969 0 1.371 1.24.588 1.81l-3.365 2.447a1 1 0 0 0-.363 1.118l1.286 3.955c.3.921-.755 1.688-1.54 1.118l-3.365-2.447a1 1 0 0 0-1.176 0l-3.365 2.447c-.784.57-1.838-.197-1.539-1.118l1.285-3.955a1 1 0 0 0-.362-1.118L2.97 9.382c-.783-.57-.38-1.81.588-1.81h4.157a1 1 0 0 0 .95-.69z';
+
   const flashcards = flashcardsStore;
   const { setCurrentWordId } = flashcardsActions;
 
@@ -327,7 +330,7 @@
     {#if currentWord}
       <div class="topright">
         <button
-          class="iconbtn flashcards-star"
+          class="flashcards-star flashcards-star-btn"
           class:starred={starActive}
           aria-pressed={starActive}
           title="Star"
@@ -336,7 +339,9 @@
             toggleStarForCurrent();
           }}
         >
-          {starActive ? '★' : '☆'}
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="flashcards-star-icon">
+            <path d={STAR_ICON_PATH} fill="currentColor" />
+          </svg>
         </button>
         <div on:pointerdown={handleTopControlPointerDown}>
           <WeightSparkControl
@@ -431,8 +436,8 @@
     right: 20px;
     top: 16px;
     display: flex;
-    gap: 8px;
-    align-items: stretch;
+    gap: 10px;
+    align-items: center;
   }
 
   .topright :global(.iconbtn) {
@@ -449,16 +454,40 @@
   }
 
   .flashcards-star {
-    width: 44px;
+    width: 48px;
     height: 40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0;
-    font-size: 22px;
-    line-height: 1;
     color: var(--fg-dim);
     transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .flashcards-star-btn {
+    width: 48px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(7, 11, 25, 0.65);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.45);
+    color: inherit;
+    padding: 0;
+  }
+
+  .flashcards-star-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .flashcards-star-icon {
+    width: 24px;
+    height: 24px;
+    display: block;
   }
 
   .flashcards-star.starred {
