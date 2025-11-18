@@ -330,8 +330,7 @@
     {#if currentWord}
       <div class="topright">
         <button
-          class="flashcards-star flashcards-star-btn"
-          class:starred={starActive}
+          class={`flashcards-star-btn${starActive ? ' starred' : ''}`}
           aria-pressed={starActive}
           title="Star"
           on:pointerdown={handleTopControlPointerDown}
@@ -453,30 +452,20 @@
     box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.45);
   }
 
-  .flashcards-star {
-    width: 48px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    color: var(--fg-dim);
-    transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-
   .flashcards-star-btn {
-    width: 48px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(7, 11, 25, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(31, 36, 60, 0.92);
+    box-shadow: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.45);
-    color: inherit;
+    color: var(--fg-dim);
     padding: 0;
+    transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   .flashcards-star-btn:focus-visible {
@@ -484,43 +473,45 @@
     outline-offset: 2px;
   }
 
-  .flashcards-star-icon {
-    width: 24px;
-    height: 24px;
-    display: block;
+  .flashcards-star-btn.starred {
+    color: var(--accent);
+    border-color: rgba(138, 164, 255, 0.7);
+    background: rgba(31, 36, 60, 0.92);
   }
 
-  .flashcards-star.starred {
-    color: var(--accent);
-    border-color: var(--accent);
-    box-shadow: 0 0 10px rgba(138, 164, 255, 0.45);
+  .flashcards-star-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
   }
 
   .topright :global(.weight-spark) {
     align-items: center;
-    height: 40px;
-    padding: 0 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 14px;
-    background: rgba(7, 11, 25, 0.6);
-    gap: 8px;
-    box-shadow: inset 0 6px 18px rgba(0, 0, 0, 0.45);
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    background: rgba(31, 36, 60, 0.92);
+    gap: 6px;
+    box-shadow: none;
+    position: relative;
+    top: -11px;
   }
 
   .topright :global(.weight-spark__btn) {
-    height: 32px;
-    width: 32px;
-    border-color: rgba(255, 255, 255, 0.2);
+    height: 26px;
+    width: 26px;
+    border-color: rgba(255, 255, 255, 0.18);
     background: transparent;
     color: var(--fg);
   }
 
   .topright :global(.weight-spark__core) {
-    height: 32px;
-    width: 32px;
+    height: 26px;
+    width: 26px;
     border: none;
     background: rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
+    border-radius: 9px;
     box-shadow: none;
   }
 
