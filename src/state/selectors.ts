@@ -40,7 +40,8 @@ export function sortWords(list: VocabEntry[] = []): VocabEntry[] {
     if (key === 'weight') return Prog.weight(w.termKey);
     if (key === 'word') return (w.word || '').toLowerCase();
     if (key === 'definition') return (w.definition || '').toLowerCase();
-    return (w as Record<string, string>)[key] ? (w as Record<string, string>)[key].toLowerCase() : '';
+    const record = w as unknown as Record<string, string>;
+    return record[key] ? record[key].toLowerCase() : '';
   };
   return [...list].sort((a, b) => (get(a) > get(b) ? m : get(a) < get(b) ? -m : 0));
 }

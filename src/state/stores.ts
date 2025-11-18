@@ -9,12 +9,9 @@ import {
   isRowSelectionModeEnabled,
   setFilters,
   setFilterSets,
-  setOrder,
-  type SortState,
-  type ColumnsState,
-  type Filters,
-  type FilterSet
+  setOrder
 } from './store.ts';
+import type { SortState, ColumnsState, Filters, FilterSet } from './persistence.ts';
 import { applyFilters, sortWords } from './selectors.ts';
 import type { VocabEntry } from './data.ts';
 

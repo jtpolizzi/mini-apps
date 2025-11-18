@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "types": ["vite/client", "svelte"]
   },
   "include": ["assets/**/*.ts", "assets/**/*.tsx", "assets/**/*.d.ts", "src/**/*.ts", "src/**/*.d.ts", "tests/**/*.ts"],

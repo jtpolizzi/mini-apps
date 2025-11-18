@@ -1,16 +1,13 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-
   export let pressed: boolean | null = null;
   export let icon = false;
   export let variant: 'default' | 'danger' = 'default';
   export let type: 'button' | 'submit' | 'reset' = 'button';
   export let disabled = false;
-  export let title: string | undefined;
+  export let title: string | undefined = undefined;
   export let el: HTMLButtonElement | null = null;
   let extraClass = '';
   let restProps: Record<string, unknown> = {};
-  const dispatch = createEventDispatcher<{ click: MouseEvent }>();
 
   $: ({ class: extraClass = '', ...restProps } = $$restProps);
   $: chipClass = [
@@ -31,7 +28,7 @@
   {title}
   disabled={disabled}
   bind:this={el}
-  on:click={(event) => dispatch('click', event)}
+  on:click
 >
   <slot />
 </button>

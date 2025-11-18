@@ -40,5 +40,5 @@
 - **Release history** – see `CHANGELOG.md` for version-by-version bullet points from v2.5 onward.
 
 ## Current Focus
-- Post-migration cleanup: every surface now runs through Svelte 5 with colocated styles, backed by the shared store exports in `src/state`; the remaining cleanup centers on the old DOM helpers (WeightControl, etc.) before we expand lint/tests.
+- Tooling polish: now that the shared stores live under `src/state` and the legacy WeightControl helper is gone, focus shifts to running `npm run check:svelte` (svelte-check) and broadening Svelte component tests/linting.
 - Shared UI primitives (`ChipButton`, `WeightSparkControl`) are the baseline; future UI tweaks should extend those components or introduce new primitives instead of reintroducing global CSS or DOM helpers.

@@ -10,16 +10,18 @@
 - v2.14 Svelte migration is complete: Svelte (+ plugin) is now part of the Vite toolchain and every surface consumes the shared store/actions via the shared `src/state` helpers.
 - The Svelte Word List is now the sole implementation (`#/list` nav item); the legacy view has been retired.
 - Global CSS audit finished: `assets/styles.css` now only keeps tokens, app shell styles, and shared primitives while each Svelte view owns its scoped styles.
+- Legacy WeightControl helper/tests were removed; WeightSparkControl (plus `src/constants/weights.ts`) is the sole weight UI.
+- Tooling includes `npm run check:svelte` (svelte-check + tsconfig) so Svelte components get dedicated diagnostics alongside ESLint/Vitest.
 - The shared Top Bar ships as a Svelte component (shuffle, search, filters popover, saved sets, weight/facet toggles, settings modal).
 - Flashcards run through Svelte too—the centered card layout, sticky star/weight controls, fixed bottom nav, progress slider, tap zones, swipe gestures, keyboard shortcuts, and `setCurrentWordId` sync all mirror the legacy experience.
 - Word Match moved to Svelte; prefs (set size/direction/collapse), quick-play automation, and match/mismatch animations now live in the component while sharing the same filtered word pool as other routes.
 - Multiple Choice is now Svelte-based: progress UI, answer feedback, keyboard shortcuts, and the LS-backed size/direction/answers prefs all ride through the shared store/actions.
 - Settings modal and overlays (debug toggle, column selection, reset/clear actions) now run through Svelte, keeping the `#settings` route + Top Bar trigger intact while sharing the same component logic.
 
-## Upcoming v2.14 Tasks
-1. **Legacy helper cleanup** – finish wiring the Svelte `WeightSparkControl` everywhere and retire the old `assets/components/WeightControl.ts` helper/tests so only the new component is authoritative.
-2. **Tooling follow-ups** – extend ESLint/Prettier/Vitest coverage for `.svelte` files, then trim any remaining vanilla DOM helpers once the shared components are in place.
-3. **State polish** – now that the state modules live under `src/state`, capture any refactor follow-ups (typed stores, derived helpers) needed before we introduce new features.
+## Upcoming v2.15 Tasks
+1. **Tooling follow-ups** – wire `npm run check:svelte` into the regular workflow/CI and plan additional Svelte component tests so ESLint/Vitest coverage stays representative.
+2. **State polish** – now that the state modules live under `src/state`, capture any refactor follow-ups (typed stores, derived helpers) needed before we introduce new features.
+3. **UI helper audit** – decide what to do with the remaining DOM helpers in `assets/components/ui/` (chips, popovers) now that WeightControl is gone.
 
 ## Deployment Checklist
 1. `npm install`
@@ -27,8 +29,8 @@
 3. Commit/push to `main` – the “Deploy static site” workflow builds/tests and publishes to GitHub Pages automatically.
 
 ## Next Session
-- Remove the unused `assets/components/WeightControl.ts` + tests after verifying every view uses the Svelte `WeightSparkControl`.
-- Outline the lint/test/tooling updates needed now that the CSS + state cleanup has landed (ESLint plugin for Svelte, Prettier config, Vitest component harness + component tests).
+- Decide where `npm run check:svelte` should run (local pre-push, CI) and outline which Svelte component tests we should add next.
+- Sketch the plan for replacing the remaining DOM chip/popover helpers with Svelte components (or confirm they can stay as-is).
 
 ### Svelte Flashcards – Parity Checklist & Store Contract (reference)
 **Layout / visual**

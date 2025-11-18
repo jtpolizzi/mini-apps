@@ -184,7 +184,7 @@ function updateState(key: string, value: unknown) {
     case 'words':
       return updateWords(Array.isArray(value) ? (value as VocabEntry[]) : []);
     default:
-      (State as Record<string, unknown>)[key] = value;
+      (State as unknown as Record<string, unknown>)[key] = value;
       notifySubscribers(key, { value });
   }
 }

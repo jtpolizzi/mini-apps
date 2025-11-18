@@ -3,6 +3,7 @@
   import { flashcardsStore, flashcardsActions } from '../state/stores';
   import { Prog, type VocabEntry } from '../state';
   import WeightSparkControl from './ui/WeightSparkControl.svelte';
+  import { type WeightValue, WEIGHT_DESCRIPTIONS } from '../constants/weights.ts';
 
   interface PointerGesture {
     id: number;
@@ -11,22 +12,12 @@
     t: number;
   }
 
-  type WeightValue = 1 | 2 | 3 | 4 | 5;
-
   const WEIGHT_COLORS: Record<WeightValue, string> = {
     1: 'var(--weight-1)',
     2: 'var(--weight-2)',
     3: 'var(--weight-3)',
     4: 'var(--weight-4)',
     5: 'var(--weight-5)'
-  };
-
-  const WEIGHT_DESCRIPTIONS: Record<WeightValue, string> = {
-    1: 'Hide almost completely',
-    2: 'Show rarely',
-    3: 'Default cadence',
-    4: 'Show more often',
-    5: 'Show constantly'
   };
 
   const flashcards = flashcardsStore;
@@ -347,19 +338,20 @@
         >
           {starActive ? '★' : '☆'}
         </button>
-        <WeightSparkControl
-          value={weightValue}
-          color={WEIGHT_COLORS[weightValue]}
-          title={WEIGHT_DESCRIPTIONS[weightValue]}
-          stopPointerEvents={false}
-          on:pointerdown={handleTopControlPointerDown}
-          on:change={(event) => {
-            changeWeight(event.detail.delta);
-            if (event.detail.source === 'wheel') {
-              suppressNextCardClick = true;
-            }
-          }}
-        />
+        <div on:pointerdown={handleTopControlPointerDown}>
+          <WeightSparkControl
+            value={weightValue}
+            color={WEIGHT_COLORS[weightValue]}
+            title={WEIGHT_DESCRIPTIONS[weightValue]}
+            stopPointerEvents={false}
+            on:change={(event) => {
+              changeWeight(event.detail.delta);
+              if (event.detail.source === 'wheel') {
+                suppressNextCardClick = true;
+              }
+            }}
+          />
+        </div>
       </div>
 
       <div class="card-content">

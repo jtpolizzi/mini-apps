@@ -216,7 +216,7 @@ export function sanitizeColumns(columns: Partial<ColumnsState> = DEFAULT_COLUMNS
   const next: ColumnsState = { ...DEFAULT_COLUMNS };
   if (!columns || typeof columns !== 'object') return next;
   Object.entries(columns).forEach(([key, value]) => {
-    if (key in next) (next as Record<string, boolean>)[key] = !!value;
+    if (key in next) (next as unknown as Record<string, boolean>)[key] = !!value;
   });
   return next;
 }

@@ -6,13 +6,7 @@
   import WordMatch from './svelte/WordMatch.svelte';
   import MultipleChoice from './svelte/MultipleChoice.svelte';
   import { openSettingsModal, openSettingsRouteIfNeeded } from './svelte/openSettingsModal.ts';
-  import {
-    State,
-    subscribe,
-    hydrateWords,
-    setLoaderStatus,
-    on as onStateEvent
-  } from './state';
+  import { State, subscribe, hydrateWords, setLoaderStatus, onStateEvent } from './state';
   import { loadWords, onDataEvent } from '../assets/data/loader.ts';
 
   type Route = 'list' | 'cards' | 'match' | 'choice';
@@ -140,9 +134,10 @@
 
     const refresh = () => {
       const meta = debug.State.meta || {};
-      const counts = debug.eventCounts;
-      const entries = Array.from(counts.entries());
-      entries.sort((a, b) => b[1] - a[1]);
+      const counts: Map<string, number> =
+        debug.eventCounts instanceof Map ? debug.eventCounts : new Map<string, number>();
+      const entries: Array<[string, number]> = Array.from(counts.entries());
+      entries.sort(([, aVal], [, bVal]) => bVal - aVal);
       statusLine.textContent = `Loader: ${meta.loaderStatus || 'idle'} • Source: ${meta.wordsSource || 'n/a'}`;
       const eventsText = entries.length ? entries.map(([k, v]) => `${k}:${v}`).join(', ') : 'none';
       eventsLine.textContent = `Events: ${eventsText}`;
@@ -186,7 +181,7 @@
       setLoaderStatus('loading');
       loaderMessage = 'Loading words...';
     });
-    const offLoaded = onDataEvent('loaded', ({ text }) => {
+    const offLoaded = onDataEvent('loaded', ({ text = '' }) => {
       const raw = parseTSV(text);
       setLoaderStatus('loaded');
       loaderMessage = `Loaded ${raw.length} words.`;

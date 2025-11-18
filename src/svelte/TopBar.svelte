@@ -12,7 +12,7 @@
     type FilterSet
   } from '../state';
   import { openSettingsModal } from './openSettingsModal.ts';
-  import { WEIGHT_DESCRIPTIONS, WEIGHT_SHORT_LABELS } from '../../assets/components/WeightControl.ts';
+  import { WEIGHT_DESCRIPTIONS, WEIGHT_SHORT_LABELS } from '../constants/weights.ts';
   import ChipButton from './ui/ChipButton.svelte';
 
   const ALL_WEIGHTS = [1, 2, 3, 4, 5] as const;
@@ -157,7 +157,7 @@
     setFilters({ ...filters, weight: next.length ? next : [...ALL_WEIGHTS] });
   }
 
-  function facetValuesList(key: keyof Filters): string[] {
+  function facetValuesList(key: 'pos' | 'cefr' | 'tags'): string[] {
     const values = filters[key];
     return Array.isArray(values) ? values.map((v) => v.toLowerCase()) : [];
   }

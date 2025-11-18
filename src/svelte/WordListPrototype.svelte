@@ -3,11 +3,11 @@
   import { wordListStore, wordListActions } from '../state/stores';
   import WeightSparkControl from './ui/WeightSparkControl.svelte';
   import { tick } from 'svelte';
+  import { type WeightValue, WEIGHT_DESCRIPTIONS } from '../constants/weights.ts';
 
   const wordState = wordListStore;
 
   type ColumnKey = keyof ColumnsState;
-  type WeightValue = 1 | 2 | 3 | 4 | 5;
   interface ColumnConfig {
     key: ColumnKey;
     label: string;
@@ -41,13 +41,6 @@
     5: 'var(--weight-5)'
   };
 
-  const WEIGHT_DESCRIPTIONS: Record<WeightValue, string> = {
-    1: 'Hide almost completely',
-    2: 'Show rarely',
-    3: 'Default cadence',
-    4: 'Show more often',
-    5: 'Show constantly'
-  };
 
   const LONG_PRESS_DELAY = 600;
   const LONG_PRESS_TOLERANCE = 12;
