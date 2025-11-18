@@ -381,6 +381,12 @@ const LONG_PRESS_DELAY = 350;
     box-shadow: 0 1px 0 0 var(--line) inset;
   }
 
+  @media (max-width: 768px) {
+    .wordlist-view--svelte .wordlist-scroll thead {
+      top: var(--topbar-height, 0px);
+    }
+  }
+
   .wordlist-view--svelte tbody td {
     background: #1b2137;
     padding: 10px;
