@@ -522,11 +522,11 @@
   }
 
   .panel--topbar {
-    margin: 8px 0 0;
+    margin: 0;
     padding: 8px 16px 10px;
-    position: sticky;
-    top: var(--stack-stick-offset);
-    z-index: 15;
+    position: relative;
+    top: auto;
+    z-index: auto;
     background: linear-gradient(180deg, #1b2137 0%, rgba(27, 33, 55, 0.95) 100%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }

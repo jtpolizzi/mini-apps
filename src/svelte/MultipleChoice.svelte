@@ -53,8 +53,8 @@ let initialized = false;
   let currentQuestion: ChoiceQuestion | null = null;
   let awaitingContinue = false;
   let questionLocked = false;
-  let feedbackText = '';
-  let feedbackTone: 'neutral' | 'success' | 'error' = 'neutral';
+let feedbackText = '';
+let feedbackTone: 'neutral' | 'success' | 'error' = 'neutral';
   let showContinue = false;
   let continueDisabled = true;
   let continueLabel = 'Continue';
@@ -93,6 +93,12 @@ let initialized = false;
   $: sizeSelectValue = prefs.size;
   $: directionValue = prefs.direction;
   $: answersSelectValue = prefs.answers;
+  $: feedbackTone =
+    feedbackText.startsWith('Correct')
+      ? 'success'
+      : feedbackText
+      ? 'error'
+      : 'neutral';
 
   onMount(() => {
     const handler = (event: KeyboardEvent) => handleKey(event);
@@ -605,6 +611,10 @@ let initialized = false;
     gap: 16px;
   }
 
+  .choice-board.panel {
+    margin: 0;
+  }
+
   .choice-toolbar {
     display: flex;
     flex-wrap: wrap;
@@ -612,6 +622,10 @@ let initialized = false;
     justify-content: space-between;
     gap: 10px;
     padding: 10px 16px;
+  }
+
+  .choice-toolbar.panel {
+    margin: 4px 0 0;
   }
 
   .choice-toolbar-item {
@@ -887,9 +901,3 @@ let initialized = false;
     }
   }
 </style>
-  $: feedbackTone =
-    feedbackText.startsWith('Correct')
-      ? 'success'
-      : feedbackText
-      ? 'error'
-      : 'neutral';

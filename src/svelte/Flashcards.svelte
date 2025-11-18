@@ -432,14 +432,14 @@
     top: 16px;
     display: flex;
     gap: 8px;
-    align-items: center;
+    align-items: stretch;
   }
 
   .topright :global(.iconbtn) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 38px;
+    height: 40px;
     min-width: 42px;
     padding: 0;
     border-radius: 12px;
@@ -450,7 +450,7 @@
 
   .flashcards-star {
     width: 44px;
-    height: 38px;
+    height: 40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -469,7 +469,7 @@
 
   .topright :global(.weight-spark) {
     align-items: center;
-    min-height: 38px;
+    height: 40px;
     padding: 0 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 14px;
@@ -479,16 +479,16 @@
   }
 
   .topright :global(.weight-spark__btn) {
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
     border-color: rgba(255, 255, 255, 0.2);
     background: transparent;
     color: var(--fg);
   }
 
   .topright :global(.weight-spark__core) {
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
     border: none;
     background: rgba(255, 255, 255, 0.06);
     border-radius: 10px;

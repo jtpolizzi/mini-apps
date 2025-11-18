@@ -5,6 +5,7 @@
   import Flashcards from './svelte/Flashcards.svelte';
   import WordMatch from './svelte/WordMatch.svelte';
   import MultipleChoice from './svelte/MultipleChoice.svelte';
+  import AppHeader from './svelte/AppHeader.svelte';
   import { openSettingsModal, openSettingsRouteIfNeeded } from './svelte/openSettingsModal.ts';
   import { State, subscribe, onStateEvent } from './state';
   import { startWordsLoader } from './data/words.ts';
@@ -22,18 +23,12 @@
   let offDebugToggle: (() => void) | null = null;
   let offStateSubscription: (() => void) | null = null;
   let pagehideHandler: (() => void) | null = null;
-  let headerObserver: ResizeObserver | null = null;
-  let headerElement: HTMLElement | null = null;
-  let lastStackOffset = 0;
 
   $: syncActiveNav(currentHash);
   $: syncWordListBody(route);
 
   onMount(() => {
     if (typeof window === 'undefined') return;
-
-    headerElement = document.querySelector<HTMLElement>('.app-header');
-    syncStackOffset();
 
     offStateSubscription = subscribe(() => {
       hasWords = Array.isArray(State.words) && State.words.length > 0;
@@ -58,11 +53,6 @@
       offDebugToggle = null;
     };
     window.addEventListener('pagehide', pagehideHandler);
-    window.addEventListener('resize', syncStackOffset);
-    if (typeof ResizeObserver !== 'undefined' && headerElement) {
-      headerObserver = new ResizeObserver(() => syncStackOffset());
-      headerObserver.observe(headerElement);
-    }
   });
 
   onDestroy(() => {
@@ -78,10 +68,6 @@
     offDebugToggle?.();
     offDebugToggle = null;
     document.body.classList.remove('wordlist-lock');
-    window.removeEventListener('resize', syncStackOffset);
-    headerObserver?.disconnect();
-    headerObserver = null;
-    headerElement = null;
   });
 
   function handleHashChange() {
@@ -170,22 +156,13 @@
     };
   }
 
-  function syncStackOffset() {
-    if (typeof document === 'undefined') return;
-    if (!headerElement) {
-      headerElement = document.querySelector<HTMLElement>('.app-header');
-    }
-    const height = headerElement?.getBoundingClientRect().height ?? 0;
-    const rounded = Math.round(height);
-    if (!rounded || rounded === lastStackOffset) return;
-    lastStackOffset = rounded;
-    document.documentElement.style.setProperty('--stack-stick-offset', `${rounded}px`);
-  }
-
 </script>
 
-<div id="topbar">
-  <TopBar />
+<div class="stacked-header">
+  <AppHeader />
+  <div id="topbar">
+    <TopBar />
+  </div>
 </div>
 
 <section id="view">
@@ -203,3 +180,25 @@
     <div class="loader-status">{loaderMessage}</div>
   {/if}
 </section>
+
+<style>
+  .stacked-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .stacked-header :global(.app-header) {
+    position: relative;
+    z-index: 2;
+  }
+
+  .stacked-header #topbar {
+    position: relative;
+    z-index: 1;
+  }
+</style>
