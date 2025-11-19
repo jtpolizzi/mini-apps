@@ -184,7 +184,11 @@ const LONG_PRESS_DELAY = 350;
       const isPointer = lastSelectionSource === 'pointer';
       const behavior: ScrollBehavior = isPointer ? 'auto' : 'smooth';
       const block: ScrollLogicalPosition = isPointer ? 'nearest' : 'center';
-      row.scrollIntoView({ block, behavior });
+      const topOffset = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--stacked-header-height') || '0'
+      );
+      const rowTop = row.getBoundingClientRect().top + window.scrollY - topOffset - 6;
+      window.scrollTo({ top: Math.max(0, rowTop), behavior });
     }
   }
 
