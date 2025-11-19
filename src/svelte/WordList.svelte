@@ -455,7 +455,6 @@ const LONG_PRESS_DELAY = 350;
     display: flex;
     flex-direction: column;
     min-height: 0;
-    margin-top: calc(-1 * var(--stacked-header-height, 0px));
     padding-top: var(--stacked-header-height, 0px);
   }
 </style>
