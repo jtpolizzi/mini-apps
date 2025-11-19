@@ -23,6 +23,8 @@
   let offDebugToggle: (() => void) | null = null;
   let offStateSubscription: (() => void) | null = null;
   let pagehideHandler: (() => void) | null = null;
+  let stackedHeaderEl: HTMLDivElement | null = null;
+  let stackObserver: ResizeObserver | null = null;
 
   $: syncWordListBody(route);
 
@@ -52,6 +54,8 @@
       offDebugToggle = null;
     };
     window.addEventListener('pagehide', pagehideHandler);
+    updateStackedHeaderHeight();
+    setupStackObserver();
   });
 
   onDestroy(() => {
@@ -67,6 +71,7 @@
     offDebugToggle?.();
     offDebugToggle = null;
     document.body.classList.remove('wordlist-lock');
+    teardownStackObserver();
   });
 
   function handleHashChange() {
@@ -136,9 +141,29 @@
     };
   }
 
+  function updateStackedHeaderHeight() {
+    if (typeof document === 'undefined') return;
+    const height = stackedHeaderEl?.getBoundingClientRect().height ?? 0;
+    document.documentElement.style.setProperty('--stacked-header-height', `${height}px`);
+  }
+
+  function setupStackObserver() {
+    if (typeof ResizeObserver === 'undefined' || !stackedHeaderEl) {
+      updateStackedHeaderHeight();
+      return;
+    }
+    stackObserver?.disconnect();
+    stackObserver = new ResizeObserver(() => updateStackedHeaderHeight());
+    stackObserver.observe(stackedHeaderEl);
+  }
+
+  function teardownStackObserver() {
+    stackObserver?.disconnect();
+    stackObserver = null;
+  }
 </script>
 
-<div class="stacked-header">
+<div class="stacked-header" bind:this={stackedHeaderEl}>
   <AppHeader {route} />
   <div id="topbar">
     <TopBar />

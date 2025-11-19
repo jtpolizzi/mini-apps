@@ -375,16 +375,10 @@ const LONG_PRESS_DELAY = 350;
 
   .wordlist-view--svelte .wordlist-scroll thead {
     position: sticky;
-    top: 0;
+    top: var(--stacked-header-height, 0px);
     z-index: 6;
     background: #121631;
     box-shadow: 0 1px 0 0 var(--line) inset;
-  }
-
-  @media (max-width: 768px) {
-    .wordlist-view--svelte .wordlist-scroll thead {
-      top: var(--topbar-height, 0px);
-    }
   }
 
   .wordlist-view--svelte tbody td {
