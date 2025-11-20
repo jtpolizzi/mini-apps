@@ -2,6 +2,11 @@
 
 All notable changes to and lessons learned from this project are documented here. Older entries were consolidated from the historical notes so `docs/NOTES.md` can stay focused on the current product snapshot.
 
+## v2.15.2
+- Word List sticky stack finally unified across desktop/tablet/phone (shared measurement, body locking, scroll container targeting) so column headers never disappear and selections no longer yank the list around.
+- Added Playwright to the tooling and documented the screenshot workflow so every visual tweak gets verified locally before reporting back.
+- Lessons learned: keep selection-driven scrolling explicit about pointer vs programmatic sources to avoid unexpected jumps.
+
 ## v2.15.1
 - Incremental fixes and layout polish (sticky stack, button alignment).
 - Lessons learned: keep stack-specific CSS inside the owning component (Word List, Flashcards, Word Match) and route all new shared UI through `src/svelte/ui` to avoid slipping back into DOM helpers.

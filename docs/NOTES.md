@@ -1,4 +1,4 @@
-# Vocab Mini-App Notes (v2.15.1)
+# Vocab Mini-App Notes (v2.15.2)
 
 > **Purpose & scope** – living snapshot of the product: what features exist today, how they behave, and which improvements we’re considering next. Implementation details and release-by-release histories live in `ARCHITECTURE_PLAN.md` and `CHANGELOG.md` respectively.
 

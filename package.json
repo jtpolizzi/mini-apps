@@ -1,6 +1,6 @@
 {
   "name": "language-vocab",
-  "version": "2.15.1",
+  "version": "2.15.2",
   "main": "index.js",
   "directories": {
     "doc": "docs"

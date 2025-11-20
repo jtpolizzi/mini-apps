@@ -26,7 +26,7 @@
 </script>
 
 <header class="app-header" bind:this={headerEl}>
-  <h1>Vocab Mini‑App v2.15.1</h1>
+  <h1>Vocab Mini‑App v2.15.2</h1>
   <nav>
     <a href="#/list" class:active={route === 'list'} aria-current={route === 'list' ? 'page' : undefined}>
       Word List

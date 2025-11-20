@@ -1,4 +1,4 @@
-# Handover Notes – v2.15.1
+# Handover Notes – v2.15.2
 
 > **Purpose & scope** – quick-start briefing for whoever picks up the repo next: latest release status, deployment steps, and the immediate priorities for the next session. Technical details live in `ARCHITECTURE_PLAN.md`; full history lives in `CHANGELOG.md`.
 
