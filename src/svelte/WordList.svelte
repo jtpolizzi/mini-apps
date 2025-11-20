@@ -183,7 +183,6 @@ const LONG_PRESS_DELAY = 350;
     if (row) {
       const isPointer = lastSelectionSource === 'pointer';
       if (isPointer) return;
-      logStackState(`scrollTo:${wordId}`);
       const behavior: ScrollBehavior = isPointer ? 'auto' : 'smooth';
       const scrollContainer = document.querySelector<HTMLElement>('.wordlist-view--svelte .wordlist-scroll');
       if (scrollContainer) {
@@ -200,7 +199,6 @@ const LONG_PRESS_DELAY = 350;
 
   onMount(() => {
     lastSelectionSource = 'programmatic';
-    logStackState('mount');
   });
 
   $: lastKnownRows = $wordState.rows.map((row) => row.id);
@@ -219,14 +217,6 @@ const LONG_PRESS_DELAY = 350;
     lastVisibleId = '';
   }
 
-  function logStackState(context: string) {
-    if (!import.meta.env.DEV) return;
-    const root = document.documentElement;
-    const headerHeight = getComputedStyle(root).getPropertyValue('--stacked-header-height').trim();
-    const scrollContainer = document.querySelector<HTMLElement>('.wordlist-view--svelte .wordlist-scroll');
-    const scrollTop = scrollContainer ? scrollContainer.scrollTop.toFixed(1) : 'n/a';
-    console.info(`[WordList:${context}] stack=${headerHeight || '0px'} scrollTop=${scrollTop}`);
-  }
 </script>
 
 <section class="wordlist-view wordlist-view--svelte">
